@@ -59,8 +59,8 @@ public abstract class AbstractMappingComparator implements Comparator<Mapping> {
     protected double posInParentSimilarity(ITree src, ITree dst) {
         int posSrc = (src.isRoot()) ? 0 : src.getParent().getChildPosition(src);
         int posDst = (dst.isRoot()) ? 0 : dst.getParent().getChildPosition(dst);
-        int maxSrcPos =  (src.isRoot()) ? 1 : src.getParent().getChildren().size();
-        int maxDstPos =  (dst.isRoot()) ? 1 : dst.getParent().getChildren().size();
+        int maxSrcPos = (src.isRoot()) ? 1 : src.getParent().getChildren().size();
+        int maxDstPos = (dst.isRoot()) ? 1 : dst.getParent().getChildren().size();
         int maxPosDiff = Math.max(maxSrcPos, maxDstPos);
         return 1D - ((double) Math.abs(posSrc - posDst) / (double) maxPosDiff);
     }

@@ -15,12 +15,15 @@ import java.util.List;
  */
 public class FieldData extends LinkBean {
 
-    public FieldData(FieldChangeEntity ce){
-        if(fieldName==null){
+    public List<String> fieldName;
+    public String fieldType;
+
+    public FieldData(FieldChangeEntity ce) {
+        if (fieldName == null) {
             fieldName = new ArrayList<>();
         }
         FieldDeclaration fd = null;
-        switch(ce.stageIIBean.getOpt()) {
+        switch (ce.stageIIBean.getOpt()) {
             case ChangeEntityDesc.StageIIOpt.OPT_CHANGE:
                 Tree t = ce.clusteredActionBean.fafather;
                 if (t.getAstNode().getNodeType() == ASTNode.FIELD_DECLARATION) {
@@ -36,9 +39,9 @@ public class FieldData extends LinkBean {
                 break;
 
         }
-        if(fd!=null){
+        if (fd != null) {
             List<VariableDeclarationFragment> list = fd.fragments();
-            for(VariableDeclarationFragment vd:list){
+            for (VariableDeclarationFragment vd : list) {
                 fieldName.add(vd.getName().toString());
             }
             fieldType = fd.getType().toString();
@@ -46,8 +49,4 @@ public class FieldData extends LinkBean {
 
 
     }
-
-    public List<String> fieldName;
-
-    public String fieldType;
 }

@@ -66,6 +66,7 @@ public class AssociationMap {
     public Iterator<Entry<String, Object>> iterator() {
         return new Iterator<Entry<String, Object>>() {
             int currentPos = 0;
+
             @Override
             public boolean hasNext() {
                 return currentPos < keys.size();

@@ -25,13 +25,13 @@ import java.util.List;
  */
 public class MatchEnum {
 
-    public static void matchEnum(MiningActionData fp,Action a){
+    public static void matchEnum(MiningActionData fp, Action a) {
         ChangePacket changePacket = new ChangePacket();
         List<Action> subActions = new ArrayList<>();
-        if(!BasicTreeTraversal.traverseWhenActionIsMove(a,subActions,changePacket,true)){
+        if (!BasicTreeTraversal.traverseWhenActionIsMove(a, subActions, changePacket, true)) {
             DefaultUpDownTraversal.traverseTypeIStatements(a, subActions, changePacket);
         }
-        ClusteredActionBean mBean = new ClusteredActionBean(ChangeEntityDesc.StageITraverseType.TRAVERSE_UP_DOWN,a,subActions,changePacket);
+        ClusteredActionBean mBean = new ClusteredActionBean(ChangeEntityDesc.StageITraverseType.TRAVERSE_UP_DOWN, a, subActions, changePacket);
         EnumChangeEntity code = new EnumChangeEntity(mBean);
         code.stageIIBean.setEntityCreationStage(ChangeEntityDesc.StageIIGenStage.ENTITY_GENERATION_STAGE_GT_UD);
         code.stageIIBean.setGranularity(ChangeEntityDesc.StageIIGranularity.GRANULARITY_MEMBER);
@@ -44,20 +44,20 @@ public class MatchEnum {
         fp.addOneChangeEntity(code);
     }
 
-    public static void matchEnumDeclarationNewEntity(MiningActionData fp, Action a, Tree queryFather, int treeType, Tree traverseFather){
+    public static void matchEnumDeclarationNewEntity(MiningActionData fp, Action a, Tree queryFather, int treeType, Tree traverseFather) {
         ChangePacket changePacket = new ChangePacket();
         List<Action> subActions = new ArrayList<>();
-        if(!BasicTreeTraversal.traverseWhenActionIsMove(a,subActions,changePacket,false)){
-            DefaultDownUpTraversal.traverseFatherNodeGetSameNodeActions(traverseFather,subActions,changePacket);
+        if (!BasicTreeTraversal.traverseWhenActionIsMove(a, subActions, changePacket, false)) {
+            DefaultDownUpTraversal.traverseFatherNodeGetSameNodeActions(traverseFather, subActions, changePacket);
         }
-        ClusteredActionBean mBean = new ClusteredActionBean(ChangeEntityDesc.StageITraverseType.TRAVERSE_DOWN_UP,a,subActions,changePacket,queryFather,treeType);
+        ClusteredActionBean mBean = new ClusteredActionBean(ChangeEntityDesc.StageITraverseType.TRAVERSE_DOWN_UP, a, subActions, changePacket, queryFather, treeType);
         EnumChangeEntity code = new EnumChangeEntity(mBean);
         code.stageIIBean.setEntityCreationStage(ChangeEntityDesc.StageIIGenStage.ENTITY_GENERATION_STAGE_GT_DUD);
         code.stageIIBean.setGranularity(ChangeEntityDesc.StageIIGranularity.GRANULARITY_MEMBER);
-        if(a instanceof Move){
+        if (a instanceof Move) {
             code.stageIIBean.setOpt(ChangeEntityDesc.StageIIOpt.OPT_CHANGE_MOVE);
-            code.stageIIBean.setChangeEntity(((Tree)a.getNode()).getAstClass().getSimpleName());
-        }else {
+            code.stageIIBean.setChangeEntity(((Tree) a.getNode()).getAstClass().getSimpleName());
+        } else {
             code.stageIIBean.setChangeEntity(ChangeEntityDesc.StageIIENTITY.ENTITY_ENUM);
             code.stageIIBean.setOpt(ChangeEntityDesc.StageIIOpt.OPT_CHANGE);
         }
@@ -69,15 +69,15 @@ public class MatchEnum {
         fp.addOneChangeEntity(code);
     }
 
-    public static void matchEnumDeclarationCurrEntity(MiningActionData fp, Action a, ChangeEntity changeEntity,Tree traverseFather){
+    public static void matchEnumDeclarationCurrEntity(MiningActionData fp, Action a, ChangeEntity changeEntity, Tree traverseFather) {
         ChangePacket changePacket = changeEntity.clusteredActionBean.changePacket;
         List<Action> actions = changeEntity.clusteredActionBean.actions;
         List<Action> newActions = new ArrayList<>();
-        if(!BasicTreeTraversal.traverseWhenActionIsMove(a,actions,changePacket,false)){
-            DefaultDownUpTraversal.traverseFatherNodeGetSameNodeActions(traverseFather,newActions,changePacket);
+        if (!BasicTreeTraversal.traverseWhenActionIsMove(a, actions, changePacket, false)) {
+            DefaultDownUpTraversal.traverseFatherNodeGetSameNodeActions(traverseFather, newActions, changePacket);
         }
-        for(Action tmp:newActions){
-            if(fp.mGeneratingActionsData.getAllActionMap().get(tmp)==1){
+        for (Action tmp : newActions) {
+            if (fp.mGeneratingActionsData.getAllActionMap().get(tmp) == 1) {
                 continue;
             }
             actions.add(tmp);

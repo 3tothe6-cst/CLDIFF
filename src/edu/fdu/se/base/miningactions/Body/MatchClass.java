@@ -3,9 +3,12 @@ package edu.fdu.se.base.miningactions.Body;
 import com.github.gumtreediff.actions.model.Action;
 import com.github.gumtreediff.actions.model.Move;
 import com.github.gumtreediff.tree.Tree;
-import edu.fdu.se.base.miningactions.util.*;
-import edu.fdu.se.base.miningactions.bean.MiningActionData;
 import edu.fdu.se.base.miningactions.bean.ChangePacket;
+import edu.fdu.se.base.miningactions.bean.MiningActionData;
+import edu.fdu.se.base.miningactions.util.AstRelations;
+import edu.fdu.se.base.miningactions.util.BasicTreeTraversal;
+import edu.fdu.se.base.miningactions.util.DefaultDownUpTraversal;
+import edu.fdu.se.base.miningactions.util.DefaultUpDownTraversal;
 import edu.fdu.se.base.miningchangeentity.ClusteredActionBean;
 import edu.fdu.se.base.miningchangeentity.base.ChangeEntity;
 import edu.fdu.se.base.miningchangeentity.base.ChangeEntityDesc;
@@ -19,13 +22,13 @@ import java.util.List;
  */
 public class MatchClass {
 
-    public static void matchClassDeclaration(MiningActionData fp,Action a){
+    public static void matchClassDeclaration(MiningActionData fp, Action a) {
         ChangePacket changePacket = new ChangePacket();
         List<Action> subActions = new ArrayList<>();
-        if(!BasicTreeTraversal.traverseWhenActionIsMove(a,subActions,changePacket,true)){
+        if (!BasicTreeTraversal.traverseWhenActionIsMove(a, subActions, changePacket, true)) {
             DefaultUpDownTraversal.traverseClass(a, subActions, changePacket);
         }
-        ClusteredActionBean mBean = new ClusteredActionBean(ChangeEntityDesc.StageITraverseType.TRAVERSE_UP_DOWN,a,subActions,changePacket);
+        ClusteredActionBean mBean = new ClusteredActionBean(ChangeEntityDesc.StageITraverseType.TRAVERSE_UP_DOWN, a, subActions, changePacket);
         ClassChangeEntity code = new ClassChangeEntity(mBean);
         code.stageIIBean.setEntityCreationStage(ChangeEntityDesc.StageIIGenStage.ENTITY_GENERATION_STAGE_GT_UD);
         code.stageIIBean.setGranularity(ChangeEntityDesc.StageIIGranularity.GRANULARITY_CLASS);
@@ -39,20 +42,20 @@ public class MatchClass {
         fp.addOneChangeEntity(code);
     }
 
-    public static void matchClassSignatureNewEntity(MiningActionData fp, Action a, Tree queryFather,int treeType,Tree traverseFather) {
+    public static void matchClassSignatureNewEntity(MiningActionData fp, Action a, Tree queryFather, int treeType, Tree traverseFather) {
         ChangePacket changePacket = new ChangePacket();
         List<Action> subActions = new ArrayList<>();
-        if(!BasicTreeTraversal.traverseWhenActionIsMove(a,subActions,changePacket,false)){
-            DefaultDownUpTraversal.traverseClassSignature(traverseFather,subActions,changePacket);
+        if (!BasicTreeTraversal.traverseWhenActionIsMove(a, subActions, changePacket, false)) {
+            DefaultDownUpTraversal.traverseClassSignature(traverseFather, subActions, changePacket);
         }
-        ClusteredActionBean mBean = new ClusteredActionBean(ChangeEntityDesc.StageITraverseType.TRAVERSE_DOWN_UP,a,subActions,changePacket,queryFather,treeType);
+        ClusteredActionBean mBean = new ClusteredActionBean(ChangeEntityDesc.StageITraverseType.TRAVERSE_DOWN_UP, a, subActions, changePacket, queryFather, treeType);
         ClassChangeEntity code = new ClassChangeEntity(mBean);
         code.stageIIBean.setEntityCreationStage(ChangeEntityDesc.StageIIGenStage.ENTITY_GENERATION_STAGE_GT_DUD);
         code.stageIIBean.setGranularity(ChangeEntityDesc.StageIIGranularity.GRANULARITY_CLASS);
-        if(a instanceof Move){
+        if (a instanceof Move) {
             code.stageIIBean.setOpt(ChangeEntityDesc.StageIIOpt.OPT_CHANGE_MOVE);
-            code.stageIIBean.setChangeEntity(((Tree)a.getNode()).getAstClass().getSimpleName());
-        }else {
+            code.stageIIBean.setChangeEntity(((Tree) a.getNode()).getAstClass().getSimpleName());
+        } else {
             code.stageIIBean.setChangeEntity(ChangeEntityDesc.StageIIENTITY.ENTITY_CLASS);
             code.stageIIBean.setOpt(ChangeEntityDesc.StageIIOpt.OPT_CHANGE);
         }
@@ -65,15 +68,15 @@ public class MatchClass {
         fp.addOneChangeEntity(code);
     }
 
-    public static void matchClassSignatureCurrEntity(MiningActionData fp, Action a, ChangeEntity changeEntity,Tree traverseFather) {
+    public static void matchClassSignatureCurrEntity(MiningActionData fp, Action a, ChangeEntity changeEntity, Tree traverseFather) {
         ChangePacket changePacket = changeEntity.clusteredActionBean.changePacket;
         List<Action> actions = changeEntity.clusteredActionBean.actions;
         List<Action> newActions = new ArrayList<>();
-        if(!BasicTreeTraversal.traverseWhenActionIsMove(a,actions,changePacket,false)){
-            DefaultDownUpTraversal.traverseClassSignature(traverseFather,newActions,changePacket);
+        if (!BasicTreeTraversal.traverseWhenActionIsMove(a, actions, changePacket, false)) {
+            DefaultDownUpTraversal.traverseClassSignature(traverseFather, newActions, changePacket);
         }
-        for(Action tmp:newActions){
-            if(fp.mGeneratingActionsData.getAllActionMap().get(tmp)==1){
+        for (Action tmp : newActions) {
+            if (fp.mGeneratingActionsData.getAllActionMap().get(tmp) == 1) {
                 continue;
             }
             actions.add(tmp);
@@ -81,9 +84,6 @@ public class MatchClass {
 //        changeEntity.linkBean.addAppendedActions(newActions);
         fp.setActionTraversedMap(newActions);
     }
-
-
-
 
 
 }

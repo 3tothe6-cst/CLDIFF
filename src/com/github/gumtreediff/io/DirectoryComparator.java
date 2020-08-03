@@ -36,29 +36,16 @@ import java.util.Set;
 public class DirectoryComparator {
 
     private Path src;
-
-    public Path getSrc() {
-        return src;
-    }
-
-    public Path getDst() {
-        return dst;
-    }
-
     private Path dst;
-
     private List<Pair<File, File>> modifiedFiles;
-
     private Set<File> deletedFiles;
-
-    private  Set<File> addedFiles;
-
+    private Set<File> addedFiles;
     private boolean dirMode = true;
 
     public DirectoryComparator(String src, String dst) {
         modifiedFiles = new ArrayList<>();
         addedFiles = new HashSet<>();
-        deletedFiles =  new HashSet<>();
+        deletedFiles = new HashSet<>();
         this.src = Paths.get(src);
         this.dst = Paths.get(dst);
         if (!Files.exists(this.src) || !Files.exists(this.dst))
@@ -74,6 +61,14 @@ public class DirectoryComparator {
             }
 
         }
+    }
+
+    public Path getSrc() {
+        return src;
+    }
+
+    public Path getDst() {
+        return dst;
     }
 
     public void compare() {
@@ -138,7 +133,7 @@ public class DirectoryComparator {
         if (l1 != l2) return true;
         else {
             try (DataInputStream dis1 = new DataInputStream(new FileInputStream(f1));
-                    DataInputStream dis2 = new DataInputStream(new FileInputStream(f2))) {
+                 DataInputStream dis2 = new DataInputStream(new FileInputStream(f2))) {
                 int c1, c2;
                 while ((c1 = dis1.read()) != -1) {
                     c2 = dis2.read();

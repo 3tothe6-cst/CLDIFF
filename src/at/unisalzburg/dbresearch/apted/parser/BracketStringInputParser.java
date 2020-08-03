@@ -44,20 +44,20 @@ import java.util.List;
  */
 public class BracketStringInputParser implements InputParser<StringNodeData> {
 
-  /**
-   * Parses the input tree as a string and converts it to our tree
-   * representation using the {@link Node} class.
-   *
-   * @param s input tree as string in bracket notation.
-   * @return tree representation of the bracket notation input.
-   * @see Node
-   */
-  public Node<StringNodeData> fromString(String s) {
-    s = s.substring(s.indexOf("{"), s.lastIndexOf("}") + 1);
-    Node<StringNodeData> node = new Node<StringNodeData>(new StringNodeData(FormatUtilities.getRoot(s)));
-    List<String> c = FormatUtilities.getChildren(s);
-    for(int i = 0; i < c.size(); i++)
-        node.addChild(fromString(c.get(i)));
-    return node;
-  }
+    /**
+     * Parses the input tree as a string and converts it to our tree
+     * representation using the {@link Node} class.
+     *
+     * @param s input tree as string in bracket notation.
+     * @return tree representation of the bracket notation input.
+     * @see Node
+     */
+    public Node<StringNodeData> fromString(String s) {
+        s = s.substring(s.indexOf("{"), s.lastIndexOf("}") + 1);
+        Node<StringNodeData> node = new Node<StringNodeData>(new StringNodeData(FormatUtilities.getRoot(s)));
+        List<String> c = FormatUtilities.getChildren(s);
+        for (int i = 0; i < c.size(); i++)
+            node.addChild(fromString(c.get(i)));
+        return node;
+    }
 }

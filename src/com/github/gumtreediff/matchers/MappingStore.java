@@ -20,9 +20,9 @@
 
 package com.github.gumtreediff.matchers;
 
-import java.util.*;
-
 import com.github.gumtreediff.tree.ITree;
+
+import java.util.*;
 
 public class MappingStore implements Iterable<Mapping> {
 
@@ -31,11 +31,11 @@ public class MappingStore implements Iterable<Mapping> {
 
     public MappingStore(Set<Mapping> mappings) {
         this();
-        for (Mapping m: mappings) link(m.getFirst(), m.getSecond());
+        for (Mapping m : mappings) link(m.getFirst(), m.getSecond());
     }
 
     public MappingStore() {
-        srcs = new  HashMap<>();
+        srcs = new HashMap<>();
         dsts = new HashMap<>();
     }
 
@@ -108,16 +108,18 @@ public class MappingStore implements Iterable<Mapping> {
     public ITree getDst(ITree src) {
         return srcs.get(src);
     }
-    
+
 
     public ITree getSrc(ITree dst) {
         return dsts.get(dst);
     }
-    public Map<ITree, ITree> getSrcMap(){
-    	return this.srcs;
+
+    public Map<ITree, ITree> getSrcMap() {
+        return this.srcs;
     }
-    public Map<ITree, ITree> getDstMap(){
-    	return this.dsts;
+
+    public Map<ITree, ITree> getDstMap() {
+        return this.dsts;
     }
 
     public boolean hasSrc(ITree src) {
@@ -134,10 +136,11 @@ public class MappingStore implements Iterable<Mapping> {
 
     /**
      * Indicate whether or not a tree is mappable to another given tree.
+     *
      * @return true if both trees are not mapped and if the trees have the same type, false either.
      */
     public boolean isMatchable(ITree src, ITree dst) {
-        return src.hasSameType(dst) && !(srcs.containsKey(src)  || dsts.containsKey(dst));
+        return src.hasSameType(dst) && !(srcs.containsKey(src) || dsts.containsKey(dst));
     }
 
     @Override

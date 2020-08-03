@@ -21,7 +21,8 @@
 package com.github.gumtreediff.client;
 
 public abstract class Client {
-    public Client(String[] args) {}
+    public Client(String[] args) {
+    }
 
     public abstract void run() throws Exception;
 }

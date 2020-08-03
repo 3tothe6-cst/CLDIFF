@@ -19,6 +19,9 @@ public class CommitFile {
     private String parent_commit;
     private String diffPath;
 
+    public CommitFile() {
+    }
+
     public int getId() {
         return id;
     }
@@ -65,9 +68,6 @@ public class CommitFile {
 
     public void setParent_commit(String parent_commit) {
         this.parent_commit = parent_commit;
-    }
-
-    public CommitFile() {
     }
 
 }

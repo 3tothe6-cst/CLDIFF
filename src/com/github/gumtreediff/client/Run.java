@@ -30,23 +30,8 @@ import java.lang.reflect.InvocationTargetException;
 
 public class Run {
 
-    public static class Options implements Option.Context {
-        @Override
-        public Option[] values() {
-            return new Option[]{
-                    new Option("-c", "Set global property (-c property value). "
-                            + "Properties do not need to be prefixed by gumtree.", 2) {
-
-                        @Override
-                        protected void process(String name, String[] args) {
-                            String key = args[0].startsWith("gumtree.") ? args[0] : "gumtree." + args[0];
-                            System.setProperty(key, args[1]);
-                        }
-                    },
-                    new Option.Verbose(),
-                    new Help(this)
-            };
-        }
+    static {
+        initGenerators();
     }
 
     public static void initGenerators() {
@@ -58,7 +43,7 @@ public class Run {
                             gen.getAnnotation(com.github.gumtreediff.gen.Register.class);
                     if (a != null)
                         Generators.getInstance().install(gen, a);
-            });
+                });
     }
 
     public static void initClients() {
@@ -68,13 +53,9 @@ public class Run {
                 cli -> {
                     com.github.gumtreediff.client.Register a =
                             cli.getAnnotation(com.github.gumtreediff.client.Register.class);
-                if (a != null)
-                    Clients.getInstance().install(cli, a);
-            });
-    }
-
-    static {
-        initGenerators();
+                    if (a != null)
+                        Clients.getInstance().install(cli, a);
+                });
     }
 
     public static void startClient(String name, Registry.Factory<? extends Client> client, String[] args) {
@@ -122,8 +103,27 @@ public class Run {
 
     public static void listCommand(PrintStream out) {
         out.println("Available Commands:");
-        for (Registry.Entry cmd: Clients.getInstance().getEntries())
+        for (Registry.Entry cmd : Clients.getInstance().getEntries())
             out.println("* " + cmd);
+    }
+
+    public static class Options implements Option.Context {
+        @Override
+        public Option[] values() {
+            return new Option[]{
+                    new Option("-c", "Set global property (-c property value). "
+                            + "Properties do not need to be prefixed by gumtree.", 2) {
+
+                        @Override
+                        protected void process(String name, String[] args) {
+                            String key = args[0].startsWith("gumtree.") ? args[0] : "gumtree." + args[0];
+                            System.setProperty(key, args[1]);
+                        }
+                    },
+                    new Option.Verbose(),
+                    new Help(this)
+            };
+        }
     }
 
     static class Help extends Option.Help {

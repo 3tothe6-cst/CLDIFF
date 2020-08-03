@@ -20,14 +20,13 @@
 
 package com.github.gumtreediff.tree;
 
+import com.github.gumtreediff.actions.model.Action;
+import org.eclipse.jdt.core.dom.ASTNode;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
-
-import org.eclipse.jdt.core.dom.ASTNode;
-
-import com.github.gumtreediff.actions.model.Action;
 
 //import cn.edu.fudan.se.apiChangeExtractor.bean.JdtMethodCall;
 
@@ -47,7 +46,7 @@ public class Tree extends AbstractTree implements ITree {
     //add by rh
     private ASTNode astNode;
 //    private JdtMethodCall methodCall = null;
-    
+
     /**
      * added by hkf
      */
@@ -72,7 +71,7 @@ public class Tree extends AbstractTree implements ITree {
         this.astClass = n.getClass();
     }
 
-    public Tree(int type, String label, ASTNode n,Integer[] lineRange) {
+    public Tree(int type, String label, ASTNode n, Integer[] lineRange) {
         this.type = type;
         this.label = (label == null) ? NO_LABEL : label.intern();
         this.id = NO_ID;
@@ -89,23 +88,9 @@ public class Tree extends AbstractTree implements ITree {
         this.lineRange = lineRange;
     }
 
-    public void setTreeSrcOrDst(int a){
-        this.srcOrDst = a;
-    }
-
-    public ASTNode getAstNode(){
-    	return astNode;
-    }
-
-    public String getRangeString(){
-        if(this.lineRange==null) return null;
-        return "("+this.lineRange[0]+","+this.lineRange[1]+")";
-    }
-    public Integer[] getRange(){
-        return this.lineRange;
-    }
     /**
      * Constructs a new node. If you need type labels corresponding to the integer
+     *
      * @see TreeContext#createTree(int, String, String)
      */
     public Tree(int type, String label) {
@@ -138,6 +123,19 @@ public class Tree extends AbstractTree implements ITree {
         this.metadata = other.metadata;
     }
 
+    public ASTNode getAstNode() {
+        return astNode;
+    }
+
+    public String getRangeString() {
+        if (this.lineRange == null) return null;
+        return "(" + this.lineRange[0] + "," + this.lineRange[1] + ")";
+    }
+
+    public Integer[] getRange() {
+        return this.lineRange;
+    }
+
     @Override
     public void addChild(ITree t) {
         children.add(t);
@@ -146,12 +144,12 @@ public class Tree extends AbstractTree implements ITree {
 
     @Override
     public void insertChild(ITree t, int position) {
-    	//TODO buggy code
-    	System.out.println(children.size()+":"+position);
-    	if(position>children.size()){
-    		position=children.size();
-    	}
-    	children.add(position, t);
+        //TODO buggy code
+        System.out.println(children.size() + ":" + position);
+        if (position > children.size()) {
+            position = children.size();
+        }
+        children.add(position, t);
         t.setParent(this);
     }
 
@@ -169,35 +167,15 @@ public class Tree extends AbstractTree implements ITree {
     }
 
     @Override
-    public String getLabel() {
-        return label;
-    }
-
-    @Override
-    public int getLength() {
-        return length;
-    }
-
-    @Override
-    public ITree getParent() {
-        return parent;
-    }
-
-    @Override
-    public int getPos() {
-        return pos;
-    }
-
-    @Override
-    public int getType() {
-        return type;
-    }
-
-    @Override
     public void setChildren(List<ITree> children) {
         this.children = children;
         for (ITree c : children)
             c.setParent(this);
+    }
+
+    @Override
+    public String getLabel() {
+        return label;
     }
 
     @Override
@@ -206,13 +184,43 @@ public class Tree extends AbstractTree implements ITree {
     }
 
     @Override
+    public int getLength() {
+        return length;
+    }
+
+    @Override
     public void setLength(int length) {
         this.length = length;
     }
 
     @Override
+    public ITree getParent() {
+        return parent;
+    }
+
+    @Override
     public void setParent(ITree parent) {
         this.parent = parent;
+    }
+
+    @Override
+    public int getPos() {
+        return pos;
+    }
+
+    @Override
+    public void setPos(int pos) {
+        this.pos = pos;
+    }
+
+    @Override
+    public int getType() {
+        return type;
+    }
+
+    @Override
+    public void setType(int type) {
+        this.type = type;
     }
 
     @Override
@@ -222,16 +230,6 @@ public class Tree extends AbstractTree implements ITree {
         this.parent = parent;
         if (this.parent != null)
             parent.getChildren().add(this);
-    }
-
-    @Override
-    public void setPos(int pos) {
-        this.pos = pos;
-    }
-
-    @Override
-    public void setType(int type) {
-        this.type = type;
     }
 
     @Override
@@ -260,20 +258,27 @@ public class Tree extends AbstractTree implements ITree {
             return new EmptyEntryIterator();
         return metadata.iterator();
     }
-	public List<Action> getDoAction() {
-		return doActions;
-	}
-	public void setDoAction(Action doAction) {
-		if(this.doActions == null){
-			this.doActions = new ArrayList<>();
-		}
-		this.doActions.add(doAction);
-	}
+
+    public List<Action> getDoAction() {
+        return doActions;
+    }
+
+    public void setDoAction(Action doAction) {
+        if (this.doActions == null) {
+            this.doActions = new ArrayList<>();
+        }
+        this.doActions.add(doAction);
+    }
+
     public Class getAstClass() {
         return astClass;
     }
 
-    public int getTreeSrcOrDst(){
+    public int getTreeSrcOrDst() {
         return this.srcOrDst;
+    }
+
+    public void setTreeSrcOrDst(int a) {
+        this.srcOrDst = a;
     }
 }

@@ -1,13 +1,5 @@
 package edu.fdu.se.git;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-
 import edu.fdu.se.cldiff.CLDiffCore;
 import org.eclipse.jgit.api.ListBranchCommand;
 import org.eclipse.jgit.api.errors.GitAPIException;
@@ -21,14 +13,18 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
-
 import org.eclipse.jgit.treewalk.CanonicalTreeParser;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * Created by huangkaifeng on 2018/4/6.
- *
  */
 public class JGitHelper extends JGitCommand {
+
+    private long totalChangedLineNumber;
 
     public JGitHelper(String repopath) {
         super(repopath);
@@ -53,7 +49,7 @@ public class JGitHelper extends JGitCommand {
                         continue;
                     }
                     Map<String, List<DiffEntry>> changedFiles = this.getCommitParentMappedDiffEntry(queueCommitItem.getName());
-                    iHandleCommit.handleCommit(changedFiles, queueCommitItem.getName(),commit);
+                    iHandleCommit.handleCommit(changedFiles, queueCommitItem.getName(), commit);
                     commitNum++;
                     isTraversed.put(queueCommitItem.getName(), true);
                     for (RevCommit item2 : parentCommits) {
@@ -86,8 +82,8 @@ public class JGitHelper extends JGitCommand {
             if (commit.getParents() == null) {
                 return;
             }
-            Map<String,List<DiffEntry>> changedFiles = this.getCommitParentMappedDiffEntry(commit.getName());
-            iHandleCommit.handleCommit(changedFiles, commitString,commit);
+            Map<String, List<DiffEntry>> changedFiles = this.getCommitParentMappedDiffEntry(commit.getName());
+            iHandleCommit.handleCommit(changedFiles, commitString, commit);
 
         } catch (MissingObjectException e) {
             e.printStackTrace();
@@ -110,8 +106,8 @@ public class JGitHelper extends JGitCommand {
             RevCommit currCommit = revWalk.parseCommit(currCommitId);
             ObjectId nextCommitId = ObjectId.fromString(nexCommitString);
             RevCommit nextCommit = revWalk.parseCommit(nextCommitId);
-            Map<String, List<DiffEntry>> changedFiles = this.getTwoCommitsMappedFileList(currCommit.getName(),nextCommit.getName());
-            handleDiffCommits.handleCommit(changedFiles, currentCommitString,currCommit,nexCommitString,nextCommit);
+            Map<String, List<DiffEntry>> changedFiles = this.getTwoCommitsMappedFileList(currCommit.getName(), nextCommit.getName());
+            handleDiffCommits.handleCommit(changedFiles, currentCommitString, currCommit, nexCommitString, nextCommit);
 
         } catch (MissingObjectException e) {
             e.printStackTrace();
@@ -121,7 +117,6 @@ public class JGitHelper extends JGitCommand {
             e.printStackTrace();
         }
     }
-
 
     /**
      * 输出output即可
@@ -145,7 +140,7 @@ public class JGitHelper extends JGitCommand {
                     }
                     int temp2 = getCommitFileEditLineNumber(queueCommitItem);
 //                    totalChangedLineNumber += temp2;
-                    if(temp2==1) {
+                    if (temp2 == 1) {
                         commitNum++;
                     }
                     isTraversed.put(queueCommitItem.getName(), true);
@@ -160,7 +155,7 @@ public class JGitHelper extends JGitCommand {
 //            System.out.println("totalCommitNum: " + commitNum);
             System.out.println("totalChangedLineNumber: " + totalChangedLineNumber);
             System.out.println("----total time:" + (endTime - startTime));
-            System.out.println("----commitnum "+commitNum);
+            System.out.println("----commitnum " + commitNum);
         } catch (MissingObjectException e) {
             e.printStackTrace();
         } catch (IncorrectObjectTypeException e) {
@@ -171,11 +166,6 @@ public class JGitHelper extends JGitCommand {
             e1.printStackTrace();
         }
     }
-
-    private long totalChangedLineNumber;
-
-
-
 
     public int getCommitFileEditLineNumber(RevCommit commit) {
         try {
@@ -203,7 +193,7 @@ public class JGitHelper extends JGitCommand {
                             String mOldPath = entry.getOldPath();
                             if (CLDiffCore.isFilter(mOldPath)) {
                                 continue;
-                            }else{
+                            } else {
                                 //at least one file is changed
                                 return 1;
                             }

@@ -42,7 +42,7 @@ public class RtedMatcher extends Matcher {
         List<int[]> arrayMappings = a.computeEditMapping();
         List<ITree> srcs = TreeUtils.postOrder(src);
         List<ITree> dsts = TreeUtils.postOrder(dst);
-        for (int[] m: arrayMappings) {
+        for (int[] m : arrayMappings) {
             if (m[0] != 0 && m[1] != 0) {
                 ITree src = srcs.get(m[0] - 1);
                 ITree dst = dsts.get(m[1] - 1);

@@ -20,26 +20,23 @@
 
 package com.github.gumtreediff.jdt.cd;
 
-import java.util.List;
-import java.util.Stack;
-
 import com.github.gumtreediff.jdt.AbstractJdtVisitor;
 import org.eclipse.jdt.core.dom.*;
 
-import com.github.gumtreediff.jdt.AbstractJdtVisitor;
-import com.github.gumtreediff.tree.ITree;
-import com.github.gumtreediff.tree.Tree;
+import java.util.List;
 
 /**
  * Combination of two ChangeDistiller's AST visitors:
- *  JavaASTBodyTransformer and JavaASTChangeDistillerVisitor.
+ * JavaASTBodyTransformer and JavaASTChangeDistillerVisitor.
  * Modifications are labeled as "@Inria"
- *
+ * <p>
  * INRIA removed fNodeStack since it's inherited with the new
  */
 @SuppressWarnings("unused")
 public class CdJdtVisitor extends AbstractJdtVisitor {
     private static final String COLON_SPACE = ": ";
+    // /***************BODY VISITOR*************************
+    private static final String COLON = ":";
     private boolean fEmptyJavaDoc;
     private boolean fInMethodDeclaration;
 
@@ -366,8 +363,6 @@ public class CdJdtVisitor extends AbstractJdtVisitor {
         ASTNode n = list.get(list.size() - 1);
         return n.getStartPosition() + n.getLength();
     }
-    // /***************BODY VISITOR*************************
-    private static final String COLON = ":";
 
     @Override
     public boolean visit(AssertStatement node) {
@@ -397,7 +392,7 @@ public class CdJdtVisitor extends AbstractJdtVisitor {
 
     @Override
     public boolean visit(CatchClause node) {
-	if (node.getException().getType() instanceof SimpleType) {
+        if (node.getException().getType() instanceof SimpleType) {
             pushNode(node, ((SimpleType) node.getException().getType()).getName().getFullyQualifiedName());
         } else {
             pushNode(node, ((UnionType) node.getException().getType()).toString());

@@ -40,8 +40,8 @@ public interface ITree {
     int NO_VALUE = -1;
 
     /**
-     * @see com.github.gumtreediff.tree.hash.HashGenerator
      * @return a hash (probably unique) representing the tree
+     * @see com.github.gumtreediff.tree.hash.HashGenerator
      */
     int getHash();
 
@@ -68,8 +68,6 @@ public interface ITree {
      */
     void insertChild(ITree t, int position);
 
-    void setChildren(List<ITree> children);
-
     /**
      * @return the position of the child, or -1 if the given child is not in the children list.
      */
@@ -82,6 +80,8 @@ public interface ITree {
 
     List<ITree> getChildren();
 
+    void setChildren(List<ITree> children);
+
     /**
      * @return a boolean indicating if the tree has at least one child or not
      */
@@ -89,15 +89,9 @@ public interface ITree {
 
     /**
      * @return all the descendants (children, children of children, etc.) of the tree,
-     *     using a pre-order.
+     * using a pre-order.
      */
     List<ITree> getDescendants();
-
-    /**
-     * Set the parent of this node. The parent won't have this node in its
-     * children list
-     */
-    void setParent(ITree parent);
 
     /**
      * Set the parent of this node. The parent will have this node in its
@@ -113,6 +107,12 @@ public interface ITree {
     ITree getParent();
 
     /**
+     * Set the parent of this node. The parent won't have this node in its
+     * children list
+     */
+    void setParent(ITree parent);
+
+    /**
      * @return the list of all parents of the node (parent, parent of parent, etc.)
      */
     List<ITree> getParents();
@@ -125,32 +125,33 @@ public interface ITree {
     /**
      * Make a deep copy of the tree.
      * Deep copy of node however shares Metadata
+     *
      * @return a deep copy of the tree.
      */
     ITree deepCopy();
 
     /**
-     * @see TreeUtils#computeDepth(ITree)
      * @return the depth of the tree, defined as the distance to the root
+     * @see TreeUtils#computeDepth(ITree)
      */
     int getDepth();
 
     void setDepth(int depth);
 
     /**
-     * @see TreeUtils#computeHeight(ITree)
      * @return the height of the tree, defined as the maximal depth of its descendants.
+     * @see TreeUtils#computeHeight(ITree)
      */
     int getHeight();
 
     void setHeight(int height);
 
     /**
+     * @return the number of the node
      * @see TreeUtils#numbering(Iterable)
      * @see TreeUtils#preOrderNumbering(ITree)
      * @see TreeUtils#postOrderNumbering(ITree)
      * @see TreeUtils#breadthFirstNumbering(ITree)
-     * @return the number of the node
      */
     int getId();
 
@@ -173,13 +174,13 @@ public interface ITree {
     /**
      * @return the absolute character index where the tree ends
      */
-    default int getEndPos()  {
+    default int getEndPos() {
         return getPos() + getLength();
     }
 
     /**
-     * @see TreeUtils#computeSize(ITree)
      * @return the number of all nodes contained in the tree
+     * @see TreeUtils#computeSize(ITree)
      */
     int getSize();
 
@@ -195,21 +196,23 @@ public interface ITree {
     boolean hasSameType(ITree t);
 
     /**
+     * @return a boolean indicating if the two trees are isomorphics, defined has
+     * having the same hash and the same hash serialization.
      * @see #toStaticHashString()
      * @see #getHash()
-     * @return a boolean indicating if the two trees are isomorphics, defined has
-     *     having the same hash and the same hash serialization.
      */
     boolean isIsomorphicTo(ITree tree);
 
     /**
      * Indicate whether or not the tree is similar to the given tree.
+     *
      * @return true if they are compatible and have same label, false either
      */
     boolean hasSameTypeAndLabel(ITree t);
 
     /**
      * Refresh hash, size, depth and height of the tree.
+     *
      * @see com.github.gumtreediff.tree.hash.HashGenerator
      * @see TreeUtils#computeDepth(ITree)
      * @see TreeUtils#computeHeight(ITree)

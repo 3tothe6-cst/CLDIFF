@@ -6,7 +6,6 @@ import edu.fdu.se.base.miningchangeentity.base.StatementPlusChangeEntity;
 
 /**
  * Created by huangkaifeng on 2018/4/4.
- *
  */
 public class SuperConstructorInvocationChangeEntity extends StatementPlusChangeEntity {
 
@@ -15,14 +14,14 @@ public class SuperConstructorInvocationChangeEntity extends StatementPlusChangeE
     }
 
 
-    public String toString2(){
+    public String toString2() {
         StringBuilder sb = new StringBuilder();
         sb.append(this.changeEntityId);
         sb.append(". ");
         sb.append(this.stageIIBean.getOpt());
         sb.append(" ");
         sb.append(this.stageIIBean.getChangeEntity());
-        if(this.stageIIBean.getOpt().equals(ChangeEntityDesc.StageIIOpt.OPT_CHANGE)){
+        if (this.stageIIBean.getOpt().equals(ChangeEntityDesc.StageIIOpt.OPT_CHANGE)) {
             sb.append("'s arguments ");
 //            sb.append("");
             sb.append("with/by...");

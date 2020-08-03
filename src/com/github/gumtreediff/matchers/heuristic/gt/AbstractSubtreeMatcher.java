@@ -20,8 +20,9 @@
 
 package com.github.gumtreediff.matchers.heuristic.gt;
 
-import com.github.gumtreediff.matchers.*;
+import com.github.gumtreediff.matchers.Mapping;
 import com.github.gumtreediff.matchers.MappingStore;
+import com.github.gumtreediff.matchers.Matcher;
 import com.github.gumtreediff.matchers.MultiMappingStore;
 import com.github.gumtreediff.tree.ITree;
 
@@ -92,8 +93,8 @@ public abstract class AbstractSubtreeMatcher extends Matcher {
         double jaccard = jaccardSimilarity(src.getParent(), dst.getParent());
         int posSrc = (src.isRoot()) ? 0 : src.getParent().getChildPosition(src);
         int posDst = (dst.isRoot()) ? 0 : dst.getParent().getChildPosition(dst);
-        int maxSrcPos =  (src.isRoot()) ? 1 : src.getParent().getChildren().size();
-        int maxDstPos =  (dst.isRoot()) ? 1 : dst.getParent().getChildren().size();
+        int maxSrcPos = (src.isRoot()) ? 1 : src.getParent().getChildren().size();
+        int maxDstPos = (dst.isRoot()) ? 1 : dst.getParent().getChildren().size();
         int maxPosDiff = Math.max(maxSrcPos, maxDstPos);
         double pos = 1D - ((double) Math.abs(posSrc - posDst) / (double) maxPosDiff);
         double po = 1D - ((double) Math.abs(src.getId() - dst.getId()) / (double) this.getMaxTreeSize());
@@ -158,7 +159,7 @@ public abstract class AbstractSubtreeMatcher extends Matcher {
         public List<ITree> open() {
             List<ITree> pop = pop();
             if (pop != null) {
-                for (ITree tree: pop) open(tree);
+                for (ITree tree : pop) open(tree);
                 updateHeight();
                 return pop;
             } else return null;
@@ -175,7 +176,7 @@ public abstract class AbstractSubtreeMatcher extends Matcher {
         }
 
         public void open(ITree tree) {
-            for (ITree c: tree.getChildren()) addTree(c);
+            for (ITree c : tree.getChildren()) addTree(c);
         }
 
         public int peekHeight() {

@@ -11,22 +11,20 @@ import java.util.List;
 
 /**
  * Created by huangkaifeng on 2018/3/21.
- *
  */
-public class EnumChangeEntity extends MemberPlusChangeEntity{
-
-    public EnumChangeEntity(ClusteredActionBean bean){
-        super(bean);
-    }
+public class EnumChangeEntity extends MemberPlusChangeEntity {
 
     final public static String enumStr = "Enum";
-
     public List<String> variableList;
     public List<String> methodList;
     public MyRange dstRange;
 
-    public EnumChangeEntity(BodyDeclarationPair bodyDeclarationPair, String changeType, MyRange myRange1,MyRange myRange2){
-        super(bodyDeclarationPair.getLocationClassString(),changeType,myRange1);
+    public EnumChangeEntity(ClusteredActionBean bean) {
+        super(bean);
+    }
+
+    public EnumChangeEntity(BodyDeclarationPair bodyDeclarationPair, String changeType, MyRange myRange1, MyRange myRange2) {
+        super(bodyDeclarationPair.getLocationClassString(), changeType, myRange1);
         EnumDeclaration ed = (EnumDeclaration) bodyDeclarationPair.getBodyDeclaration();
         this.stageIIBean.setLocation(bodyDeclarationPair.getLocationClassString());
         this.stageIIBean.setChangeEntity(ChangeEntityDesc.StageIIENTITY.ENTITY_ENUM);
@@ -35,8 +33,8 @@ public class EnumChangeEntity extends MemberPlusChangeEntity{
 
     }
 
-    public EnumChangeEntity(BodyDeclarationPair bodyDeclarationPair, String changeType, MyRange myRange1){
-        super(bodyDeclarationPair.getLocationClassString(),changeType,myRange1);
+    public EnumChangeEntity(BodyDeclarationPair bodyDeclarationPair, String changeType, MyRange myRange1) {
+        super(bodyDeclarationPair.getLocationClassString(), changeType, myRange1);
         EnumDeclaration ed = (EnumDeclaration) bodyDeclarationPair.getBodyDeclaration();
         this.stageIIBean.setLocation(bodyDeclarationPair.getLocationClassString());
         this.stageIIBean.setChangeEntity(ChangeEntityDesc.StageIIENTITY.ENTITY_ENUM);
@@ -44,7 +42,7 @@ public class EnumChangeEntity extends MemberPlusChangeEntity{
 
     }
 
-    public String toString2(){
+    public String toString2() {
         StringBuilder sb = new StringBuilder();
         sb.append(this.changeEntityId);
         sb.append(". ");

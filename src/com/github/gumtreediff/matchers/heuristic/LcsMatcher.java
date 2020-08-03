@@ -20,12 +20,12 @@
 
 package com.github.gumtreediff.matchers.heuristic;
 
-import com.github.gumtreediff.utils.StringAlgorithms;
 import com.github.gumtreediff.matchers.MappingStore;
 import com.github.gumtreediff.matchers.Matcher;
 import com.github.gumtreediff.matchers.Register;
 import com.github.gumtreediff.tree.ITree;
 import com.github.gumtreediff.tree.TreeUtils;
+import com.github.gumtreediff.utils.StringAlgorithms;
 
 import java.util.List;
 
@@ -42,7 +42,7 @@ public class LcsMatcher extends Matcher {
         List<ITree> dstSeq = TreeUtils.preOrder(dst);
         List<int[]> lcs = StringAlgorithms.lcss(srcSeq, dstSeq);
         System.out.println(lcs.size());
-        for (int[] x: lcs) {
+        for (int[] x : lcs) {
 
             ITree t1 = srcSeq.get(x[0]);
             ITree t2 = dstSeq.get(x[1]);

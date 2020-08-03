@@ -28,7 +28,7 @@ import java.util.stream.Collectors;
 
 /**
  * Match the nodes using a bottom-up approach. It browse the nodes of the source and destination trees
- * using a post-order traversal, testing if the two selected trees might be mapped. The two trees are mapped 
+ * using a post-order traversal, testing if the two selected trees might be mapped. The two trees are mapped
  * if they are mappable and have a dice coefficient greater than SIM_THRESHOLD. Whenever two trees are mapped
  * a exact ZS algorithm is applied to look to possibly forgotten nodes.
  */
@@ -39,7 +39,7 @@ public class CompleteBottomUpMatcher extends AbstractBottomUpMatcher {
     }
 
     public void match() {
-        for (ITree t: src.postOrder())  {
+        for (ITree t : src.postOrder()) {
             if (t.isRoot()) {
                 addMapping(t, this.dst);
                 lastChanceMatch(t, this.dst);
@@ -53,8 +53,8 @@ public class CompleteBottomUpMatcher extends AbstractBottomUpMatcher {
                 ITree srcBest = null;
                 ITree dstBest = null;
                 double max = -1D;
-                for (ITree srcCand: srcCandidates) {
-                    for (ITree dstCand: dstCandidates) {
+                for (ITree srcCand : srcCandidates) {
+                    for (ITree dstCand : dstCandidates) {
 
                         double sim = jaccardSimilarity(srcCand, dstCand);
                         if (sim > max && sim >= SIM_THRESHOLD) {

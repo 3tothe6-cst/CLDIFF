@@ -9,13 +9,12 @@ import java.util.List;
 
 /**
  * Created by huangkaifeng on 2018/4/1.
- *
  */
 public class MiningExpressionSubOpts {
 
-    public List<String> miningActions(List<Action> actions){
+    public List<String> miningActions(List<Action> actions) {
         List<String> result = new ArrayList<>();
-        for(Action a:actions){
+        for (Action a : actions) {
             String optName = a.getClass().getSimpleName();
             Tree t = (Tree) a.getNode();
 //            if (t.getAstNode().getNodeType())
@@ -23,8 +22,8 @@ public class MiningExpressionSubOpts {
         return null;
     }
 
-    public String expressionName(int nodeType){
-        switch(nodeType){
+    public String expressionName(int nodeType) {
+        switch (nodeType) {
             case ASTNode.NORMAL_ANNOTATION:
             case ASTNode.MARKER_ANNOTATION:
             case ASTNode.SINGLE_MEMBER_ANNOTATION:
@@ -58,7 +57,7 @@ public class MiningExpressionSubOpts {
             case ASTNode.TYPE_LITERAL:
             case ASTNode.TYPE_METHOD_REFERENCE:
             case ASTNode.VARIABLE_DECLARATION_EXPRESSION:
-                 break;
+                break;
         }
         return null;
     }

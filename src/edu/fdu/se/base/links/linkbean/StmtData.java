@@ -9,7 +9,9 @@ import edu.fdu.se.base.common.Global;
 import edu.fdu.se.base.miningactions.util.MyList;
 import edu.fdu.se.base.miningchangeentity.base.StatementPlusChangeEntity;
 import edu.fdu.se.base.preprocessingfile.data.PreprocessedData;
-import org.eclipse.jdt.core.dom.*;
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.ClassInstanceCreation;
+import org.eclipse.jdt.core.dom.MethodInvocation;
 
 import java.util.ArrayList;
 import java.util.List;

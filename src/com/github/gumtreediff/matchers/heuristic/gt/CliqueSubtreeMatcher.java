@@ -20,11 +20,11 @@
 
 package com.github.gumtreediff.matchers.heuristic.gt;
 
+import com.github.gumtreediff.matchers.Mapping;
 import com.github.gumtreediff.matchers.MappingStore;
 import com.github.gumtreediff.matchers.MultiMappingStore;
 import com.github.gumtreediff.tree.ITree;
 import com.github.gumtreediff.utils.Pair;
-import com.github.gumtreediff.matchers.Mapping;
 import gnu.trove.map.hash.TIntObjectHashMap;
 
 import java.util.*;
@@ -70,8 +70,8 @@ public class CliqueSubtreeMatcher extends AbstractSubtreeMatcher {
 
     private List<Mapping> fromClique(Pair<List<ITree>, List<ITree>> clique) {
         List<Mapping> cliqueAsMappings = new ArrayList<Mapping>();
-        for (ITree src: clique.getFirst())
-            for (ITree dst: clique.getFirst())
+        for (ITree src : clique.getFirst())
+            for (ITree dst : clique.getFirst())
                 cliqueAsMappings.add(new Mapping(src, dst));
         return cliqueAsMappings;
     }
@@ -112,9 +112,11 @@ public class CliqueSubtreeMatcher extends AbstractSubtreeMatcher {
     private class MappingComparator implements Comparator<Mapping> {
 
         private Map<Mapping, double[]> simMap = new HashMap<>();
+        private Map<ITree, List<ITree>> srcDescendants = new HashMap<>();
+        private Map<ITree, Set<ITree>> dstDescendants = new HashMap<>();
 
         public MappingComparator(List<Mapping> mappings) {
-            for (Mapping mapping: mappings)
+            for (Mapping mapping : mappings)
                 simMap.put(mapping, sims(mapping.getFirst(), mapping.getSecond()));
         }
 
@@ -128,10 +130,6 @@ public class CliqueSubtreeMatcher extends AbstractSubtreeMatcher {
             return 0;
         }
 
-        private Map<ITree, List<ITree>> srcDescendants = new HashMap<>();
-
-        private Map<ITree, Set<ITree>> dstDescendants = new HashMap<>();
-
         protected int numberOfCommonDescendants(ITree src, ITree dst) {
             if (!srcDescendants.containsKey(src))
                 srcDescendants.put(src, src.getDescendants());
@@ -140,7 +138,7 @@ public class CliqueSubtreeMatcher extends AbstractSubtreeMatcher {
 
             int common = 0;
 
-            for (ITree t: srcDescendants.get(src)) {
+            for (ITree t : srcDescendants.get(src)) {
                 ITree m = mappings.getDst(t);
                 if (m != null && dstDescendants.get(dst).contains(m)) common++;
             }

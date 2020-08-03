@@ -32,6 +32,14 @@ import java.util.Collection;
 public class List extends Client {
 
     public static final String SYNTAX = "Syntax: list " + Arrays.toString(Listable.values());
+    // This list is generated using (manually) list_properties (it is only an heuristic), some properties may be missing
+    public static final String[] properties = new String[]{
+            "gumtree.client.experimental (com.github.gumtreediff.client.Run)",
+            "gumtree.client.web.port (com.github.gumtreediff.client.diff.WebDiff)",
+            "gumtree.generator.experimental (com.github.gumtreediff.gen.TreeGeneratorRegistry)",
+            "line.separator (com.github.gumtreediff.io.IndentingXMLStreamWriter)",
+            "user.dir (com.github.gumtreediff.client.diff.AbstractDiffClient)"
+    };
     private final Listable item;
 
     public List(String[] args) {
@@ -85,13 +93,4 @@ public class List extends Client {
 
         abstract Collection<?> list();
     }
-
-    // This list is generated using (manually) list_properties (it is only an heuristic), some properties may be missing
-    public static final String[] properties = new String[] {
-            "gumtree.client.experimental (com.github.gumtreediff.client.Run)",
-            "gumtree.client.web.port (com.github.gumtreediff.client.diff.WebDiff)",
-            "gumtree.generator.experimental (com.github.gumtreediff.gen.TreeGeneratorRegistry)",
-            "line.separator (com.github.gumtreediff.io.IndentingXMLStreamWriter)",
-            "user.dir (com.github.gumtreediff.client.diff.AbstractDiffClient)"
-    };
 }

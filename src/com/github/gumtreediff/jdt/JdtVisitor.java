@@ -23,7 +23,7 @@ package com.github.gumtreediff.jdt;
 
 import org.eclipse.jdt.core.dom.*;
 
-public class JdtVisitor  extends AbstractJdtVisitor {
+public class JdtVisitor extends AbstractJdtVisitor {
     public JdtVisitor() {
         super();
     }

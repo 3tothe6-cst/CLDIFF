@@ -8,24 +8,22 @@ import java.util.List;
 
 /**
  * Created by huangkaifeng on 2018/2/6.
- *
  */
 public class DownUpMatchUtil {
 
-    public static void setChangePacket(ClusteredActionBean bean){
-        if(bean.changePacket.getChangeSet1()==null){
+    public static void setChangePacket(ClusteredActionBean bean) {
+        if (bean.changePacket.getChangeSet1() == null) {
             return;
-        }else if(bean.changePacket.getChangeSet1() == null){
-            setChangePacket(bean.changePacket,bean.changePacket.getChangeSet1());
-        }else{
+        } else if (bean.changePacket.getChangeSet1() == null) {
+            setChangePacket(bean.changePacket, bean.changePacket.getChangeSet1());
+        } else {
             //不存在
         }
 
     }
 
 
-
-    private static void setChangePacket(ChangePacket changePacket,List<String> type){
+    private static void setChangePacket(ChangePacket changePacket, List<String> type) {
 //        changePacket.setOperationSubEntity(OperationTypeConstants.SUB_ENTITY_STRUCTURE_REFURNISH);
 //        if(BaseMatchUtil.twoItemInsertAndNullAction(type)){
 //        }else if(BaseMatchUtil.twoItemDeleteAndNullAction(type)){
@@ -42,13 +40,13 @@ public class DownUpMatchUtil {
 
     }
 
-    private static String generateMultiEditString(List<String> types){
+    private static String generateMultiEditString(List<String> types) {
         String result = "";
-        for(String tmp:types){
-            if(!tmp.equals(ActionConstants.NULLACTION)){
-                result += tmp+"_";
+        for (String tmp : types) {
+            if (!tmp.equals(ActionConstants.NULLACTION)) {
+                result += tmp + "_";
             }
         }
-        return result.substring(0,result.length()-1);
+        return result.substring(0, result.length() - 1);
     }
 }

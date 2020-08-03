@@ -1,8 +1,8 @@
 package edu.fdu.se.base.miningactions.util;
 
+import com.github.gumtreediff.actions.model.Action;
 import edu.fdu.se.base.miningactions.bean.ChangePacket;
 import edu.fdu.se.base.miningactions.bean.MiningActionData;
-import com.github.gumtreediff.actions.model.Action;
 import edu.fdu.se.base.miningchangeentity.ClusteredActionBean;
 import edu.fdu.se.base.miningchangeentity.base.ChangeEntityDesc;
 import edu.fdu.se.base.miningchangeentity.member.ClassChangeEntity;
@@ -16,11 +16,11 @@ import java.util.List;
 public class MatchMove {
 
 
-    public static void matchMove(MiningActionData fp,Action a){
+    public static void matchMove(MiningActionData fp, Action a) {
         ChangePacket changePacket = new ChangePacket();
         List<Action> subActions = new ArrayList<>();
-        BasicTreeTraversal.traverseWhenActionIsMove(a,subActions,changePacket,true);
-        ClusteredActionBean mBean = new ClusteredActionBean(ChangeEntityDesc.StageITraverseType.TRAVERSE_UP_DOWN,a,subActions,changePacket);
+        BasicTreeTraversal.traverseWhenActionIsMove(a, subActions, changePacket, true);
+        ClusteredActionBean mBean = new ClusteredActionBean(ChangeEntityDesc.StageITraverseType.TRAVERSE_UP_DOWN, a, subActions, changePacket);
         ClassChangeEntity code = new ClassChangeEntity(mBean);
         code.stageIIBean.setEntityCreationStage(ChangeEntityDesc.StageIIGenStage.ENTITY_GENERATION_STAGE_GT_UD);
         code.stageIIBean.setGranularity(ChangeEntityDesc.StageIIGranularity.GRANULARITY_CLASS);

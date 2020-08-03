@@ -33,12 +33,6 @@ public class StageIIIBean {
 
     }
 
-    class SubRange {
-        String file2;
-        String subRangeCode;
-        String subType;
-    }
-
     private void addRangeResultList(Integer[] range, CompilationUnit cu, String file, String type) {
         if (subRange == null) {
             subRange = new ArrayList<>();
@@ -117,26 +111,21 @@ public class StageIIIBean {
         addRangeResultList(range, cu, file, type);
     }
 
-
     public void setDisplayDesc(String displayDesc) {
         this.displayDesc = displayDesc;
     }
-
 
     public void setChangeEntityId(int changeEntityId) {
         this.changeEntityId = changeEntityId;
     }
 
-
     public void setKey(String key) {
         this.key = key;
     }
 
-
     public void setFile(String file) {
         this.file = file;
     }
-
 
     public void setRange(String range) {
         this.range = range;
@@ -178,5 +167,11 @@ public class StageIIIBean {
             jsonObject.put(ChangeEntityDesc.StageIIIKeys.OPT2EXP2, this.opt2Exp2);
         }
         return jsonObject;
+    }
+
+    class SubRange {
+        String file2;
+        String subRangeCode;
+        String subType;
     }
 }

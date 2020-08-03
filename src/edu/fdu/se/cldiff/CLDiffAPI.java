@@ -11,22 +11,24 @@ import edu.fdu.se.base.links.similarity.TreeDistance;
 import edu.fdu.se.base.miningchangeentity.ChangeEntityData;
 import edu.fdu.se.base.preprocessingfile.data.FileOutputLog;
 import edu.fdu.se.fileutil.FileUtil;
-import edu.fdu.se.server.Meta;
 import edu.fdu.se.server.CommitFile;
-import org.eclipse.jgit.internal.storage.file.GlobalAttributesNode;
+import edu.fdu.se.server.Meta;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by huangkaifeng on 2018/4/12.
  */
 public class CLDiffAPI {
 
-    private Map<String, ChangeEntityData> fileChangeEntityData = new HashMap<>();
     public CLDiffCore clDiffCore;
+    private Map<String, ChangeEntityData> fileChangeEntityData = new HashMap<>();
     private List<FilePairData> filePairDatas;
 
     /**
@@ -112,17 +114,17 @@ public class CLDiffAPI {
         for (int i = 0; i < fileNames.size(); i++) {
             String fileNameA = fileNames.get(i);
             //存在fileName为null的情况，处理fileName为何为null的情况之后再做处理。
-                ChangeEntityData cedA = this.fileChangeEntityData.get(fileNameA);
-                FileOuterLinksGenerator fileOuterLinksGenerator = new FileOuterLinksGenerator();
-                for (int j = i + 1; j < fileNames.size(); j++) {
-                    String fileNameB = fileNames.get(j);
-                    //存在fileName为null的情况
-                        ChangeEntityData cedB = this.fileChangeEntityData.get(fileNameB);
-                        fileOuterLinksGenerator.generateOutsideAssociation(cedA, cedB);
-                        totalFileLinks.addFile2FileAssos(fileNameA, fileNameB, fileOuterLinksGenerator.mAssos);
-                }
+            ChangeEntityData cedA = this.fileChangeEntityData.get(fileNameA);
+            FileOuterLinksGenerator fileOuterLinksGenerator = new FileOuterLinksGenerator();
+            for (int j = i + 1; j < fileNames.size(); j++) {
+                String fileNameB = fileNames.get(j);
+                //存在fileName为null的情况
+                ChangeEntityData cedB = this.fileChangeEntityData.get(fileNameB);
+                fileOuterLinksGenerator.generateOutsideAssociation(cedA, cedB);
+                totalFileLinks.addFile2FileAssos(fileNameA, fileNameB, fileOuterLinksGenerator.mAssos);
+            }
         }
-        new FileOuterLinksGenerator().checkSimilarity(this.fileChangeEntityData,totalFileLinks);
+        new FileOuterLinksGenerator().checkSimilarity(this.fileChangeEntityData, totalFileLinks);
         clDiffCore.mFileOutputLog.writeLinkJson(totalFileLinks.toAssoJSonString());
         System.out.println(totalFileLinks.toConsoleString());
         fileChangeEntityData.clear();

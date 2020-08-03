@@ -63,7 +63,7 @@ public final class ActionsIoUtils {
     }
 
     public static ActionSerializer toJson(TreeContext sctx, List<Action> actions,
-                                              MappingStore mappings) throws IOException {
+                                          MappingStore mappings) throws IOException {
         return new ActionSerializer(sctx, mappings, actions) {
 
             @Override
@@ -71,6 +71,32 @@ public final class ActionsIoUtils {
                 return new JsonFormatter(ctx, writer);
             }
         };
+    }
+
+    interface ActionFormatter {
+        void startOutput() throws Exception;
+
+        void endOutput() throws Exception;
+
+        void startMatches() throws Exception;
+
+        void match(ITree srcNode, ITree destNode) throws Exception;
+
+        void endMatches() throws Exception;
+
+        void startActions() throws Exception;
+
+        void insertRoot(ITree node) throws Exception;
+
+        void insertAction(ITree node, ITree parent, int index) throws Exception;
+
+        void moveAction(ITree src, ITree dst, int index) throws Exception;
+
+        void updateAction(ITree src, ITree dst) throws Exception;
+
+        void deleteAction(ITree node) throws Exception;
+
+        void endActions() throws Exception;
     }
 
     public abstract static class ActionSerializer extends AbstractSerializer {
@@ -94,7 +120,7 @@ public final class ActionsIoUtils {
 
             // Write the matches
             fmt.startMatches();
-            for (Mapping m: mappings) {
+            for (Mapping m : mappings) {
                 fmt.match(m.getFirst(), m.getSecond());
             }
             fmt.endMatches();
@@ -124,32 +150,6 @@ public final class ActionsIoUtils {
             // Finish up
             fmt.endOutput();
         }
-    }
-
-    interface ActionFormatter {
-        void startOutput() throws Exception;
-
-        void endOutput() throws Exception;
-
-        void startMatches() throws Exception;
-
-        void match(ITree srcNode, ITree destNode) throws Exception;
-
-        void endMatches() throws Exception;
-
-        void startActions() throws Exception;
-
-        void insertRoot(ITree node) throws Exception;
-
-        void insertAction(ITree node, ITree parent, int index) throws Exception;
-
-        void moveAction(ITree src, ITree dst, int index) throws Exception;
-
-        void updateAction(ITree src, ITree dst) throws Exception;
-
-        void deleteAction(ITree node) throws Exception;
-
-        void endActions() throws Exception;
     }
 
     static class XmlFormatter implements ActionFormatter {

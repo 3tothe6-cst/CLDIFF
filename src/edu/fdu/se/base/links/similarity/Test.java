@@ -17,10 +17,10 @@ public class Test {
         File currdir = new File(batchTestFilePath + "\\curr");
         File[] files = currdir.listFiles();
         String outputDir = "test";
-        try{
+        try {
             for (File currf1 : files) {
                 String prevFile = batchTestFilePath + "\\prev\\" + currf1.getName();
-                if(currf1.getName().startsWith("TestMove.java")) {
+                if (currf1.getName().startsWith("TestMove.java")) {
                     System.out.println(currf1.getName());
 //                    dooDiffFile(prevFile, currf1.getAbsolutePath(), outputDir);
                     testDoo(prevFile, currf1.getAbsolutePath(), outputDir);
@@ -36,7 +36,7 @@ public class Test {
     }
 
     //测试相似度检测测试
-    private void testDoo(String filePrev, String fileCurr, String output){
+    private void testDoo(String filePrev, String fileCurr, String output) {
 //        FilePairPreDiff psc = new FilePairPreDiff();
 //        psc.initFile(filePrev, fileCurr);
 //        psc.compareTwoFile();
@@ -47,7 +47,6 @@ public class Test {
 //        float distance = treeDistance.calculateTreeDistance();
 //        System.out.println(distance);
     }
-
 
 
 }

@@ -2,9 +2,15 @@ package edu.fdu.se.base.common;
 
 /**
  * Created by huangkaifeng on 2018/8/21.
- *
  */
 public class FilePairData {
+
+    private byte[] prev;
+    private byte[] curr;
+    private String prevPath;
+    private String currPath;
+    private String fileName;
+    private String parentCommit;
 
     public FilePairData(byte[] prevv, byte[] currr, String prevPathh, String currPathh, String fileNamee) {
         prev = prevv;
@@ -13,8 +19,6 @@ public class FilePairData {
         currPath = currPathh;
         fileName = fileNamee;
     }
-
-    private byte[] prev;
 
     public byte[] getPrev() {
         return prev;
@@ -35,12 +39,6 @@ public class FilePairData {
     public String getFileName() {
         return fileName;
     }
-
-    private byte[] curr;
-    private String prevPath;
-    private String currPath;
-    private String fileName;
-    private String parentCommit;
 
     public String getParentCommit() {
         return parentCommit;

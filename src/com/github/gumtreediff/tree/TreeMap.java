@@ -49,7 +49,7 @@ public final class TreeMap {
     }
 
     public void putTrees(ITree tree) {
-        for (ITree t: tree.getTrees())
+        for (ITree t : tree.getTrees())
             trees.put(t.getId(), t);
     }
 

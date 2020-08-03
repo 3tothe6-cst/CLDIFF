@@ -20,21 +20,21 @@
 
 package com.github.gumtreediff.tree.hash;
 
+import com.github.gumtreediff.tree.ITree;
+
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import com.github.gumtreediff.tree.ITree;
-
 public class HashUtils {
 
-    private HashUtils() {}
-
     public static final int BASE = 33;
-
     public static final HashGenerator DEFAULT_HASH_GENERATOR = new RollingHashGenerator.Md5RollingHashGenerator();
 
+    private HashUtils() {
+    }
+
     public static int byteArrayToInt(byte[] b) {
-        return   b[3] & 0xFF | (b[2] & 0xFF) << 8 | (b[1] & 0xFF) << 16 | (b[0] & 0xFF) << 24;
+        return b[3] & 0xFF | (b[2] & 0xFF) << 8 | (b[1] & 0xFF) << 16 | (b[0] & 0xFF) << 24;
     }
 
     public static int standardHash(ITree t) {
@@ -46,7 +46,7 @@ public class HashUtils {
     }
 
     public static String outSeed(ITree t) {
-        return  t.getType() + ITree.SEPARATE_SYMBOL + t.getLabel() + ITree.CLOSE_SYMBOL;
+        return t.getType() + ITree.SEPARATE_SYMBOL + t.getLabel() + ITree.CLOSE_SYMBOL;
     }
 
     public static int md5(String s) {

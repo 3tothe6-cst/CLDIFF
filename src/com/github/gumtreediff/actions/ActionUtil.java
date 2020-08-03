@@ -26,10 +26,11 @@ import com.github.gumtreediff.tree.TreeContext;
 import java.util.List;
 
 public class ActionUtil {
-    private ActionUtil() {}
+    private ActionUtil() {
+    }
 
     public static TreeContext apply(TreeContext context, List<Action> actions) {
-        for (Action a: actions) {
+        for (Action a : actions) {
             if (a instanceof Insert) {
                 Insert action = ((Insert) a);
                 action.getNode().getChildren().clear();
@@ -44,7 +45,7 @@ public class ActionUtil {
             } else if (a instanceof Delete) {
                 Delete action = ((Delete) a);
                 action.getNode().getParent().getChildren().remove(action.getNode());
-            } else throw new RuntimeException("No such action: " + a );
+            } else throw new RuntimeException("No such action: " + a);
         }
         return context;
     }

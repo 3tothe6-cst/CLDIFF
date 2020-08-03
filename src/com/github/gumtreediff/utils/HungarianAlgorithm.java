@@ -38,7 +38,7 @@ import java.util.Arrays;
  * include unassigned jobs; in no other circumstance will there be unassigned
  * jobs. For completeness, an assignment for a square cost matrix will give
  * exactly one unique worker to each job.
-
+ * <p>
  * This version of the Hungarian algorithm runs in time O(n^3), where n is the
  * maximum among the number of workers and the number of jobs.
  *
@@ -61,11 +61,10 @@ public class HungarianAlgorithm {
     /**
      * Construct an instance of the algorithm.
      *
-     * @param costMatrix
-     *            the cost matrix, where matrix[i][j] holds the cost of
-     *            assigning worker i to job j, for all i, j. The cost matrix
-     *            must not be irregular in the sense that all rows must be the
-     *            same length.
+     * @param costMatrix the cost matrix, where matrix[i][j] holds the cost of
+     *                   assigning worker i to job j, for all i, j. The cost matrix
+     *                   must not be irregular in the sense that all rows must be the
+     *                   same length.
      */
     public HungarianAlgorithm(double[][] costMatrix) {
         this.dim = Math.max(costMatrix.length, costMatrix[0].length);
@@ -116,8 +115,8 @@ public class HungarianAlgorithm {
      * Execute the algorithm.
      *
      * @return the minimum cost matching of workers to jobs based upon the
-     *         provided cost matrix. A matching value of -1 indicates that the
-     *         corresponding worker is unassigned.
+     * provided cost matrix. A matching value of -1 indicates that the
+     * corresponding worker is unassigned.
      */
     public int[] execute() {
         /*
@@ -242,8 +241,7 @@ public class HungarianAlgorithm {
      * workers and jobs sets and by initializing the slack arrays to the values
      * corresponding to the specified root worker.
      *
-     * @param w
-     *            the worker at which to root the next phase.
+     * @param w the worker at which to root the next phase.
      */
     protected void initializePhase(int w) {
         Arrays.fill(committedWorkers, false);

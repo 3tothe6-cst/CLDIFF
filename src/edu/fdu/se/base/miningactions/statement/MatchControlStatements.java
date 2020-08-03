@@ -13,15 +13,14 @@ import java.util.List;
 
 /**
  * Created by huangkaifeng on 2018/2/7.
- *
  */
 public class MatchControlStatements {
 
-    public static void matchBreakStatements(MiningActionData fp,Action a){
+    public static void matchBreakStatements(MiningActionData fp, Action a) {
         ChangePacket changePacket = new ChangePacket();
         List<Action> subActions = new ArrayList<>();
         subActions.add(a);
-        ClusteredActionBean mBean = new ClusteredActionBean(ChangeEntityDesc.StageITraverseType.TRAVERSE_UP_DOWN,a,subActions,changePacket);
+        ClusteredActionBean mBean = new ClusteredActionBean(ChangeEntityDesc.StageITraverseType.TRAVERSE_UP_DOWN, a, subActions, changePacket);
         BreakContinueEntity code = new BreakContinueEntity(mBean);
         code.stageIIBean.setEntityCreationStage(ChangeEntityDesc.StageIIGenStage.ENTITY_GENERATION_STAGE_GT_UD);
         code.stageIIBean.setGranularity(ChangeEntityDesc.StageIIGranularity.GRANULARITY_STATEMENT);
@@ -34,11 +33,12 @@ public class MatchControlStatements {
         fp.addOneChangeEntity(code);
         fp.setActionTraversedMap(a);
     }
-    public static void matchContinueStatements(MiningActionData fp,Action a){
+
+    public static void matchContinueStatements(MiningActionData fp, Action a) {
         ChangePacket changePacket = new ChangePacket();
         List<Action> subActions = new ArrayList<>();
         subActions.add(a);
-        ClusteredActionBean mBean = new ClusteredActionBean(ChangeEntityDesc.StageITraverseType.TRAVERSE_UP_DOWN,a,subActions,changePacket);
+        ClusteredActionBean mBean = new ClusteredActionBean(ChangeEntityDesc.StageITraverseType.TRAVERSE_UP_DOWN, a, subActions, changePacket);
         BreakContinueEntity code = new BreakContinueEntity(mBean);
         code.stageIIBean.setEntityCreationStage(ChangeEntityDesc.StageIIGenStage.ENTITY_GENERATION_STAGE_GT_UD);
         code.stageIIBean.setGranularity(ChangeEntityDesc.StageIIGranularity.GRANULARITY_STATEMENT);

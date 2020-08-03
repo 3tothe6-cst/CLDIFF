@@ -20,10 +20,10 @@
 
 package com.github.gumtreediff.matchers.heuristic.gt;
 
-import com.github.gumtreediff.utils.HungarianAlgorithm;
 import com.github.gumtreediff.matchers.MappingStore;
 import com.github.gumtreediff.matchers.MultiMappingStore;
 import com.github.gumtreediff.tree.ITree;
+import com.github.gumtreediff.utils.HungarianAlgorithm;
 
 import java.util.*;
 
@@ -36,7 +36,7 @@ public class HungarianSubtreeMatcher extends AbstractSubtreeMatcher {
     public void filterMappings(MultiMappingStore multiMappings) {
         List<MultiMappingStore> ambiguousList = new ArrayList<>();
         Set<ITree> ignored = new HashSet<>();
-        for (ITree src: multiMappings.getSrcs())
+        for (ITree src : multiMappings.getSrcs())
             if (multiMappings.isSrcUnique(src))
                 addMappingRecursively(src, multiMappings.getDst(src).iterator().next());
             else if (!ignored.contains(src)) {
@@ -44,15 +44,15 @@ public class HungarianSubtreeMatcher extends AbstractSubtreeMatcher {
                 Set<ITree> adsts = multiMappings.getDst(src);
                 Set<ITree> asrcs = multiMappings.getSrc(multiMappings.getDst(src).iterator().next());
                 for (ITree asrc : asrcs)
-                    for (ITree adst: adsts)
-                        ambiguous.link(asrc ,adst);
+                    for (ITree adst : adsts)
+                        ambiguous.link(asrc, adst);
                 ambiguousList.add(ambiguous);
                 ignored.addAll(asrcs);
             }
 
         Collections.sort(ambiguousList, new MultiMappingComparator());
 
-        for (MultiMappingStore ambiguous: ambiguousList) {
+        for (MultiMappingStore ambiguous : ambiguousList) {
             System.out.println("hungarian try.");
             List<ITree> lstSrcs = new ArrayList<>(ambiguous.getSrcs());
             List<ITree> lstDsts = new ArrayList<>(ambiguous.getDsts());
@@ -83,11 +83,11 @@ public class HungarianSubtreeMatcher extends AbstractSubtreeMatcher {
 
         public int impact(MultiMappingStore m) {
             int impact = 0;
-            for (ITree src: m.getSrcs()) {
+            for (ITree src : m.getSrcs()) {
                 int pSize = src.getParents().size();
                 if (pSize > impact) impact = pSize;
             }
-            for (ITree src: m.getDsts()) {
+            for (ITree src : m.getDsts()) {
                 int pSize = src.getParents().size();
                 if (pSize > impact) impact = pSize;
             }

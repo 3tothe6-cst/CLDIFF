@@ -33,13 +33,13 @@ public final class SiblingsMappingComparator extends AbstractMappingComparator {
 
     public SiblingsMappingComparator(List<Mapping> ambiguousMappings, MappingStore mappings, int maxTreeSize) {
         super(ambiguousMappings, mappings, maxTreeSize);
-        for (Mapping ambiguousMapping: ambiguousMappings)
+        for (Mapping ambiguousMapping : ambiguousMappings)
             similarities.put(ambiguousMapping, similarity(ambiguousMapping.getFirst(), ambiguousMapping.getSecond()));
     }
 
     protected double similarity(ITree src, ITree dst) {
         return 100D * siblingsJaccardSimilarity(src.getParent(), dst.getParent())
-                +  10D * posInParentSimilarity(src, dst) + numberingSimilarity(src , dst);
+                + 10D * posInParentSimilarity(src, dst) + numberingSimilarity(src, dst);
     }
 
     protected double siblingsJaccardSimilarity(ITree src, ITree dst) {
@@ -56,7 +56,7 @@ public final class SiblingsMappingComparator extends AbstractMappingComparator {
 
         int common = 0;
 
-        for (ITree t: srcDescendants.get(src)) {
+        for (ITree t : srcDescendants.get(src)) {
             ITree m = mappings.getDst(t);
             if (m != null && dstDescendants.get(dst).contains(m))
                 common++;

@@ -24,19 +24,19 @@ import com.github.gumtreediff.matchers.MappingStore;
 import com.github.gumtreediff.tree.ITree;
 import com.github.gumtreediff.utils.StringAlgorithms;
 
-import java.util.*;
+import java.util.List;
 
 public final class ParentsMappingComparator extends AbstractMappingComparator {
 
     public ParentsMappingComparator(List<Mapping> ambiguousMappings, MappingStore mappings, int maxTreeSize) {
         super(ambiguousMappings, mappings, maxTreeSize);
-        for (Mapping ambiguousMapping: ambiguousMappings)
+        for (Mapping ambiguousMapping : ambiguousMappings)
             similarities.put(ambiguousMapping, similarity(ambiguousMapping.getFirst(), ambiguousMapping.getSecond()));
     }
 
     protected double similarity(ITree src, ITree dst) {
         return 100D * parentsJaccardSimilarity(src, dst)
-                + 10D * posInParentSimilarity(src, dst) + numberingSimilarity(src , dst);
+                + 10D * posInParentSimilarity(src, dst) + numberingSimilarity(src, dst);
     }
 
     protected double parentsJaccardSimilarity(ITree src, ITree dst) {

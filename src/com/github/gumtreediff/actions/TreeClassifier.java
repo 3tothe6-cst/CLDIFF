@@ -20,16 +20,16 @@
 
 package com.github.gumtreediff.actions;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import com.github.gumtreediff.actions.model.Action;
 import com.github.gumtreediff.matchers.Mapping;
 import com.github.gumtreediff.matchers.MappingStore;
 import com.github.gumtreediff.matchers.Matcher;
 import com.github.gumtreediff.tree.ITree;
 import com.github.gumtreediff.tree.TreeContext;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 public abstract class TreeClassifier {
 

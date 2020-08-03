@@ -3,7 +3,6 @@ package edu.fdu.se.base.miningactions;
 import com.github.gumtreediff.actions.model.Action;
 import com.github.gumtreediff.actions.model.Move;
 import com.github.gumtreediff.tree.Tree;
-import edu.fdu.se.base.common.Global;
 import edu.fdu.se.base.miningactions.Body.*;
 import edu.fdu.se.base.miningactions.bean.MiningActionData;
 import edu.fdu.se.base.miningactions.statement.*;
@@ -18,7 +17,7 @@ import java.util.List;
  * Created by huangkaifeng on 2018/2/2.
  * Statement/Declaration/控制流的子结构
  */
-public class ClusterUpDown extends AbstractCluster{
+public class ClusterUpDown extends AbstractCluster {
 
     public ClusterUpDown(Class mClazz, MiningActionData miningActionData) {
         super(mClazz, miningActionData);
@@ -26,59 +25,59 @@ public class ClusterUpDown extends AbstractCluster{
 
     public void doClusterUpDown() {
         int actionCnt = this.actionList.size();
-        for(int index =0; index!=actionCnt;index++){
+        for (int index = 0; index != actionCnt; index++) {
             Action a = this.actionList.get(index);
             if (fp.mGeneratingActionsData.getAllActionMap().get(a) == 1) {
                 continue;
             }
             Tree insNode = (Tree) a.getNode();
-            if(processBigAction(a,insNode.getAstNode().getNodeType())==1) {
+            if (processBigAction(a, insNode.getAstNode().getNodeType()) == 1) {
 
             }
         }
     }
 
-    public void passGumtreePalsePositiveMoves(){
+    public void passGumtreePalsePositiveMoves() {
         int actionCnt = this.actionList.size();
-        for(int index =0; index!=actionCnt;index++){
+        for (int index = 0; index != actionCnt; index++) {
             Action a = this.actionList.get(index);
             if (fp.mGeneratingActionsData.getAllActionMap().get(a) == 1) {
                 continue;
             }
-            Move mv = (Move)a;
-            Tree movedNode = (Tree)fp.getMappedDstOfSrcNode(mv.getNode());
+            Move mv = (Move) a;
+            Tree movedNode = (Tree) fp.getMappedDstOfSrcNode(mv.getNode());
             List<Integer> posA = new ArrayList<>();
             List<Integer> posB = new ArrayList<>();
-            List<Tree> treeListA = nonBlockParents((Tree)mv.getNode(),posA);
-            List<Tree> treeListB = nonBlockParents(movedNode,posB);
-            if(treeListA.size()!=treeListB.size()){
+            List<Tree> treeListA = nonBlockParents((Tree) mv.getNode(), posA);
+            List<Tree> treeListB = nonBlockParents(movedNode, posB);
+            if (treeListA.size() != treeListB.size()) {
                 continue;
             }
             Tree ta = null;
             Tree tb = null;
             int flag = 0;
-            for(int i=0;i<treeListA.size();i++){
+            for (int i = 0; i < treeListA.size(); i++) {
                 ta = treeListA.get(i);
                 tb = treeListB.get(i);
-                if(ta.getAstNode().getNodeType() != tb.getAstNode().getNodeType()){
+                if (ta.getAstNode().getNodeType() != tb.getAstNode().getNodeType()) {
                     flag = 1;
                     break;
                 }
-                if(posA.get(i).intValue() !=posB.get(i).intValue()){
+                if (posA.get(i).intValue() != posB.get(i).intValue()) {
                     flag = 1;
                     break;
                 }
             }
-            if(flag==1){
+            if (flag == 1) {
                 continue;
             }
-            if(ta==null|| tb==null ){
+            if (ta == null || tb == null) {
                 continue;
             }
-            if(ta.getTreeSrcOrDst() == ChangeEntityDesc.StageITreeType.SRC_TREE_NODE){
+            if (ta.getTreeSrcOrDst() == ChangeEntityDesc.StageITreeType.SRC_TREE_NODE) {
                 Tree tmp = (Tree) fp.getMappedDstOfSrcNode(ta);
-                if(tmp!=null) {
-                    if(tmp.equals(tb)){
+                if (tmp != null) {
+                    if (tmp.equals(tb)) {
                         fp.setActionTraversedMap(a);
                     }
                 }
@@ -89,16 +88,16 @@ public class ClusterUpDown extends AbstractCluster{
 
     }
 
-    private List<Tree> nonBlockParents(Tree t,List<Integer> posList){
+    private List<Tree> nonBlockParents(Tree t, List<Integer> posList) {
         List<Tree> list = new ArrayList<>();
         Tree parent = t;
-        while(true){
+        while (true) {
             t = parent;
             parent = (Tree) parent.getParent();
             int pos = parent.getChildPosition(t);
             posList.add(pos);
             list.add(parent);
-            if(parent.getAstNode().getNodeType()!=ASTNode.BLOCK){
+            if (parent.getAstNode().getNodeType() != ASTNode.BLOCK) {
                 break;
             }
         }
@@ -106,8 +105,7 @@ public class ClusterUpDown extends AbstractCluster{
     }
 
 
-
-    public int processBigAction(Action a,int type) {
+    public int processBigAction(Action a, int type) {
         int res = 0;
         switch (type) {
             // 外面
@@ -125,12 +123,12 @@ public class ClusterUpDown extends AbstractCluster{
                 break;
             case ASTNode.ENUM_DECLARATION:
             case ASTNode.ENUM_CONSTANT_DECLARATION:
-                MatchEnum.matchEnum(fp,a);
+                MatchEnum.matchEnum(fp, a);
                 break;
 
             // 里面
             case ASTNode.ASSERT_STATEMENT:
-                MatchAssert.matchAssert(fp,a);
+                MatchAssert.matchAssert(fp, a);
                 break;
             case ASTNode.IF_STATEMENT:
                 MatchIfElse.matchIf(fp, a);
@@ -139,10 +137,10 @@ public class ClusterUpDown extends AbstractCluster{
                 MatchBlock.matchBlock(fp, a);
                 break;
             case ASTNode.BREAK_STATEMENT:
-                MatchControlStatements.matchBreakStatements(fp,a);
+                MatchControlStatements.matchBreakStatements(fp, a);
                 break;
             case ASTNode.CONTINUE_STATEMENT:
-                MatchControlStatements.matchContinueStatements(fp,a);
+                MatchControlStatements.matchContinueStatements(fp, a);
             case ASTNode.RETURN_STATEMENT:
                 MatchReturnStatement.matchReturnStatement(fp, a);
                 break;
@@ -169,7 +167,7 @@ public class ClusterUpDown extends AbstractCluster{
                 MatchTry.matchThrowStatement(fp, a);
                 break;
             case ASTNode.CATCH_CLAUSE:
-                MatchTry.matchCatchClause(fp,a);
+                MatchTry.matchCatchClause(fp, a);
                 break;
             case ASTNode.VARIABLE_DECLARATION_STATEMENT:
                 MatchVariableDeclarationExpression.matchVariableDeclaration(fp, a);
@@ -195,18 +193,18 @@ public class ClusterUpDown extends AbstractCluster{
             case ASTNode.TYPE_DECLARATION_STATEMENT:
                 break;
             case ASTNode.CONSTRUCTOR_INVOCATION:
-                MatchConstructorInvocation.matchConstructorInvocation(fp,a);
+                MatchConstructorInvocation.matchConstructorInvocation(fp, a);
                 break;
             case ASTNode.SUPER_CONSTRUCTOR_INVOCATION:
-                MatchConstructorInvocation.matchSuperConstructorInvocation(fp,a);
+                MatchConstructorInvocation.matchSuperConstructorInvocation(fp, a);
                 break;
             case ASTNode.LABELED_STATEMENT:
-                MatchLabeledStatement.matchLabeledStatement(fp,a);
+                MatchLabeledStatement.matchLabeledStatement(fp, a);
                 break;
             default:
-                res =1;
+                res = 1;
                 break;
         }
-        return  res;
+        return res;
     }
 }

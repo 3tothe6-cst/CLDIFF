@@ -39,7 +39,7 @@ public class LineReader extends Reader {
     @Override
     public int read(char[] cbuf, int off, int len) throws IOException {
         int r = reader.read(cbuf, off, len);
-        for (int i = 0; i < len; i ++)
+        for (int i = 0; i < len; i++)
             if (cbuf[off + i] == '\n')
                 lines.add(currentPos + i);
         currentPos += len;

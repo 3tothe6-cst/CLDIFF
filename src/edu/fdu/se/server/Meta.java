@@ -1,7 +1,5 @@
 package edu.fdu.se.server;
 
-import edu.fdu.se.server.CommitFile;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,10 +62,11 @@ public class Meta {
 
     /**
      * add action    modified / added / removed
+     *
      * @return
      */
-    public void addAction(String action){
-        if(actions == null){
+    public void addAction(String action) {
+        if (actions == null) {
             actions = new ArrayList<>();
         }
         actions.add(action);
@@ -146,8 +145,8 @@ public class Meta {
         this.parents = parents;
     }
 
-    public void addParentCommit(String commitId){
-        if(this.parents == null){
+    public void addParentCommit(String commitId) {
+        if (this.parents == null) {
             this.parents = new ArrayList<>();
         }
         this.parents.add(commitId);

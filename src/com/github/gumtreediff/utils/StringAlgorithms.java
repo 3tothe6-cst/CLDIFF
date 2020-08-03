@@ -20,15 +20,16 @@
 
 package com.github.gumtreediff.utils;
 
+import com.github.gumtreediff.tree.ITree;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.github.gumtreediff.tree.ITree;
-
 public final class StringAlgorithms {
 
-    private StringAlgorithms() {}
+    private StringAlgorithms() {
+    }
 
     public static List<int[]> lcss(String s0, String s1) {
         int[][] lengths = new int[s0.length() + 1][s1.length() + 1];
@@ -45,7 +46,7 @@ public final class StringAlgorithms {
             if (lengths[x][y] == lengths[x - 1][y]) x--;
             else if (lengths[x][y] == lengths[x][y - 1]) y--;
             else {
-                indexes.add(new int[] {x - 1, y - 1});
+                indexes.add(new int[]{x - 1, y - 1});
                 x--;
                 y--;
             }
@@ -55,7 +56,7 @@ public final class StringAlgorithms {
     }
 
     public static List<int[]> hunks(String s0, String s1) {
-        List<int[]> lcs = lcss(s0 ,s1);
+        List<int[]> lcs = lcss(s0, s1);
         List<int[]> hunks = new ArrayList<int[]>();
         int inf0 = -1;
         int inf1 = -1;
@@ -67,11 +68,11 @@ public final class StringAlgorithms {
                 inf0 = match[0];
                 inf1 = match[1];
             } else if (last0 + 1 != match[0] || last1 + 1 != match[1]) {
-                hunks.add(new int[] {inf0, last0 + 1, inf1, last1 + 1});
+                hunks.add(new int[]{inf0, last0 + 1, inf1, last1 + 1});
                 inf0 = match[0];
                 inf1 = match[1];
             } else if (i == lcs.size() - 1) {
-                hunks.add(new int[] {inf0, match[0] + 1, inf1, match[1] + 1});
+                hunks.add(new int[]{inf0, match[0] + 1, inf1, match[1] + 1});
                 break;
             }
             last0 = match[0];
@@ -114,7 +115,7 @@ public final class StringAlgorithms {
             if (lengths[x][y] == lengths[x - 1][y]) x--;
             else if (lengths[x][y] == lengths[x][y - 1]) y--;
             else {
-                indexes.add(new int[] {x - 1, y - 1});
+                indexes.add(new int[]{x - 1, y - 1});
                 x--;
                 y--;
             }

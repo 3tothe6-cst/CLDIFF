@@ -42,9 +42,9 @@ public class ChangeDistillerLeavesMatcher extends Matcher {
         List<Mapping> leavesMappings = new LinkedList<>();
         List<ITree> dstLeaves = retainLeaves(TreeUtils.postOrder(dst));
         for (Iterator<ITree> srcLeaves = TreeUtils.leafIterator(
-                TreeUtils.postOrderIterator(src)); srcLeaves.hasNext();) {
+                TreeUtils.postOrderIterator(src)); srcLeaves.hasNext(); ) {
             ITree srcLeaf = srcLeaves.next();
-            for (ITree dstLeaf: dstLeaves) {
+            for (ITree dstLeaf : dstLeaves) {
                 if (isMappingAllowed(srcLeaf, dstLeaf)) {
                     double sim = StringMetrics.qGramsDistance().compare(srcLeaf.getLabel(), dstLeaf.getLabel());
                     if (sim > LABEL_SIM_THRESHOLD)
@@ -60,7 +60,7 @@ public class ChangeDistillerLeavesMatcher extends Matcher {
             Mapping bestMapping = leavesMappings.remove(0);
             if (!(ignoredSrcTrees.contains(bestMapping.getFirst())
                     || ignoredDstTrees.contains(bestMapping.getSecond()))) {
-                addMapping(bestMapping.getFirst(),bestMapping.getSecond());
+                addMapping(bestMapping.getFirst(), bestMapping.getSecond());
                 ignoredSrcTrees.add(bestMapping.getFirst());
                 ignoredDstTrees.add(bestMapping.getSecond());
             }

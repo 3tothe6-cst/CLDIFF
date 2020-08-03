@@ -20,15 +20,14 @@
 
 package com.github.gumtreediff.jdt;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-
 import com.github.gumtreediff.jdt.cd.EntityType;
 import com.github.gumtreediff.tree.ITree;
 import com.github.gumtreediff.tree.TreeContext;
-
 import org.eclipse.jdt.core.dom.ASTNode;
 import org.eclipse.jdt.core.dom.ASTVisitor;
+
+import java.util.ArrayDeque;
+import java.util.Deque;
 
 public abstract class AbstractJdtVisitor extends ASTVisitor {
 
@@ -56,8 +55,8 @@ public abstract class AbstractJdtVisitor extends ASTVisitor {
         String typeName = n.name();
         push(type, typeName, "", startPosition, length);
     }
-    
-    private void push(int type, String typeName, String label, int startPosition, int length,ASTNode node) {
+
+    private void push(int type, String typeName, String label, int startPosition, int length, ASTNode node) {
         ITree t = context.createTree(type, label, typeName, node);
         t.setPos(startPosition);
         t.setLength(length);
@@ -70,6 +69,7 @@ public abstract class AbstractJdtVisitor extends ASTVisitor {
 
         trees.push(t);
     }
+
     private void push(int type, String typeName, String label, int startPosition, int length) {
         ITree t = context.createTree(type, label, typeName);
         t.setPos(startPosition);

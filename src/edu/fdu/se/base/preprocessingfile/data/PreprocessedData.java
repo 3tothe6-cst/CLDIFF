@@ -12,7 +12,6 @@ import java.util.*;
 
 /**
  * Created by huangkaifeng on 2018/1/16.
- *
  */
 public class PreprocessedData {
 
@@ -26,20 +25,11 @@ public class PreprocessedData {
 
     public CompilationUnit dstCu;
     public CompilationUnit srcCu;
-
-    private List<String> interfacesAndFathers;
-
     public Set<String> prevFieldNames;
     public Set<String> currFieldNames;
     public Set<String> prevCurrFieldNames;
-
-    public CompilationUnit getDstCu() {
-        return dstCu;
-    }
-    public CompilationUnit getSrcCu() {
-        return srcCu;
-    }
-
+    public LayeredChangeEntityContainer entityContainer;
+    private List<String> interfacesAndFathers;
     /**
      * curr 删除的added的body
      */
@@ -48,21 +38,10 @@ public class PreprocessedData {
      * prev 删除的removed body
      */
     private List<BodyDeclarationPair> mBodiesDeleted;
-
     private List<ChangeEntity> preprocessChangeEntity;
+    private Map<String, List<BodyDeclaration>> classOrInterfaceOrEnum;
 
-    public List<ChangeEntity> getPreprocessChangeEntity() {
-        return preprocessChangeEntity;
-    }
-
-    public void setPreprocessChangeEntity(List<ChangeEntity> preprocessChangeEntity) {
-        this.preprocessChangeEntity = preprocessChangeEntity;
-    }
-
-
-    private Map<String,List<BodyDeclaration>> classOrInterfaceOrEnum;
-
-    public PreprocessedData(){
+    public PreprocessedData() {
         mBodiesAdded = new ArrayList<>();
         mBodiesDeleted = new ArrayList<>();
         classOrInterfaceOrEnum = new HashMap<>();
@@ -74,63 +53,76 @@ public class PreprocessedData {
 
 
     }
-    public LayeredChangeEntityContainer entityContainer;
 
+    public CompilationUnit getDstCu() {
+        return dstCu;
+    }
 
-    public void addTypeDeclaration(String prefix, BodyDeclaration a, String name){
+    public CompilationUnit getSrcCu() {
+        return srcCu;
+    }
+
+    public List<ChangeEntity> getPreprocessChangeEntity() {
+        return preprocessChangeEntity;
+    }
+
+    public void setPreprocessChangeEntity(List<ChangeEntity> preprocessChangeEntity) {
+        this.preprocessChangeEntity = preprocessChangeEntity;
+    }
+
+    public void addTypeDeclaration(String prefix, BodyDeclaration a, String name) {
         String key = prefix + "." + name;
-        if(this.classOrInterfaceOrEnum.containsKey(key)){
+        if (this.classOrInterfaceOrEnum.containsKey(key)) {
             classOrInterfaceOrEnum.get(key).add(a);
-        }else{
+        } else {
             List<BodyDeclaration> mList = new ArrayList<>();
             mList.add(a);
-            this.classOrInterfaceOrEnum.put(key,mList);
+            this.classOrInterfaceOrEnum.put(key, mList);
         }
     }
 
-    public void loadTwoCompilationUnits(CompilationUnit src,CompilationUnit dst,String srcPath,String dstPath){
+    public void loadTwoCompilationUnits(CompilationUnit src, CompilationUnit dst, String srcPath, String dstPath) {
         this.srcCu = src;
         this.srcLineList = new ArrayList<>();
-        this.fullStringSrc = JDTParserFactory.getLinesOfFile(srcPath,this.srcLineList);
+        this.fullStringSrc = JDTParserFactory.getLinesOfFile(srcPath, this.srcLineList);
         this.srcLines = JDTParserFactory.getLinesList(srcLineList.size());
 
         this.dstCu = dst;
         this.dstLineList = new ArrayList<>();
-        this.fullStringDst = JDTParserFactory.getLinesOfFile(dstPath,this.dstLineList);
+        this.fullStringDst = JDTParserFactory.getLinesOfFile(dstPath, this.dstLineList);
         this.dstLines = JDTParserFactory.getLinesList(dstLineList.size());
     }
 
-    public void loadTwoCompilationUnits(CompilationUnit src,CompilationUnit dst,byte[] srcContent,byte[] dstContent){
+    public void loadTwoCompilationUnits(CompilationUnit src, CompilationUnit dst, byte[] srcContent, byte[] dstContent) {
         this.srcCu = src;
         this.srcLineList = new ArrayList<>();
-        this.fullStringSrc = JDTParserFactory.getLinesOfFile(srcContent,this.srcLineList);
+        this.fullStringSrc = JDTParserFactory.getLinesOfFile(srcContent, this.srcLineList);
         this.srcLines = JDTParserFactory.getLinesList(srcLineList.size());
 
         this.dstCu = dst;
         this.dstLineList = new ArrayList<>();
-        this.fullStringDst = JDTParserFactory.getLinesOfFile(dstContent,this.dstLineList);
+        this.fullStringDst = JDTParserFactory.getLinesOfFile(dstContent, this.dstLineList);
         this.dstLines = JDTParserFactory.getLinesList(dstLineList.size());
     }
 
 
-
-    public void addBodiesAdded(BodyDeclaration bodyDeclaration,String classPrefix){
-        this.mBodiesAdded.add(new BodyDeclarationPair(bodyDeclaration,classPrefix));
+    public void addBodiesAdded(BodyDeclaration bodyDeclaration, String classPrefix) {
+        this.mBodiesAdded.add(new BodyDeclarationPair(bodyDeclaration, classPrefix));
     }
 
 
-    public void addBodiesDeleted(BodyDeclarationPair bodyDeclarationPair){
+    public void addBodiesDeleted(BodyDeclarationPair bodyDeclarationPair) {
         this.mBodiesDeleted.add(bodyDeclarationPair);
     }
 
 
-    public void printAddedRemovedBodies(){
-        for(BodyDeclarationPair item:this.mBodiesAdded){
+    public void printAddedRemovedBodies() {
+        for (BodyDeclarationPair item : this.mBodiesAdded) {
 //            System.out.println(item.getBodyDeclaration().toString()+"  "+item.getLocationClassString());
             System.out.println(item.getBodyDeclaration().toString());
         }
         System.out.print("-----------------------------\n");
-        for(BodyDeclarationPair item:this.mBodiesDeleted){
+        for (BodyDeclarationPair item : this.mBodiesDeleted) {
 //            System.out.println(item.getBodyDeclaration().toString()+"  "+item.getLocationClassString());
             System.out.println(item.getBodyDeclaration().toString());
         }

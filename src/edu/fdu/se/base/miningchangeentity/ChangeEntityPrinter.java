@@ -9,22 +9,21 @@ import java.util.List;
 
 /**
  * Created by huangkaifeng on 2018/4/7.
- *
  */
 public class ChangeEntityPrinter {
 
-    public static void printContainerEntity(LayeredChangeEntityContainer container,CompilationUnit cu) {
+    public static void printContainerEntity(LayeredChangeEntityContainer container, CompilationUnit cu) {
 
         System.out.println("\nMember Key Size:" + container.getLayerMap().size());
         List<BodyDeclarationPair> keyList = container.getKeyIndex();
-        for(BodyDeclarationPair bodyDeclarationPair : keyList){
+        for (BodyDeclarationPair bodyDeclarationPair : keyList) {
             List<ChangeEntity> mList = container.getLayerMap().get(bodyDeclarationPair);
             if (mList == null || mList.size() == 0) {
                 continue;
             }
             int startL = cu.getLineNumber(bodyDeclarationPair.getBodyDeclaration().getStartPosition());
             int endL = cu.getLineNumber(bodyDeclarationPair.getBodyDeclaration().getLength() + bodyDeclarationPair.getBodyDeclaration().getStartPosition() - 1);
-            System.out.println(bodyDeclarationPair.toString() + " (" + startL + "," + endL + ")"+ " listSize:"+mList.size());
+            System.out.println(bodyDeclarationPair.toString() + " (" + startL + "," + endL + ")" + " listSize:" + mList.size());
             for (ChangeEntity ce : mList) {
                 System.out.println(ce.toString());
             }
@@ -32,20 +31,20 @@ public class ChangeEntityPrinter {
         }
     }
 
-    public static void printContainerEntityNatural(LayeredChangeEntityContainer container,CompilationUnit cu) {
+    public static void printContainerEntityNatural(LayeredChangeEntityContainer container, CompilationUnit cu) {
         System.out.println("\nMember key size:" + container.getLayerMap().size());
         System.out.println("Change entity size:" + container.getChangeEntitySize());
         List<BodyDeclarationPair> keyList = container.getKeyIndex();
-        for(BodyDeclarationPair bodyDeclarationPair : keyList){
+        for (BodyDeclarationPair bodyDeclarationPair : keyList) {
             List<ChangeEntity> mList = container.getLayerMap().get(bodyDeclarationPair);
             if (mList == null || mList.size() == 0) {
                 continue;
             }
             int startL = cu.getLineNumber(bodyDeclarationPair.getBodyDeclaration().getStartPosition());
             int endL = cu.getLineNumber(bodyDeclarationPair.getBodyDeclaration().getLength() + bodyDeclarationPair.getBodyDeclaration().getStartPosition() - 1);
-            System.out.println(bodyDeclarationPair.toString() + " (" + startL + "," + endL + ")" + " listSize:"+mList.size());
+            System.out.println(bodyDeclarationPair.toString() + " (" + startL + "," + endL + ")" + " listSize:" + mList.size());
             for (ChangeEntity ce : mList) {
-                System.out.println(ce.toString2() +" "+ ce.getLineRange());
+                System.out.println(ce.toString2() + " " + ce.getLineRange());
             }
             System.out.println("");
         }

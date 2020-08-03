@@ -10,12 +10,13 @@ import java.util.Deque;
 
 /**
  * Created by huangkaifeng on 2018/1/23.
- *
  */
-public class JavaParserVisitor  extends ASTVisitor {
+public class JavaParserVisitor extends ASTVisitor {
 
 
+    protected TreeContext context = new TreeContext();
     private int treeType;
+    private Deque<ITree> trees = new ArrayDeque<>();
 
     public JavaParserVisitor(int treeType) {
         super();
@@ -48,7 +49,6 @@ public class JavaParserVisitor  extends ASTVisitor {
         return "";
     }
 
-
     @Override
     public boolean visit(TagElement e) {
         return true;
@@ -60,7 +60,7 @@ public class JavaParserVisitor  extends ASTVisitor {
     }
 
     @Override
-    public boolean visit(MethodInvocation methodInvocation){
+    public boolean visit(MethodInvocation methodInvocation) {
 //        System.out.println(methodInvocation.toString());
 //        if(methodInvocation.getName()!=null)
 //            System.out.println("Method Name:"+methodInvocation.getName().toString());
@@ -72,16 +72,10 @@ public class JavaParserVisitor  extends ASTVisitor {
         return true;
     }
 
-
     @Override
     public void postVisit(ASTNode n) {
         popNode();
     }
-
-    protected TreeContext context = new TreeContext();
-
-    private Deque<ITree> trees = new ArrayDeque<>();
-
 
     public TreeContext getTreeContext() {
         return context;

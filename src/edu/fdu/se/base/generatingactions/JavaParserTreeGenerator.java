@@ -14,7 +14,6 @@ import java.util.Map;
 
 /**
  * Created by huangkaifeng on 2018/1/23.
- *
  */
 public class JavaParserTreeGenerator {
     public TreeContext srcTC;
@@ -24,10 +23,6 @@ public class JavaParserTreeGenerator {
     public MappingStore mapping;
 
     private String fileName;
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName.substring(0,fileName.length()-5);
-    }
 
     public JavaParserTreeGenerator(File prevFile, File currFile) {
         File oldFile = prevFile;
@@ -46,9 +41,9 @@ public class JavaParserTreeGenerator {
     }
 
     public JavaParserTreeGenerator(CompilationUnit prev, CompilationUnit curr) {
-        srcTC = generateFromCompilationUnit(prev,ChangeEntityDesc.StageITreeType.SRC_TREE_NODE);
+        srcTC = generateFromCompilationUnit(prev, ChangeEntityDesc.StageITreeType.SRC_TREE_NODE);
         src = srcTC.getRoot();
-        dstTC = generateFromCompilationUnit(curr,ChangeEntityDesc.StageITreeType.DST_TREE_NODE);
+        dstTC = generateFromCompilationUnit(curr, ChangeEntityDesc.StageITreeType.DST_TREE_NODE);
         dst = dstTC.getRoot();
         Matcher m = Matchers.getInstance().getMatcher(src, dst);
         m.match();
@@ -67,6 +62,24 @@ public class JavaParserTreeGenerator {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static char[] readerToCharArray(Reader r) throws IOException {
+        StringBuilder fileData = new StringBuilder();
+        try (BufferedReader br = new BufferedReader(r)) {
+            char[] buf = new char[10];
+            int numRead = 0;
+            while ((numRead = br.read(buf)) != -1) {
+                String readData = String.valueOf(buf, 0, numRead);
+                fileData.append(readData);
+                buf = new char[1024];
+            }
+        }
+        return fileData.toString().toCharArray();
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName.substring(0, fileName.length() - 5);
     }
 
     public TreeContext generate(Reader r) throws IOException {
@@ -91,20 +104,6 @@ public class JavaParserTreeGenerator {
         return visitor.getTreeContext();
     }
 
-    private static char[] readerToCharArray(Reader r) throws IOException {
-        StringBuilder fileData = new StringBuilder();
-        try (BufferedReader br = new BufferedReader(r)) {
-            char[] buf = new char[10];
-            int numRead = 0;
-            while ((numRead = br.read(buf)) != -1) {
-                String readData = String.valueOf(buf, 0, numRead);
-                fileData.append(readData);
-                buf = new char[1024];
-            }
-        }
-        return fileData.toString().toCharArray();
-    }
-
     public TreeContext generateFromReader(Reader r) throws IOException {
         TreeContext ctx = generate(r);
         ctx.validate();
@@ -119,7 +118,7 @@ public class JavaParserTreeGenerator {
         return generateFromReader(new StringReader(content));
     }
 
-    public TreeContext generateFromCompilationUnit(CompilationUnit cu,int srcOrDst) {
+    public TreeContext generateFromCompilationUnit(CompilationUnit cu, int srcOrDst) {
         JavaParserVisitor visitor = new JavaParserVisitor(srcOrDst);
         visitor.getTreeContext().setCu(cu);
         ASTNode astNode = cu;
@@ -141,33 +140,32 @@ public class JavaParserTreeGenerator {
     //JdtMethodCall temp = getJdkMethodCall((MethodInvocation)((Tree)node).getAstNode());
 
 
-
-
-    public JdtMethodCall getJdkMethodCall(MethodInvocation md){
+    public JdtMethodCall getJdkMethodCall(MethodInvocation md) {
         IMethodBinding mb = md.resolveMethodBinding();
         //如果binding有效，且通过对象或类名调用
-        if(mb!=null&&md.getExpression()!=null){
+        if (mb != null && md.getExpression() != null) {
             JdtMethodCall jdtBinding = new JdtMethodCall(md.getExpression().resolveTypeBinding().getQualifiedName(),
                     mb.getName(), mb.getReturnType().getQualifiedName(), mb.getDeclaringClass().getQualifiedName());
             ITypeBinding[] list = mb.getParameterTypes();
-            for(int i = 0; i < list.length; i++){
+            for (int i = 0; i < list.length; i++) {
                 jdtBinding.addParameter(list[i].getQualifiedName());
             }
 
             jdtBinding.setJdk(isJdk(md.getExpression().resolveTypeBinding().getQualifiedName()));
             return jdtBinding;
-        }else{
-            if(mb==null)
-                System.out.println(md.getName()+" is null.");
-            if(md.getExpression()==null)
-                System.out.println(md.getName()+" is local method.");
+        } else {
+            if (mb == null)
+                System.out.println(md.getName() + " is null.");
+            if (md.getExpression() == null)
+                System.out.println(md.getName() + " is local method.");
             return null;
         }
     }
-    private boolean isJdk(String s){
+
+    private boolean isJdk(String s) {
         try {
             String temp = s;
-            if(temp.contains("<")){
+            if (temp.contains("<")) {
                 temp = temp.split("<")[0];
             }
             Class.forName(temp);

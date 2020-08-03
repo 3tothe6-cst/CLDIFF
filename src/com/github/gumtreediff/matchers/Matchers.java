@@ -28,16 +28,16 @@ public class Matchers extends Registry<String, Matcher, Register> {
     private static Matchers registry;
     private Factory<? extends Matcher> defaultMatcherFactory; // FIXME shouln't be removed and use priority instead ?
 
-    public static Matchers getInstance() {
-        if (registry == null)
-            registry = new Matchers();
-        return registry;
-    }
-
     private Matchers() {
         install(CompositeMatchers.ClassicGumtree.class);
         install(CompositeMatchers.ChangeDistiller.class);
         install(CompositeMatchers.XyMatcher.class);
+    }
+
+    public static Matchers getInstance() {
+        if (registry == null)
+            registry = new Matchers();
+        return registry;
     }
 
     private void install(Class<? extends Matcher> clazz) {

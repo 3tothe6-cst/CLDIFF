@@ -28,38 +28,6 @@ public abstract class Option {
     final String key;
     final int paramCount;
 
-    public interface Context {
-        Option[] values();
-
-        static Option[] addValue(Option[] options, Option... newOptions)  {
-            Option[] nopts = new Option[options.length + newOptions.length];
-            System.arraycopy(options, 0, nopts, 0, options.length);
-            System.arraycopy(newOptions, 0, nopts, options.length, newOptions.length);
-            return nopts;
-        }
-    }
-
-    public static class OptionException extends RuntimeException {
-        /**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-		final Context context;
-
-        public OptionException(String msg, Context ctx) {
-            super(msg);
-            context = ctx;
-        }
-
-        public OptionException(String msg) {
-            this(msg, null);
-        }
-
-        public Context getContext() {
-            return context;
-        }
-    }
-
     public Option(String key, String text) {
         this(key, text, 0);
     }
@@ -106,11 +74,17 @@ public abstract class Option {
         return rest;
     }
 
+    public static void displayOptions(PrintStream out, Context ctx) {
+        for (Option opt : ctx.values()) {
+            out.println(opt.formatHelpText());
+        }
+    }
+
     protected boolean hasOption(String arg) {
         return key.equals(arg);
     }
 
-    protected abstract  void process(String name, String[] args);
+    protected abstract void process(String name, String[] args);
 
     public String formatHelpText() {
         return String.format("%s%s\t%s", key, (paramCount > 0 ? " <" + paramCount + ">" : ""), description);
@@ -120,9 +94,35 @@ public abstract class Option {
         return key;
     }
 
-    public static void displayOptions(PrintStream out, Context ctx) {
-        for (Option opt : ctx.values()) {
-            out.println(opt.formatHelpText());
+    public interface Context {
+        static Option[] addValue(Option[] options, Option... newOptions) {
+            Option[] nopts = new Option[options.length + newOptions.length];
+            System.arraycopy(options, 0, nopts, 0, options.length);
+            System.arraycopy(newOptions, 0, nopts, options.length, newOptions.length);
+            return nopts;
+        }
+
+        Option[] values();
+    }
+
+    public static class OptionException extends RuntimeException {
+        /**
+         *
+         */
+        private static final long serialVersionUID = 1L;
+        final Context context;
+
+        public OptionException(String msg, Context ctx) {
+            super(msg);
+            context = ctx;
+        }
+
+        public OptionException(String msg) {
+            this(msg, null);
+        }
+
+        public Context getContext() {
+            return context;
         }
     }
 
@@ -152,7 +152,8 @@ public abstract class Option {
         }
 
         @Override
-        protected void process(String name, String[] args) {}
+        protected void process(String name, String[] args) {
+        }
 
         @Override
         public String formatHelpText() {

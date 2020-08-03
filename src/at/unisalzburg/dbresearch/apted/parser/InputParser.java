@@ -24,7 +24,6 @@
 package at.unisalzburg.dbresearch.apted.parser;
 
 import at.unisalzburg.dbresearch.apted.node.Node;
-import com.github.gumtreediff.tree.Tree;
 
 /**
  * This interface specifies methods (currently only one) that must be
@@ -34,13 +33,13 @@ import com.github.gumtreediff.tree.Tree;
  */
 public interface InputParser<D> {
 
-  /**
-   * Converst the input tree passed as string (e.g., bracket notation, XML)
-   * into the tree structure.
-   *
-   * @param s input tree as string.
-   * @return tree structure.
-   */
-  public Node<D> fromString(String s);
+    /**
+     * Converst the input tree passed as string (e.g., bracket notation, XML)
+     * into the tree structure.
+     *
+     * @param s input tree as string.
+     * @return tree structure.
+     */
+    public Node<D> fromString(String s);
 
 }

@@ -1,9 +1,10 @@
 package edu.fdu.se.base.miningactions.Body;
 
-import com.github.gumtreediff.actions.model.*;
+import com.github.gumtreediff.actions.model.Action;
+import com.github.gumtreediff.actions.model.Insert;
+import com.github.gumtreediff.actions.model.Move;
 import com.github.gumtreediff.tree.ITree;
 import com.github.gumtreediff.tree.Tree;
-
 import edu.fdu.se.base.miningactions.bean.MiningActionData;
 import edu.fdu.se.base.miningactions.statement.*;
 import edu.fdu.se.base.miningactions.util.BasicTreeTraversal;
@@ -32,14 +33,14 @@ public class MatchNonStatement {
 
         ChangeEntity changeEntity;
         changeEntity = fp.getEntityByNode(queryFather);
-        if(changeEntity!=null &&changeEntity.clusteredActionBean.curAction instanceof Move){
+        if (changeEntity != null && changeEntity.clusteredActionBean.curAction instanceof Move) {
             changeEntity = null;
         }
         if (changeEntity == null || (a instanceof Move)) {
             if (a instanceof Insert) {
-                matchNodeNewEntity(fp, a, queryFather,treeType, dstFather);
+                matchNodeNewEntity(fp, a, queryFather, treeType, dstFather);
             } else {
-                matchNodeNewEntity(fp, a, queryFather,treeType, srcFather);
+                matchNodeNewEntity(fp, a, queryFather, treeType, srcFather);
             }
         } else {
             if (a instanceof Insert) {
@@ -51,74 +52,74 @@ public class MatchNonStatement {
     }
 
 
-    public static void matchNodeNewEntity(MiningActionData fp, Action a, Tree queryFather,int treeType, Tree traverseFather) {
+    public static void matchNodeNewEntity(MiningActionData fp, Action a, Tree queryFather, int treeType, Tree traverseFather) {
         int nodeType = traverseFather.getAstNode().getNodeType();
         switch (nodeType) {
             case ASTNode.TYPE_DECLARATION:
-                MatchClass.matchClassSignatureNewEntity(fp, a, queryFather,treeType, traverseFather);
+                MatchClass.matchClassSignatureNewEntity(fp, a, queryFather, treeType, traverseFather);
                 break;
             case ASTNode.FIELD_DECLARATION:
-                MatchFieldDeclaration.matchFieldDeclarationChangeNewEntity(fp, a, queryFather,treeType, traverseFather);
+                MatchFieldDeclaration.matchFieldDeclarationChangeNewEntity(fp, a, queryFather, treeType, traverseFather);
                 break;
             case ASTNode.INITIALIZER:
                 break;
             case ASTNode.METHOD_DECLARATION:
                 if (((Tree) a.getNode()).getAstNode().getNodeType() != ASTNode.BLOCK) {
-                    MatchMethod.matchMethodSignatureChangeNewEntity(fp, a, queryFather,treeType, traverseFather);
+                    MatchMethod.matchMethodSignatureChangeNewEntity(fp, a, queryFather, treeType, traverseFather);
                 }
                 break;
             case ASTNode.ENUM_DECLARATION:
             case ASTNode.ENUM_CONSTANT_DECLARATION:
-                MatchEnum.matchEnumDeclarationNewEntity(fp,a,queryFather,treeType,traverseFather);
+                MatchEnum.matchEnumDeclarationNewEntity(fp, a, queryFather, treeType, traverseFather);
                 break;
             case ASTNode.IF_STATEMENT:
-                MatchIfElse.matchIfPredicateChangeNewEntity(fp, a, queryFather,treeType, traverseFather);
+                MatchIfElse.matchIfPredicateChangeNewEntity(fp, a, queryFather, treeType, traverseFather);
                 break;
             case ASTNode.FOR_STATEMENT:
-                MatchForStatement.matchForConditionChangeNewEntity(fp, a, queryFather,treeType, traverseFather);
+                MatchForStatement.matchForConditionChangeNewEntity(fp, a, queryFather, treeType, traverseFather);
                 break;
             case ASTNode.WHILE_STATEMENT:
-                MatchWhileStatement.matchWhileConditionChangeNewEntity(fp, a, queryFather,treeType, traverseFather);
+                MatchWhileStatement.matchWhileConditionChangeNewEntity(fp, a, queryFather, treeType, traverseFather);
                 break;
             case ASTNode.DO_STATEMENT:
-                MatchWhileStatement.matchDoConditionChangeNewEntity(fp, a, queryFather,treeType, traverseFather);
+                MatchWhileStatement.matchDoConditionChangeNewEntity(fp, a, queryFather, treeType, traverseFather);
                 break;
             case ASTNode.ENHANCED_FOR_STATEMENT:
-                MatchForStatement.matchEnhancedForConditionChangeNewEntity(fp, a, queryFather,treeType, traverseFather);
+                MatchForStatement.matchEnhancedForConditionChangeNewEntity(fp, a, queryFather, treeType, traverseFather);
                 break;
             case ASTNode.VARIABLE_DECLARATION_STATEMENT:
-                MatchVariableDeclarationExpression.matchVariableDeclarationNewEntity(fp, a, queryFather,treeType, traverseFather);
+                MatchVariableDeclarationExpression.matchVariableDeclarationNewEntity(fp, a, queryFather, treeType, traverseFather);
                 break;
             case ASTNode.EXPRESSION_STATEMENT:
-                MatchExpressionStatement.matchExpressionChangeNewEntity(fp, a, queryFather,treeType, traverseFather);
+                MatchExpressionStatement.matchExpressionChangeNewEntity(fp, a, queryFather, treeType, traverseFather);
                 break;
             case ASTNode.RETURN_STATEMENT:
-                MatchReturnStatement.matchReturnChangeNewEntity(fp, a, queryFather,treeType, traverseFather);
+                MatchReturnStatement.matchReturnChangeNewEntity(fp, a, queryFather, treeType, traverseFather);
                 break;
             case ASTNode.ASSERT_STATEMENT:
-                MatchAssert.matchAssertChangeNewEntity(fp, a, queryFather,treeType, traverseFather);
+                MatchAssert.matchAssertChangeNewEntity(fp, a, queryFather, treeType, traverseFather);
                 break;
             case ASTNode.CATCH_CLAUSE:
-                MatchTry.matchCatchChangeNewEntity(fp, a, queryFather,treeType, traverseFather);
+                MatchTry.matchCatchChangeNewEntity(fp, a, queryFather, treeType, traverseFather);
                 break;
             case ASTNode.SYNCHRONIZED_STATEMENT:
-                MatchSynchronized.matchSynchronizedChangeNewEntity(fp, a, queryFather,treeType, traverseFather);
+                MatchSynchronized.matchSynchronizedChangeNewEntity(fp, a, queryFather, treeType, traverseFather);
                 break;
             case ASTNode.SWITCH_STATEMENT:
-                MatchSwitch.matchSwitchNewEntity(fp, a, queryFather,treeType, traverseFather);
+                MatchSwitch.matchSwitchNewEntity(fp, a, queryFather, treeType, traverseFather);
                 break;
             case ASTNode.SWITCH_CASE:
-                MatchSwitch.matchSwitchCaseNewEntity(fp, a, queryFather,treeType, traverseFather);
+                MatchSwitch.matchSwitchCaseNewEntity(fp, a, queryFather, treeType, traverseFather);
                 break;
             case ASTNode.SUPER_CONSTRUCTOR_INVOCATION:
 //                System.err.println("aaa-----");
-                MatchConstructorInvocation.matchSuperConstructorInvocationNewEntity(fp,a,queryFather,treeType,traverseFather);
+                MatchConstructorInvocation.matchSuperConstructorInvocationNewEntity(fp, a, queryFather, treeType, traverseFather);
                 break;
             case ASTNode.CONSTRUCTOR_INVOCATION:
-                MatchConstructorInvocation.matchConstructorInvocationNewEntity(fp,a,queryFather,treeType,traverseFather);
+                MatchConstructorInvocation.matchConstructorInvocationNewEntity(fp, a, queryFather, treeType, traverseFather);
                 break;
             case ASTNode.LABELED_STATEMENT:
-                MatchLabeledStatement.matchLabeledStatementNewEntity(fp,a,queryFather,treeType,traverseFather);
+                MatchLabeledStatement.matchLabeledStatementNewEntity(fp, a, queryFather, treeType, traverseFather);
                 break;
             case ASTNode.THROW_STATEMENT:
                 MatchTry.matchThrowStatementNewEntity(fp, a, queryFather, treeType, traverseFather);
@@ -147,7 +148,7 @@ public class MatchNonStatement {
                 break;
             case ASTNode.ENUM_DECLARATION:
             case ASTNode.ENUM_CONSTANT_DECLARATION:
-                MatchEnum.matchEnumDeclarationCurrEntity(fp,a,changeEntity,traverseFather);
+                MatchEnum.matchEnumDeclarationCurrEntity(fp, a, changeEntity, traverseFather);
                 break;
             case ASTNode.IF_STATEMENT:
                 MatchIfElse.matchIfPredicateChangeCurrEntity(fp, a, changeEntity, traverseFather);
@@ -190,13 +191,13 @@ public class MatchNonStatement {
                 MatchSwitch.matchSwitchCaseCurrEntity(fp, a, changeEntity, traverseFather);
                 break;
             case ASTNode.SUPER_CONSTRUCTOR_INVOCATION:
-                MatchConstructorInvocation.matchSuperConstructorInvocationCurrEntity(fp,a,changeEntity,traverseFather);
+                MatchConstructorInvocation.matchSuperConstructorInvocationCurrEntity(fp, a, changeEntity, traverseFather);
                 break;
             case ASTNode.CONSTRUCTOR_INVOCATION:
-                MatchConstructorInvocation.matchConstructorInvocationCurrEntity(fp,a,changeEntity,traverseFather);
+                MatchConstructorInvocation.matchConstructorInvocationCurrEntity(fp, a, changeEntity, traverseFather);
                 break;
             case ASTNode.LABELED_STATEMENT:
-                MatchLabeledStatement.matchLabeledStatementCurrEntity(fp,a,changeEntity,traverseFather);
+                MatchLabeledStatement.matchLabeledStatementCurrEntity(fp, a, changeEntity, traverseFather);
                 break;
             case ASTNode.THROW_STATEMENT:
                 MatchTry.matchThrowStatementCurrEntity(fp, a, changeEntity, traverseFather);

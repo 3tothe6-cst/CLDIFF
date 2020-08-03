@@ -1,11 +1,13 @@
 package edu.fdu.se.base.miningactions;
 
-import com.github.gumtreediff.actions.model.*;
+import com.github.gumtreediff.actions.model.Delete;
+import com.github.gumtreediff.actions.model.Insert;
+import com.github.gumtreediff.actions.model.Move;
+import com.github.gumtreediff.actions.model.Update;
 import edu.fdu.se.base.miningactions.bean.MiningActionData;
 
 /**
  * Created by huangkaifeng on 2018/1/13.
- *
  */
 public class ActionAggregationGenerator {
 
@@ -19,19 +21,6 @@ public class ActionAggregationGenerator {
         new ClusterDownUp(Delete.class, fpd).doClusterDownUp();
         new ClusterDownUp(Update.class, fpd).doClusterDownUp();
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

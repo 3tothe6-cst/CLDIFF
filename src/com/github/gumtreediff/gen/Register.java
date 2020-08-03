@@ -29,6 +29,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 public @interface Register {
     String id();
-    String[] accept() default { };
+
+    String[] accept() default {};
+
     int priority() default Registry.Priority.MEDIUM;
 }

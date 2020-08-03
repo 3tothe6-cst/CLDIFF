@@ -21,22 +21,12 @@ import java.util.*;
 
 
 /**
- * Stores all needed information about a single tree in several indeces. 
+ * Stores all needed information about a single tree in several indeces.
  *
  * @author Mateusz Pawlik
  */
 @SuppressWarnings({"rawtypes", "unchecked"})
 public class InfoTree {
-
-    private ITree inputTree;
-
-    private static final byte LEFT = 0;
-    private static final byte RIGHT = 1;
-    private static final byte HEAVY = 2;
-    private static final byte BOTH = 3;
-    //private static final byte REVLEFT = 4;
-    //private static final byte REVRIGHT = 5;
-    //private static final byte REVHEAVY = 6;
 
     // constants for indeces numbers
     public static final byte POST2_SIZE = 0;
@@ -44,6 +34,9 @@ public class InfoTree {
     public static final byte POST2_REV_KR_SUM = 2;
     public static final byte POST2_DESC_SUM = 3; // number of subforests in full decomposition
     public static final byte POST2_PRE = 4;
+    //private static final byte REVLEFT = 4;
+    //private static final byte REVRIGHT = 5;
+    //private static final byte REVHEAVY = 6;
     public static final byte POST2_PARENT = 5;
     public static final byte POST2_LABEL = 6;
     public static final byte KR = 7; // key root nodes (size of this array = leaf count)
@@ -55,13 +48,14 @@ public class InfoTree {
     public static final byte RPOST2_POST = 13; // reversed postorder -> postorder
     public static final byte POST2_STRATEGY = 14; // strategy for Demaine (is there sth on the left/right of the heavy node)
     public static final byte PRE2_POST = 15;
-
+    private static final byte LEFT = 0;
+    private static final byte RIGHT = 1;
+    private static final byte HEAVY = 2;
+    private static final byte BOTH = 3;
     public int[][] info; // an array with all the indeces
-    
-    private LabelDictionary ld; // dictionary with labels - common for two input trees
-
     public boolean[][] nodeType; // store the type of a node: for every node stores three boolean values (L, R, H)
-    
+    private ITree inputTree;
+    private LabelDictionary ld; // dictionary with labels - common for two input trees
     // paths and rel subtrees are inside 2D arrays to be able to get them by paths/relsubtrees[L/R/H][node]
     private int[][] paths;
     private int[][][] relSubtrees;
@@ -72,29 +66,25 @@ public class InfoTree {
     private int krSizesSumTmp = 0; // temporal value of sum of key roots sizes
     private int revkrSizesSumTmp = 0; // temporal value of sum of reversed hey roots sizes
     private int preorderTmp = 0; // temporal value of preorder
-    
+
     // remembers what is the current node's postorder (current in the TED recursion)
     private int currentNode = -1;
-    
+
     // remembers if the trees order was switched during the recursion (in comparison with the order of input trees)
     private boolean switched = false;
-    
+
     // as the names say
     private int leafCount = 0;
     private int treeSize = 0;
 
-    
-    public static void main(String[] args) {
-
-    }
 
     /**
      * Creates an InfoTree object, gathers all information about aInputTree and stores in indexes.
      * aInputTree is not needed any more.
      * Remember to pass the same LabelDictionary object to both trees which are compared.
-     * 
+     *
      * @param aInputTree an LblTree object
-     * @param aLd  a LabelDictionary object
+     * @param aLd        a LabelDictionary object
      */
     public InfoTree(ITree aInputTree, LabelDictionary aLd) {
         this.inputTree = aInputTree;
@@ -104,7 +94,10 @@ public class InfoTree {
         Arrays.fill(info[POST2_MIN_KR], -1);
         Arrays.fill(info[RPOST2_MIN_RKR], -1);
         Arrays.fill(info[POST2_STRATEGY], -1);
-        this.paths = new int[3][treeSize]; Arrays.fill(paths[LEFT], -1); Arrays.fill(paths[RIGHT], -1); Arrays.fill(paths[HEAVY], -1);
+        this.paths = new int[3][treeSize];
+        Arrays.fill(paths[LEFT], -1);
+        Arrays.fill(paths[RIGHT], -1);
+        Arrays.fill(paths[HEAVY], -1);
         this.relSubtrees = new int[3][treeSize][];
         this.nodeType = new boolean[3][treeSize];
         this.ld = aLd;
@@ -113,27 +106,45 @@ public class InfoTree {
         postTraversalProcessing();
     }
 
+    public static void main(String[] args) {
+
+    }
+
+    /**
+     * Transforms a list of Integer objects to an array of primitive int values.
+     *
+     * @param integers
+     * @return
+     */
+    public static int[] toIntArray(List<Integer> integers) {
+        int[] ints = new int[integers.size()];
+        int i = 0;
+        for (Integer n : integers) {
+            ints[i++] = n;
+        }
+        return ints;
+    }
+
     /**
      * Returns the size of the tree.
-     * 
+     *
      * @return
      */
     public int getSize() {
         return treeSize;
     }
-    
+
     public boolean ifNodeOfType(int postorder, int type) {
         return nodeType[type][postorder];
     }
-    
+
     public boolean[] getNodeTypeArray(int type) {
         return nodeType[type];
     }
-    
-        
+
     /**
      * For given infoCode and postorder of a node returns requested information of that node.
-     * 
+     *
      * @param infoCode
      * @param nodesPostorder postorder of a node
      * @return a value of requested information
@@ -142,75 +153,75 @@ public class InfoTree {
         // return info under infoCode and nodesPostorder
         return info[infoCode][nodesPostorder];
     }
-    
+
     /**
      * For given infoCode returns an info array (index array)
-     * 
+     *
      * @param infoCode
      * @return array with requested index
      */
     public int[] getInfoArray(int infoCode) {
         return info[infoCode];
     }
-    
+
     /**
-     * Returns relevant subtrees for given node. Assuming that child v of given node belongs to given path, 
+     * Returns relevant subtrees for given node. Assuming that child v of given node belongs to given path,
      * all children of given node are returned but node v.
-     * 
+     *
      * @param pathType
      * @param nodePostorder postorder of a node
-     * @return  an array with relevant subtrees of a given node
+     * @return an array with relevant subtrees of a given node
      */
     public int[] getNodeRelSubtrees(int pathType, int nodePostorder) {
         return relSubtrees[pathType][nodePostorder];
     }
-    
+
     /**
      * Returns an array representation of a given path's type.
-     * 
+     *
      * @param pathType
      * @return an array with a requested path
      */
     public int[] getPath(int pathType) {
         return paths[pathType];
     }
-    
+
     /**
      * Returns the postorder of current root node.
-     * 
-     * @return 
+     *
+     * @return
      */
     public int getCurrentNode() {
         return currentNode;
     }
-    
+
     /**
      * Sets postorder of the current node in the recursion.
-     * 
-     * @param postorder 
+     *
+     * @param postorder
      */
     public void setCurrentNode(int postorder) {
         currentNode = postorder;
     }
-    
+
     /**
      * Gathers information of a given tree in corresponding arrays.
-     * 
+     * <p>
      * At this point the given tree is traversed once, but there is a loop over current nodes children
      * to assign them their parents.
-     * 
+     *
      * @param aT
      * @param postorder
-     * @return 
+     * @return
      */
-	private int gatherInfo(ITree aT, int postorder) {
+    private int gatherInfo(ITree aT, int postorder) {
         int currentSize = 0;
         int childrenCount = 0;
         int descSizes = 0;
         int krSizesSum = 0;
         int revkrSizesSum = 0;
         int preorder = preorderTmp;
-        
+
         int heavyChild = -1;
         int leftChild = -1;
         int rightChild = -1;
@@ -220,21 +231,21 @@ public class InfoTree {
         int oldHeavyChild = -1;
 
         ArrayList heavyRelSubtreesTmp = new ArrayList();
-		ArrayList leftRelSubtreesTmp = new ArrayList();
+        ArrayList leftRelSubtreesTmp = new ArrayList();
         ArrayList rightRelSubtreesTmp = new ArrayList();
-        
+
         ArrayList<Integer> childrenPostorders = new ArrayList<Integer>();
 
         preorderTmp++;
 
         // enumerate over children of current node
-        for (Enumeration<?> e = Collections.enumeration(aT.getChildren()); e.hasMoreElements();) {
+        for (Enumeration<?> e = Collections.enumeration(aT.getChildren()); e.hasMoreElements(); ) {
             childrenCount++;
 
             postorder = gatherInfo((ITree) e.nextElement(), postorder);
 
             childrenPostorders.add(postorder);
-            
+
             currentPostorder = postorder;
 
             // heavy path
@@ -244,7 +255,7 @@ public class InfoTree {
                 oldHeavyChild = heavyChild;
                 heavyChild = currentPostorder;
             } else heavyRelSubtreesTmp.add(currentPostorder);
-            
+
             if (oldHeavyChild != -1) {
                 heavyRelSubtreesTmp.add(oldHeavyChild);
                 oldHeavyChild = -1;
@@ -286,20 +297,20 @@ public class InfoTree {
         // POST2_LABEL
         //labels[rootNumber] = ld.store(aT.getLabel());
         info[POST2_LABEL][postorder] = ld.store(aT.getLabel());
-        
+
         // POST2_PARENT
         for (Integer i : childrenPostorders) info[POST2_PARENT][i] = postorder;
-     
+
         // POST2_SIZE
         info[POST2_SIZE][postorder] = currentSize + 1;
         if (currentSize == 0) leafCount++;
-        
+
         // POST2_PRE
         info[POST2_PRE][postorder] = preorder;
-        
+
         // PRE2_POST
         info[PRE2_POST][preorder] = postorder;
-        
+
         // RPOST2_POST
         info[RPOST2_POST][treeSize - 1 - preorder] = postorder;
 
@@ -318,9 +329,8 @@ public class InfoTree {
         } else {
             info[POST2_STRATEGY][postorder] = RIGHT;
         }
-        
-        
-        
+
+
         // left path
         if (leftChild != -1) {
             paths[LEFT][postorder] = leftChild;
@@ -342,7 +352,7 @@ public class InfoTree {
 
         return postorder;
     }
-    
+
     /**
      * Gathers information, that couldn't be collected while tree traversal.
      */
@@ -354,7 +364,7 @@ public class InfoTree {
         int nc = nc1;
         int lc = leafCount;
         int i = 0;
-        
+
         // compute left-most leaf descendants
         // go along the left-most path, remember each node and assign to it the path's leaf
         // compute right-most leaf descendants (in reversed postorder)
@@ -370,7 +380,7 @@ public class InfoTree {
                 info[RPOST2_RLD][treeSize - 1 - info[POST2_PRE][i]] = info[RPOST2_RLD][treeSize - 1 - info[POST2_PRE][paths[RIGHT][i]]];
             }
         }
-                
+
         // compute key root nodes
         // compute reversed key root nodes (in revrsed postorder)
         boolean[] visited = new boolean[nc];
@@ -390,7 +400,7 @@ public class InfoTree {
                 kR--;
             }
         }
-        
+
         // compute minimal key roots for every subtree
         // compute minimal reversed  key roots for every subtree (in reversed postorder)
         int parent = -1;
@@ -411,26 +421,12 @@ public class InfoTree {
             }
         }
     }
-    
-    /**
-     * Transforms a list of Integer objects to an array of primitive int values.
-     * @param integers
-     * @return 
-     */
-    public static int[] toIntArray(List<Integer> integers) {
-        int[] ints = new int[integers.size()];
-        int i = 0;
-        for (Integer n : integers) {
-            ints[i++] = n;
-        }
-        return ints;
+
+    public boolean isSwitched() {
+        return switched;
     }
 
     public void setSwitched(boolean value) {
         switched = value;
-    }
-    
-    public boolean isSwitched() {
-        return switched;
     }
 }

@@ -23,7 +23,6 @@ package com.github.gumtreediff.matchers.optimal.zs;
 import com.github.gumtreediff.matchers.MappingStore;
 import com.github.gumtreediff.matchers.Matcher;
 import com.github.gumtreediff.tree.ITree;
-
 import org.simmetrics.StringMetrics;
 
 import java.util.Arrays;
@@ -39,18 +38,18 @@ public class ZsMatcher extends Matcher {
     private double[][] treeDist;
     private double[][] forestDist;
 
+    public ZsMatcher(ITree src, ITree dst, MappingStore store) {
+        super(src, dst, store);
+        this.src = new ZsTree(src);
+        this.dst = new ZsTree(dst);
+    }
+
     private static ITree getFirstLeaf(ITree t) {
         ITree current = t;
         while (!current.isLeaf())
             current = current.getChild(0);
 
         return current;
-    }
-
-    public ZsMatcher(ITree src, ITree dst, MappingStore store) {
-        super(src, dst, store);
-        this.src = new ZsTree(src);
-        this.dst = new ZsTree(dst);
     }
 
     private double[][] computeTreeDist() {
@@ -71,7 +70,7 @@ public class ZsMatcher extends Matcher {
     private void forestDist(int i, int j) {
         forestDist[src.lld(i) - 1][dst.lld(j) - 1] = 0;
         for (int di = src.lld(i); di <= i; di++) {
-            double costDel =  getDeletionCost(src.tree(di));
+            double costDel = getDeletionCost(src.tree(di));
             forestDist[di][dst.lld(j) - 1] = forestDist[di - 1][dst.lld(j) - 1] + costDel;
             for (int dj = dst.lld(j); dj <= j; dj++) {
                 double costIns = getInsertionCost(dst.tree(dj));
@@ -80,12 +79,12 @@ public class ZsMatcher extends Matcher {
                 if ((src.lld(di) == src.lld(i) && (dst.lld(dj) == dst.lld(j)))) {
                     double costUpd = getUpdateCost(src.tree(di), dst.tree(dj));
                     forestDist[di][dj] = Math.min(Math.min(forestDist[di - 1][dj] + costDel,
-                                    forestDist[di][dj - 1] + costIns),
+                            forestDist[di][dj - 1] + costIns),
                             forestDist[di - 1][dj - 1] + costUpd);
                     treeDist[di][dj] = forestDist[di][dj];
                 } else {
                     forestDist[di][dj] = Math.min(Math.min(forestDist[di - 1][dj] + costDel,
-                                    forestDist[di][dj - 1] + costIns),
+                            forestDist[di][dj - 1] + costIns),
                             forestDist[src.lld(di) - 1][dst.lld(dj) - 1]
                                     + treeDist[di][dj]);
                 }
@@ -102,7 +101,7 @@ public class ZsMatcher extends Matcher {
         LinkedList<int[]> treePairs = new LinkedList<int[]>();
 
         // push the pair of trees (ted1,ted2) to stack
-        treePairs.push(new int[] { src.nodeCount, dst.nodeCount });
+        treePairs.push(new int[]{src.nodeCount, dst.nodeCount});
 
         while (!treePairs.isEmpty()) {
             int[] treePair = treePairs.pop();
@@ -147,7 +146,7 @@ public class ZsMatcher extends Matcher {
                         col--;
                     } else {
                         // pop subtree pair
-                        treePairs.push(new int[] { row, col });
+                        treePairs.push(new int[]{row, col});
                         // continue with forest to the left of the popped
                         // subtree pair
 
@@ -199,11 +198,11 @@ public class ZsMatcher extends Matcher {
             this.labels = new ITree[start + nodeCount];
 
             int idx = 1;
-            Map<ITree,Integer> tmpData = new HashMap<>();
-            for (ITree n: t.postOrder()) {
+            Map<ITree, Integer> tmpData = new HashMap<>();
+            for (ITree n : t.postOrder()) {
                 tmpData.put(n, idx);
                 this.setITree(idx, n);
-                this.setLld(idx,  tmpData.get(ZsMatcher.getFirstLeaf(n)));
+                this.setLld(idx, tmpData.get(ZsMatcher.getFirstLeaf(n)));
                 if (n.isLeaf())
                     leafCount++;
                 idx++;
@@ -225,7 +224,7 @@ public class ZsMatcher extends Matcher {
         }
 
         @SuppressWarnings("unused")
-		public boolean isLeaf(int i) {
+        public boolean isLeaf(int i) {
             return this.lld(i) == i;
         }
 

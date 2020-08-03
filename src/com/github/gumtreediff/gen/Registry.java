@@ -23,7 +23,10 @@ package com.github.gumtreediff.gen;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Set;
+import java.util.TreeSet;
 
 public abstract class Registry<K, C, A> {
 
@@ -33,14 +36,6 @@ public abstract class Registry<K, C, A> {
             cmp = o1.id.compareToIgnoreCase(o2.id); // FIXME or not ... is id a good unique stuff
         return cmp;
     });
-
-    public class Priority {
-        public static final int MAXIMUM = 0;
-        public static final int HIGH = 25;
-        public static final int MEDIUM = 50;
-        public static final int LOW = 75;
-        public static final int MINIMUM = 100;
-    }
 
     public C get(K key, Object... args) {
         Factory<? extends C> factory = getFactory(key);
@@ -64,7 +59,7 @@ public abstract class Registry<K, C, A> {
     }
 
     protected Entry findById(String id) {
-        for (Entry e: entries)
+        for (Entry e : entries)
             if (e.id.equals(id))
                 return e;
         return null;
@@ -78,14 +73,14 @@ public abstract class Registry<K, C, A> {
     protected abstract Entry newEntry(Class<? extends C> clazz, A annotation);
 
     protected Entry findEntry(K key) {
-        for (Entry e: entries)
+        for (Entry e : entries)
             if (e.handle(key))
                 return e;
         return null;
     }
 
     public Entry findByClass(Class<? extends C> aClass) {
-        for (Entry e: entries)
+        for (Entry e : entries)
             if (e.clazz.equals(aClass))
                 return e;
         return null;
@@ -93,6 +88,37 @@ public abstract class Registry<K, C, A> {
 
     public Set<Entry> getEntries() {
         return Collections.unmodifiableSet(entries);
+    }
+
+    protected Factory<? extends C> defaultFactory(Class<? extends C> clazz, Class... signature) {
+        try {
+            Constructor<? extends C> ctor = clazz.getConstructor(signature);
+            return (args) -> ctor.newInstance(args);
+        } catch (NoSuchMethodException e) {
+            System.out.println(Arrays.toString(clazz.getConstructors()));
+            throw new RuntimeException(String.format("This is a static bug. Constructor %s(%s) not found",
+                    clazz.getName(), Arrays.toString(signature)), e);
+        }
+    }
+
+    public interface Factory<C> {
+        C newInstance(Object[] args) throws IllegalAccessException, InvocationTargetException, InstantiationException;
+
+        default C instantiate(Object[] args) {
+            try {
+                return newInstance(args);
+            } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
+                return null;
+            }
+        }
+    }
+
+    public class Priority {
+        public static final int MAXIMUM = 0;
+        public static final int HIGH = 25;
+        public static final int MEDIUM = 50;
+        public static final int LOW = 75;
+        public static final int MINIMUM = 100;
     }
 
     public abstract class Entry {
@@ -121,29 +147,6 @@ public abstract class Registry<K, C, A> {
         @Override
         public String toString() {
             return id;
-        }
-    }
-
-    protected Factory<? extends C> defaultFactory(Class<? extends C> clazz, Class... signature) {
-        try {
-            Constructor<? extends C> ctor = clazz.getConstructor(signature);
-            return (args) -> ctor.newInstance(args);
-        } catch (NoSuchMethodException e) {
-            System.out.println(Arrays.toString(clazz.getConstructors()));
-            throw new RuntimeException(String.format("This is a static bug. Constructor %s(%s) not found",
-                    clazz.getName(), Arrays.toString(signature)), e);
-        }
-    }
-
-    public interface Factory<C> {
-        C newInstance(Object[] args) throws IllegalAccessException, InvocationTargetException, InstantiationException;
-
-        default C instantiate(Object[] args) {
-            try {
-                return newInstance(args);
-            } catch (IllegalAccessException | InvocationTargetException | InstantiationException e) {
-                return null;
-            }
         }
     }
 }

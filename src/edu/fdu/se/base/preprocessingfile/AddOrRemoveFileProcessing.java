@@ -8,16 +8,16 @@ import edu.fdu.se.base.miningchangeentity.base.ChangeEntity;
 import edu.fdu.se.base.miningchangeentity.base.ChangeEntityDesc;
 import edu.fdu.se.base.miningchangeentity.member.ClassChangeEntity;
 import edu.fdu.se.base.preprocessingfile.data.BodyDeclarationPair;
-import edu.fdu.se.base.preprocessingfile.data.PreprocessedData;
 import edu.fdu.se.javaparser.JDTParserFactory;
-import org.eclipse.jdt.core.dom.*;
+import org.eclipse.jdt.core.dom.BodyDeclaration;
+import org.eclipse.jdt.core.dom.CompilationUnit;
+import org.eclipse.jdt.core.dom.TypeDeclaration;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
  * Created by huangkaifeng on 2018/4/19.
- *
  */
 public class AddOrRemoveFileProcessing {
 
@@ -30,36 +30,36 @@ public class AddOrRemoveFileProcessing {
     public String FILE_TYPE;
 
 
-    public AddOrRemoveFileProcessing(byte[] content, String fileType){
+    public AddOrRemoveFileProcessing(byte[] content, String fileType) {
         try {
             FILE_TYPE = fileType;
             cu = JDTParserFactory.getCompilationUnit(content);
             this.linesList = new ArrayList<>();
             BodyDeclaration bodyDeclaration = (BodyDeclaration) cu.types().get(0);
-            if(bodyDeclaration instanceof TypeDeclaration){
-                init((TypeDeclaration)bodyDeclaration);
+            if (bodyDeclaration instanceof TypeDeclaration) {
+                init((TypeDeclaration) bodyDeclaration);
             }
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void init(TypeDeclaration typeDeclaration){
+    public void init(TypeDeclaration typeDeclaration) {
         int treeType = 0;
-        if(FILE_TYPE.equals(ChangeEntityDesc.StageIIIFile.DST)){
+        if (FILE_TYPE.equals(ChangeEntityDesc.StageIIIFile.DST)) {
             treeType = ChangeEntityDesc.StageITreeType.DST_TREE_NODE;
-        }else{
+        } else {
             treeType = ChangeEntityDesc.StageITreeType.SRC_TREE_NODE;
         }
-        ClassChangeEntity classChangeEntity = new ClassChangeEntity(new BodyDeclarationPair(typeDeclaration,typeDeclaration.getName().toString()+"."),
+        ClassChangeEntity classChangeEntity = new ClassChangeEntity(new BodyDeclarationPair(typeDeclaration, typeDeclaration.getName().toString() + "."),
                 Insert.class.getSimpleName(),
-                new MyRange(cu.getLineNumber(typeDeclaration.getStartPosition()),cu.getLineNumber(typeDeclaration.getStartPosition()+typeDeclaration.getLength()),
-                        treeType ));
+                new MyRange(cu.getLineNumber(typeDeclaration.getStartPosition()), cu.getLineNumber(typeDeclaration.getStartPosition() + typeDeclaration.getLength()),
+                        treeType));
         List<ChangeEntity> mList = new ArrayList<>();
         mList.add(classChangeEntity);
         ced = new ChangeEntityData(new MiningActionData(mList));
         FilePairPreDiff diff = new FilePairPreDiff();
         ced.mad.preprocessedData = diff.getPreprocessedData();
-        diff.addSuperClass(typeDeclaration,ced.mad.preprocessedData.getInterfacesAndFathers());
+        diff.addSuperClass(typeDeclaration, ced.mad.preprocessedData.getInterfacesAndFathers());
     }
 }

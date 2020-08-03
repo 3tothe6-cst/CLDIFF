@@ -6,9 +6,8 @@ import edu.fdu.se.base.miningactions.bean.MiningActionData;
 
 /**
  * Created by huangkaifeng on 2018/2/2.
- *
  */
-public class ClusterDownUp extends AbstractCluster{
+public class ClusterDownUp extends AbstractCluster {
 
 
     public ClusterDownUp(Class mClazz, MiningActionData mminingActionData) {
@@ -17,7 +16,7 @@ public class ClusterDownUp extends AbstractCluster{
 
     public void doClusterDownUp() {
         int actionCnt = this.actionList.size();
-        for(int index =0; index!=actionCnt;index++){
+        for (int index = 0; index != actionCnt; index++) {
             Action a = this.actionList.get(index);
             if (fp.mGeneratingActionsData.getAllActionMap().get(a) == 1) {
                 continue;

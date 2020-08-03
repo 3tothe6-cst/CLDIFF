@@ -8,23 +8,26 @@ import edu.fdu.se.base.miningchangeentity.base.ChangeEntity;
 import edu.fdu.se.base.miningchangeentity.base.ChangeEntityDesc;
 import edu.fdu.se.base.miningchangeentity.member.*;
 import edu.fdu.se.base.preprocessingfile.data.BodyDeclarationPair;
-import org.eclipse.jdt.core.dom.*;
+import org.eclipse.jdt.core.dom.TypeDeclaration;
 
 import java.util.*;
 import java.util.Map.Entry;
 
 /**
  * Created by huangkaifeng on 3/24/18.
- *
  */
 public class LayeredChangeEntityContainer {
 
     protected Map<BodyDeclarationPair, List<ChangeEntity>> layerMap;
 
 
-
     protected List<BodyDeclarationPair> keyIndex;
 
+
+    public LayeredChangeEntityContainer() {
+        this.layerMap = new HashMap<>();
+        this.keyIndex = new ArrayList<>();
+    }
 
     public Map<BodyDeclarationPair, List<ChangeEntity>> getLayerMap() {
         return layerMap;
@@ -32,11 +35,6 @@ public class LayeredChangeEntityContainer {
 
     public List<BodyDeclarationPair> getKeyIndex() {
         return keyIndex;
-    }
-
-    public LayeredChangeEntityContainer() {
-        this.layerMap = new HashMap<>();
-        this.keyIndex = new ArrayList<>();
     }
 
     public void sortKeys() {
@@ -59,7 +57,7 @@ public class LayeredChangeEntityContainer {
     }
 
     public void addPreDiffChangeEntity(ChangeEntity changeEntity) {
-        if(changeEntity==null) return;
+        if (changeEntity == null) return;
         BodyDeclarationPair mKey = null;
         for (BodyDeclarationPair key : this.layerMap.keySet()) {
             if (key.getBodyDeclaration() instanceof TypeDeclaration) {
@@ -144,8 +142,6 @@ public class LayeredChangeEntityContainer {
     }
 
 
-
-
     public void sortEntityList() {
         for (Entry<BodyDeclarationPair, List<ChangeEntity>> entry : this.layerMap.entrySet()) {
             List<ChangeEntity> mList = entry.getValue();
@@ -159,15 +155,13 @@ public class LayeredChangeEntityContainer {
     }
 
 
-    public int getChangeEntitySize(){
-        int size =0;
-        for(Entry<BodyDeclarationPair,List<ChangeEntity>> entry:this.layerMap.entrySet()){
+    public int getChangeEntitySize() {
+        int size = 0;
+        for (Entry<BodyDeclarationPair, List<ChangeEntity>> entry : this.layerMap.entrySet()) {
             size += entry.getValue().size();
         }
         return size;
     }
-
-
 
 
 }

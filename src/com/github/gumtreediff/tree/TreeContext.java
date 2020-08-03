@@ -23,47 +23,43 @@ package com.github.gumtreediff.tree;
 import com.github.gumtreediff.io.TreeIoUtils.MetadataSerializer;
 import com.github.gumtreediff.io.TreeIoUtils.MetadataUnserializer;
 import com.github.gumtreediff.io.TreeIoUtils.TreeFormatter;
+import org.eclipse.jdt.core.dom.ASTNode;
+import org.eclipse.jdt.core.dom.CompilationUnit;
 
 import java.util.*;
 import java.util.Map.Entry;
 import java.util.regex.Pattern;
 
-import org.eclipse.jdt.core.dom.ASTNode;
-import org.eclipse.jdt.core.dom.CompilationUnit;
-
 public class TreeContext {
 
-    private Map<Integer, String> typeLabels = new HashMap<>();
-
     private final Map<String, Object> metadata = new HashMap<>();
-
     private final MetadataSerializers serializers = new MetadataSerializers();
-
+    private Map<Integer, String> typeLabels = new HashMap<>();
     private ITree root;
-    
+
     //add by rh
     private CompilationUnit cu;
 
-    
-    public CompilationUnit getCu() {
-		return cu;
-	}
 
-	public void setCu(CompilationUnit cu) {
-		this.cu = cu;
-	}
+    public CompilationUnit getCu() {
+        return cu;
+    }
+
+    public void setCu(CompilationUnit cu) {
+        this.cu = cu;
+    }
 
 //	@Override
 //    public String toString() {
 //        return TreeIoUtils.toLisp(this).toString();
 //    }
 
-    public void setRoot(ITree root) {
-        this.root = root;
-    }
-
     public ITree getRoot() {
         return root;
+    }
+
+    public void setRoot(ITree root) {
+        this.root = root;
     }
 
 //    public String getTypeLabel(ITree tree) {
@@ -105,12 +101,13 @@ public class TreeContext {
 //        registerTypeLabel(type, typeLabel);
         return new Tree(type, label, node);
     }
+
     // add by hkf
-    public ITree createTree(int type, String label, ASTNode node){
-        Integer[] range = {this.cu.getLineNumber(node.getStartPosition()),this.cu.getLineNumber(node.getStartPosition()+node.getLength()-1)};
-        return new Tree(type,label,node,range);
+    public ITree createTree(int type, String label, ASTNode node) {
+        Integer[] range = {this.cu.getLineNumber(node.getStartPosition()), this.cu.getLineNumber(node.getStartPosition() + node.getLength() - 1)};
+        return new Tree(type, label, node, range);
     }
-    
+
     public ITree createTree(ITree... trees) {
         return new AbstractTree.FakeTree(trees);
     }
@@ -270,9 +267,8 @@ public class TreeContext {
     }
 
     public static class Marshallers<E> {
-        Map<String, E> serializers = new HashMap<>();
-
         public static final Pattern valid_id = Pattern.compile("[a-zA-Z0-9_]*");
+        Map<String, E> serializers = new HashMap<>();
 
         public void addAll(Marshallers<E> other) {
             addAll(other.serializers);

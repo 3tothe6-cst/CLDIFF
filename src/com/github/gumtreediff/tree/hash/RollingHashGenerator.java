@@ -20,16 +20,17 @@
 
 package com.github.gumtreediff.tree.hash;
 
+import com.github.gumtreediff.tree.ITree;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import com.github.gumtreediff.tree.ITree;
 import static com.github.gumtreediff.tree.hash.HashUtils.*;
 
 public abstract class RollingHashGenerator implements HashGenerator {
 
     public void hash(ITree t) {
-        for (ITree n: t.postOrder())
+        for (ITree n : t.postOrder())
             if (n.isLeaf())
                 n.setHash(leafHash(n));
             else
@@ -46,7 +47,7 @@ public abstract class RollingHashGenerator implements HashGenerator {
         int size = t.getSize() * 2 - 1;
         int hash = hashFunction(HashUtils.inSeed(t)) * fpow(BASE, size);
 
-        for (ITree c: t.getChildren()) {
+        for (ITree c : t.getChildren()) {
             size = size - c.getSize() * 2;
             hash += c.getHash() * fpow(BASE, size);
         }
@@ -77,17 +78,17 @@ public abstract class RollingHashGenerator implements HashGenerator {
 
         private static final Map<String, Integer> digests = new HashMap<>();
 
-        @Override
-        public int hashFunction(String s) {
-            return rdmHash(s);
-        }
-
         public static int rdmHash(String s) {
             if (!digests.containsKey(s)) {
                 int digest = (int) (Math.random() * (Integer.MAX_VALUE - 1));
                 digests.put(s, digest);
                 return digest;
             } else return digests.get(s);
+        }
+
+        @Override
+        public int hashFunction(String s) {
+            return rdmHash(s);
         }
 
     }

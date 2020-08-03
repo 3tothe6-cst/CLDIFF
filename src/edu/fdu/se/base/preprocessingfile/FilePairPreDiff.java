@@ -1,17 +1,16 @@
 package edu.fdu.se.base.preprocessingfile;
 
+import edu.fdu.se.base.preprocessingfile.data.BodyDeclarationPair;
+import edu.fdu.se.base.preprocessingfile.data.PreprocessedData;
+import edu.fdu.se.base.preprocessingfile.data.PreprocessedTempData;
+import edu.fdu.se.javaparser.JDTParserFactory;
+import org.eclipse.jdt.core.dom.*;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Queue;
-
-import org.eclipse.jdt.core.dom.*;
-
-import edu.fdu.se.base.preprocessingfile.data.BodyDeclarationPair;
-import edu.fdu.se.base.preprocessingfile.data.PreprocessedData;
-import edu.fdu.se.base.preprocessingfile.data.PreprocessedTempData;
-import edu.fdu.se.javaparser.JDTParserFactory;
 
 /**
  * 两个文件 预处理
@@ -22,11 +21,15 @@ import edu.fdu.se.javaparser.JDTParserFactory;
  * 删除remove method
  * 删除内部类中的add / remove method
  * 保留 remove field 和add field 因为需要识别是否是refactor
- *
+ * <p>
  * prefx 为 method field等所属的class，如果是内部类A, 那么prfix写到X.X.X.A.为止
  */
 public class FilePairPreDiff {
 
+
+    private PreprocessedData preprocessedData;
+    private PreprocessedTempData preprocessedTempData;
+    private Queue<SrcDstPair> queue;
 
     public FilePairPreDiff() {
         preprocessedData = new PreprocessedData();
@@ -34,30 +37,21 @@ public class FilePairPreDiff {
         queue = new LinkedList<>();
     }
 
-    private PreprocessedData preprocessedData;
-    private PreprocessedTempData preprocessedTempData;
-
-    class SrcDstPair{
-        TypeDeclaration tpSrc;
-        TypeDeclaration tpDst;
-    }
-    private Queue<SrcDstPair> queue;
-
-    public void initFilePath(String prevPath,String currPath){
+    public void initFilePath(String prevPath, String currPath) {
         preprocessedData.srcCu = JDTParserFactory.getCompilationUnit(prevPath);
         preprocessedData.dstCu = JDTParserFactory.getCompilationUnit(currPath);
         preprocessedData.loadTwoCompilationUnits(preprocessedData.srcCu, preprocessedData.dstCu, prevPath, currPath);
     }
-    public void initFileContent(byte[] prevContent,byte[] currContent){
+
+    public void initFileContent(byte[] prevContent, byte[] currContent) {
         try {
             preprocessedData.srcCu = JDTParserFactory.getCompilationUnit(prevContent);
             preprocessedData.dstCu = JDTParserFactory.getCompilationUnit(currContent);
             preprocessedData.loadTwoCompilationUnits(preprocessedData.srcCu, preprocessedData.dstCu, prevContent, currContent);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 
     public int compareTwoFile() {
         CompilationUnit cuSrc = preprocessedData.srcCu;
@@ -69,10 +63,10 @@ public class FilePairPreDiff {
 //        }
         preprocessedTempData.removeAllSrcComments(cuSrc, preprocessedData.srcLines);
         preprocessedTempData.removeAllDstComments(cuDst, preprocessedData.dstLines);
-        if(cuSrc.types().size() != cuDst.types().size()){
+        if (cuSrc.types().size() != cuDst.types().size()) {
             return -1;
         }
-        for(int i = 0;i<cuSrc.types().size();i++){
+        for (int i = 0; i < cuSrc.types().size(); i++) {
             BodyDeclaration bodyDeclarationSrc = (BodyDeclaration) cuSrc.types().get(i);
             BodyDeclaration bodyDeclarationDst = (BodyDeclaration) cuDst.types().get(i);
             if ((bodyDeclarationSrc instanceof TypeDeclaration) && (bodyDeclarationDst instanceof TypeDeclaration)) {
@@ -80,42 +74,43 @@ public class FilePairPreDiff {
                 srcDstPair.tpSrc = (TypeDeclaration) bodyDeclarationSrc;
                 srcDstPair.tpDst = (TypeDeclaration) bodyDeclarationDst;
                 this.queue.offer(srcDstPair);
-            }else{
+            } else {
                 return -1;
             }
         }
-        while(queue.size()!=0){
+        while (queue.size() != 0) {
             SrcDstPair tmp = queue.poll();
-            compare(cuSrc,cuDst,tmp.tpSrc,tmp.tpDst);
+            compare(cuSrc, cuDst, tmp.tpSrc, tmp.tpDst);
         }
         return 0;
     }
-    public void addSuperClass(TypeDeclaration type,List<String> list){
-        List<Type> aa  = type.superInterfaceTypes();
+
+    public void addSuperClass(TypeDeclaration type, List<String> list) {
+        List<Type> aa = type.superInterfaceTypes();
         List<ASTNode> modifiers = type.modifiers();
-        for(ASTNode node:modifiers){
-            if(node instanceof Modifier){
-                Modifier modifier = (Modifier)node;
-                if(modifier.toString().equals("abstract")){
-                    list.add("abstract---"+type.getName().toString());
+        for (ASTNode node : modifiers) {
+            if (node instanceof Modifier) {
+                Modifier modifier = (Modifier) node;
+                if (modifier.toString().equals("abstract")) {
+                    list.add("abstract---" + type.getName().toString());
                 }
             }
         }
-        if(aa!=null) {
+        if (aa != null) {
             for (Type aaa : aa) {
-                list.add("interface---"+aaa.toString());
+                list.add("interface---" + aaa.toString());
             }
         }
 
-        if(type.getSuperclassType()!=null) {
-            list.add("superclass---"+type.getSuperclassType().toString());
+        if (type.getSuperclassType() != null) {
+            list.add("superclass---" + type.getSuperclassType().toString());
         }
     }
 
-    private void compare(CompilationUnit cuSrc,CompilationUnit cuDst,TypeDeclaration tdSrc,TypeDeclaration tdDst){
+    private void compare(CompilationUnit cuSrc, CompilationUnit cuDst, TypeDeclaration tdSrc, TypeDeclaration tdDst) {
         TypeNodesTraversal astTraversal = new TypeNodesTraversal();
-        addSuperClass(tdSrc,preprocessedData.getInterfacesAndFathers());
-        addSuperClass(tdDst,preprocessedData.getInterfacesAndFathers());
+        addSuperClass(tdSrc, preprocessedData.getInterfacesAndFathers());
+        addSuperClass(tdDst, preprocessedData.getInterfacesAndFathers());
 
         astTraversal.traverseSrcTypeDeclarationInit(preprocessedData, preprocessedTempData, tdSrc, tdSrc.getName().toString() + ".");
         astTraversal.traverseDstTypeDeclarationCompareSrc(preprocessedData, preprocessedTempData, tdDst, tdDst.getName().toString() + ".");
@@ -131,7 +126,6 @@ public class FilePairPreDiff {
 //        }
 
     }
-
 
     private void iterateVisitingMap() {
         for (Entry<BodyDeclarationPair, Integer> item : preprocessedTempData.srcNodeVisitingMap.entrySet()) {
@@ -265,6 +259,11 @@ public class FilePairPreDiff {
             return true;
         }
         return false;
+    }
+
+    class SrcDstPair {
+        TypeDeclaration tpSrc;
+        TypeDeclaration tpDst;
     }
 
 

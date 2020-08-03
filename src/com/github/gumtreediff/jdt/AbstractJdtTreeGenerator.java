@@ -22,7 +22,6 @@ package com.github.gumtreediff.jdt;
 
 import com.github.gumtreediff.gen.TreeGenerator;
 import com.github.gumtreediff.tree.TreeContext;
-
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jdt.core.dom.AST;
 import org.eclipse.jdt.core.dom.ASTNode;
@@ -35,11 +34,15 @@ import java.io.Reader;
 import java.util.Map;
 
 public abstract class AbstractJdtTreeGenerator extends TreeGenerator {
-	private String fileName;
-	public AbstractJdtTreeGenerator(){}
-	public AbstractJdtTreeGenerator(String fileName){
-		this.fileName = fileName;
-	}
+    private String fileName;
+
+    public AbstractJdtTreeGenerator() {
+    }
+
+    public AbstractJdtTreeGenerator(String fileName) {
+        this.fileName = fileName;
+    }
+
     private static char[] readerToCharArray(Reader r) throws IOException {
         StringBuilder fileData = new StringBuilder();
         try (BufferedReader br = new BufferedReader(r)) {
@@ -51,11 +54,11 @@ public abstract class AbstractJdtTreeGenerator extends TreeGenerator {
                 buf = new char[1024];
             }
         }
-        return  fileData.toString().toCharArray();
+        return fileData.toString().toCharArray();
     }
 
     @Override
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public TreeContext generate(Reader r) throws IOException {
         ASTParser parser = ASTParser.newParser(AST.JLS8);
         parser.setKind(ASTParser.K_COMPILATION_UNIT);
@@ -69,15 +72,15 @@ public abstract class AbstractJdtTreeGenerator extends TreeGenerator {
         AbstractJdtVisitor visitor = createVisitor();
         ASTNode temp = parser.createAST(null);
         temp.accept(visitor);
-        visitor.getTreeContext().setCu((CompilationUnit)temp);
+        visitor.getTreeContext().setCu((CompilationUnit) temp);
         return visitor.getTreeContext();
     }
-	
-	public String getUnit(String s){
-		String[] temp = s.split("/");
-		String t = temp[temp.length-1];
-		return t.substring(0,t.length()-5);
-	}
-	
+
+    public String getUnit(String s) {
+        String[] temp = s.split("/");
+        String t = temp[temp.length - 1];
+        return t.substring(0, t.length() - 5);
+    }
+
     protected abstract AbstractJdtVisitor createVisitor();
 }

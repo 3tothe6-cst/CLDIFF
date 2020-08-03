@@ -1,21 +1,15 @@
 package edu.fdu.se.base.preprocessingfile.data;
 
 
+import org.eclipse.jdt.core.dom.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.jdt.core.dom.ASTNode;
-import org.eclipse.jdt.core.dom.BodyDeclaration;
-import org.eclipse.jdt.core.dom.CompilationUnit;
-import org.eclipse.jdt.core.dom.ImportDeclaration;
-import org.eclipse.jdt.core.dom.Javadoc;
-import org.eclipse.jdt.core.dom.PackageDeclaration;
-
 /**
  * Created by huangkaifeng on 2018/1/18.
- *
  */
 public class PreprocessedTempData {
 
@@ -32,9 +26,19 @@ public class PreprocessedTempData {
      * 已经设置为remove的，表示curr中cod已经被删除，所以不会再revisit到
      */
     final static public int BODY_FATHERNODE_REMOVE = 13;
+    public Map<String, List<BodyDeclarationPair>> srcNodeBodyNameMap;
+    /**
+     * 0 初始化之后的值  1 遍历到了之后 需要保留的different  2 遍历到了之后 需要删除的same   3 prev中有，curr没有，change：deleted
+     */
+    public Map<BodyDeclarationPair, Integer> srcNodeVisitingMap;
+    public Map<BodyDeclarationPair, Integer> srcNodeHashCodeMap;
+    /**
+     * list of comments to be removed
+     */
+    public List<ASTNode> srcRemovalNodes;
+    public List<ASTNode> dstRemovalNodes;
 
-
-    public PreprocessedTempData(){
+    public PreprocessedTempData() {
         srcNodeBodyNameMap = new HashMap<>();
         srcNodeVisitingMap = new HashMap<>();
         srcNodeHashCodeMap = new HashMap<>();
@@ -42,26 +46,10 @@ public class PreprocessedTempData {
         dstRemovalNodes = new ArrayList<>();
     }
 
-    public Map<String, List<BodyDeclarationPair>> srcNodeBodyNameMap;
-    /**
-     * 0 初始化之后的值  1 遍历到了之后 需要保留的different  2 遍历到了之后 需要删除的same   3 prev中有，curr没有，change：deleted
-     */
-    public Map<BodyDeclarationPair,Integer> srcNodeVisitingMap;
-
-    public Map<BodyDeclarationPair,Integer> srcNodeHashCodeMap;
-
-    /**
-     * list of comments to be removed
-     */
-    public List<ASTNode> srcRemovalNodes;
-    public List<ASTNode> dstRemovalNodes;
-
-
     /**
      * method name
-     *
      */
-    public void addToMapBodyName(BodyDeclarationPair bd,String name) {
+    public void addToMapBodyName(BodyDeclarationPair bd, String name) {
         if (this.srcNodeBodyNameMap.containsKey(name)) {
             List<BodyDeclarationPair> mList = this.srcNodeBodyNameMap.get(name);
             mList.add(bd);
@@ -77,10 +65,10 @@ public class PreprocessedTempData {
         this.srcRemovalNodes.add(bd);
     }
 
-    private void setLinesFlag(List<Integer> lineFlags,int start,int end){
-        for(int i =start ;i<=end;i++){
-            if(lineFlags.get(i-1)>0){
-                lineFlags.set(i-1, -lineFlags.get(i-1));
+    private void setLinesFlag(List<Integer> lineFlags, int start, int end) {
+        for (int i = start; i <= end; i++) {
+            if (lineFlags.get(i - 1) > 0) {
+                lineFlags.set(i - 1, -lineFlags.get(i - 1));
             }
         }
     }
@@ -94,12 +82,12 @@ public class PreprocessedTempData {
 //
 //                }
 //            }
-        	
+
 //        	System.out.println(item.toString());
 //            System.out.println(cu.getLineNumber(item.getStartPosition()) +"  "+cu.getLineNumber(item.getStartPosition()+item.getLength()-1));
-            setLinesFlag(lineList,cu.getLineNumber(item.getStartPosition()),
-                    cu.getLineNumber(item.getStartPosition()+item.getLength()-1));
-            
+            setLinesFlag(lineList, cu.getLineNumber(item.getStartPosition()),
+                    cu.getLineNumber(item.getStartPosition() + item.getLength() - 1));
+
             item.delete();
         }
         this.srcRemovalNodes.clear();
@@ -111,44 +99,43 @@ public class PreprocessedTempData {
 
     public void removeDstRemovalList(CompilationUnit cu, List<Integer> lineList) {
         for (ASTNode item : this.dstRemovalNodes) {
-            if(item instanceof BodyDeclaration){
+            if (item instanceof BodyDeclaration) {
                 BodyDeclaration bd = (BodyDeclaration) item;
-                if(bd.getJavadoc()!=null){
-                    setLinesFlag(lineList,cu.getLineNumber(bd.getJavadoc().getStartPosition()),
-                            cu.getLineNumber(bd.getJavadoc().getStartPosition()+bd.getJavadoc().getLength()-1));
+                if (bd.getJavadoc() != null) {
+                    setLinesFlag(lineList, cu.getLineNumber(bd.getJavadoc().getStartPosition()),
+                            cu.getLineNumber(bd.getJavadoc().getStartPosition() + bd.getJavadoc().getLength() - 1));
                 }
             }
-            setLinesFlag(lineList,cu.getLineNumber(item.getStartPosition()),
-                    cu.getLineNumber(item.getStartPosition()+item.getLength()-1));
+            setLinesFlag(lineList, cu.getLineNumber(item.getStartPosition()),
+                    cu.getLineNumber(item.getStartPosition() + item.getLength() - 1));
             item.delete();
         }
         dstRemovalNodes.clear();
     }
 
-    public void initBodySrcNodeMap(BodyDeclarationPair bodyDeclarationPair){
-        this.srcNodeVisitingMap.put(bodyDeclarationPair,BODY_INITIALIZED_VALUE);
+    public void initBodySrcNodeMap(BodyDeclarationPair bodyDeclarationPair) {
+        this.srcNodeVisitingMap.put(bodyDeclarationPair, BODY_INITIALIZED_VALUE);
     }
 
     /**
-     *
      * @param v
      */
-    public void setBodySrcNodeMap(BodyDeclarationPair bdp, int v){
-        this.srcNodeVisitingMap.put(bdp,v);
+    public void setBodySrcNodeMap(BodyDeclarationPair bdp, int v) {
+        this.srcNodeVisitingMap.put(bdp, v);
     }
 
-    public int getNodeMapValue(BodyDeclarationPair bodyDeclarationPair){
+    public int getNodeMapValue(BodyDeclarationPair bodyDeclarationPair) {
         return this.srcNodeVisitingMap.get(bodyDeclarationPair);
     }
 
 
-    public void removeAllSrcComments(CompilationUnit cu,List<Integer> lineList) {
+    public void removeAllSrcComments(CompilationUnit cu, List<Integer> lineList) {
         PackageDeclaration packageDeclaration = cu.getPackage();
         if (packageDeclaration != null)
             addToSrcRemoveList(packageDeclaration);
         List<ASTNode> commentList = cu.getCommentList();
         for (int i = commentList.size() - 1; i >= 0; i--) {
-            if(commentList.get(i) instanceof Javadoc){
+            if (commentList.get(i) instanceof Javadoc) {
                 addToSrcRemoveList(commentList.get(i));
             }
         }
@@ -156,24 +143,24 @@ public class PreprocessedTempData {
         for (int i = imprortss.size() - 1; i >= 0; i--) {
             addToSrcRemoveList(imprortss.get(i));
         }
-        removeSrcRemovalList(cu,lineList);
+        removeSrcRemovalList(cu, lineList);
     }
 
-    public void removeAllDstComments(CompilationUnit cu,List<Integer> lineList) {
+    public void removeAllDstComments(CompilationUnit cu, List<Integer> lineList) {
         List<ASTNode> commentList = cu.getCommentList();
         PackageDeclaration packageDeclaration = cu.getPackage();
         if (packageDeclaration != null)
             addToDstRemoveList(packageDeclaration);
         List<ImportDeclaration> imprortss = cu.imports();
         for (int i = commentList.size() - 1; i >= 0; i--) {
-            if(commentList.get(i) instanceof Javadoc) {
+            if (commentList.get(i) instanceof Javadoc) {
                 addToDstRemoveList(commentList.get(i));
             }
         }
         for (int i = imprortss.size() - 1; i >= 0; i--) {
             addToDstRemoveList(imprortss.get(i));
         }
-        removeDstRemovalList(cu,lineList);
+        removeDstRemovalList(cu, lineList);
     }
 
 }

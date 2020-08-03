@@ -2,8 +2,8 @@ package edu.fdu.se.fileutil;
 
 import com.google.gson.Gson;
 import edu.fdu.se.cldiff.CLDiffCore;
-import edu.fdu.se.server.Meta;
 import edu.fdu.se.server.CommitFile;
+import edu.fdu.se.server.Meta;
 import org.json.JSONObject;
 
 import java.io.*;
@@ -146,7 +146,7 @@ public class FileUtil {
                     //如果是childCommit，需要在所有的commit_id/curr/parent_commit_id/src/xx/xx新建
                     List<String> parentCommitIds = meta.getParents();
                     for (String parentCommitId : parentCommitIds) {
-                        filePath = folder.getPath() + "/curr/" + parentCommitId  +"/"+ dir;
+                        filePath = folder.getPath() + "/curr/" + parentCommitId + "/" + dir;
                         File directory = FileUtil.createFolder(filePath);
                         FileUtil.createFile(fileName, codeContent, directory);
                         //添加到Meta中
@@ -155,18 +155,18 @@ public class FileUtil {
                         commitFile.setFile_name(fileName);
                         commitFile.setParent_commit(parentCommitId);
                         commitFile.setDiffPath(null);
-                        if("added".equals(meta.getActions().get(cnt/2))){
-                            commitFile.setCurr_file_path("curr/" + parentCommitId +"/"+ dir + fileName);
+                        if ("added".equals(meta.getActions().get(cnt / 2))) {
+                            commitFile.setCurr_file_path("curr/" + parentCommitId + "/" + dir + fileName);
                             commitFile.setPrev_file_path(null);
-                        }else if("removed".equals(meta.getActions().get(cnt/2))){
-                            commitFile.setPrev_file_path("prev/" + parentCommitId +"/"+ dir + fileName);
+                        } else if ("removed".equals(meta.getActions().get(cnt / 2))) {
+                            commitFile.setPrev_file_path("prev/" + parentCommitId + "/" + dir + fileName);
                             commitFile.setCurr_file_path(null);
-                        }else if("modified".equals(meta.getActions().get(cnt/2))){
-                            commitFile.setCurr_file_path("curr/" + parentCommitId +"/"+ dir + fileName);
-                            commitFile.setPrev_file_path("prev/" + parentCommitId +"/"+ dir + fileName);
+                        } else if ("modified".equals(meta.getActions().get(cnt / 2))) {
+                            commitFile.setCurr_file_path("curr/" + parentCommitId + "/" + dir + fileName);
+                            commitFile.setPrev_file_path("prev/" + parentCommitId + "/" + dir + fileName);
                         }
-                        if(!isFiltered) {
-                            commitFile.setDiffPath(meta.getOutputDir() + "/gen/"+parentCommitId+"/Diff"+fileName+".json");
+                        if (!isFiltered) {
+                            commitFile.setDiffPath(meta.getOutputDir() + "/gen/" + parentCommitId + "/Diff" + fileName + ".json");
                         }
                         meta.addFile(commitFile);
                         cnt++;
@@ -192,7 +192,7 @@ public class FileUtil {
                 result.append(tempString).append("\r\n");
                 line++;
             }
-            result = new StringBuilder(result.substring(0,result.length()-2));
+            result = new StringBuilder(result.substring(0, result.length() - 2));
 //            System.out.println(result);
             reader.close();
         } catch (IOException e) {

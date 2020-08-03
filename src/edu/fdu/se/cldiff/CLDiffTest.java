@@ -1,21 +1,28 @@
 package edu.fdu.se.cldiff;
 
-import java.io.File;
-
 import edu.fdu.se.base.common.Global;
 import edu.fdu.se.base.generatingactions.GeneratingActionsData;
 import edu.fdu.se.base.generatingactions.GumTreeDiffParser;
 import edu.fdu.se.base.generatingactions.MyActionGenerator;
 import edu.fdu.se.base.preprocessingfile.data.FileOutputLog;
-import edu.fdu.se.config.ProjectProperties;
-import edu.fdu.se.config.PropertyKeys;
 import edu.fdu.se.fileutil.PathUtil;
+
+import java.io.File;
 
 /**
  * Created by huangkaifeng on 2018/2/27.
- *
  */
 public class CLDiffTest extends CLDiffCore {
+
+    public static void main(String[] args) {
+        CLDiffTest i = new CLDiffTest();
+//        i.runGumTree(null,null);
+//        i.runBatchTest();
+        String filePrev = PathUtil.unifyPathSeparator(args[0]);
+        String fileCurr = PathUtil.unifyPathSeparator(args[1]);
+        String outputDir = PathUtil.unifyPathSeparator(args[2]);
+        i.runSingleFilePair(filePrev, fileCurr, outputDir);
+    }
 
     public int runGumTree(String prevContent, String currContent) {
 //        String file1 = ProjectProperties.getInstance().getValue(PropertyKeys.AST_PARSER_PREV_FILE);
@@ -33,7 +40,7 @@ public class CLDiffTest extends CLDiffCore {
     /**
      * 使用修改简化之后的流程，测试单个文件的功能
      */
-    private void runSingleFilePair(String file1,String file2,String outputDir) {
+    private void runSingleFilePair(String file1, String file2, String outputDir) {
         this.mFileOutputLog = new FileOutputLog(outputDir, "testproject");
         this.mFileOutputLog.setCommitId("commitid");
         Global.parentCommit = "null";
@@ -59,17 +66,6 @@ public class CLDiffTest extends CLDiffCore {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-
-    public static void main(String[] args) {
-        CLDiffTest i = new CLDiffTest();
-//        i.runGumTree(null,null);
-//        i.runBatchTest();
-        String filePrev = PathUtil.unifyPathSeparator(args[0]);
-        String fileCurr = PathUtil.unifyPathSeparator(args[1]);
-        String outputDir = PathUtil.unifyPathSeparator(args[2]);
-        i.runSingleFilePair(filePrev,fileCurr,outputDir);
     }
 
 }

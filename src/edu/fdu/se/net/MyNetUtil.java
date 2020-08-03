@@ -6,11 +6,10 @@ import java.util.Map;
 
 /**
  * Created by huangkaifeng on 2018/10/21.
- *
  */
 public class MyNetUtil {
 
-    public static Map<String,String> parsePostedKeys(InputStream is) throws IOException {
+    public static Map<String, String> parsePostedKeys(InputStream is) throws IOException {
         byte[] cache = new byte[100];
         int res;
         StringBuilder postString = new StringBuilder();
@@ -41,7 +40,7 @@ public class MyNetUtil {
         return postString.toString();
     }
 
-    public static void writeResponseInBytes(OutputStream os, byte[] bytes) throws IOException{
+    public static void writeResponseInBytes(OutputStream os, byte[] bytes) throws IOException {
 
         try (BufferedOutputStream out = new BufferedOutputStream(os)) {
             try (ByteArrayInputStream bis = new ByteArrayInputStream(bytes)) {

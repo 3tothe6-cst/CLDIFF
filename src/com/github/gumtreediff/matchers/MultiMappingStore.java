@@ -20,13 +20,9 @@
 
 package com.github.gumtreediff.matchers;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
 import com.github.gumtreediff.tree.ITree;
+
+import java.util.*;
 
 public class MultiMappingStore implements Iterable<Mapping> {
 
@@ -36,18 +32,18 @@ public class MultiMappingStore implements Iterable<Mapping> {
 
     public MultiMappingStore(Set<Mapping> mappings) {
         this();
-        for (Mapping m: mappings) link(m.getFirst(), m.getSecond());
+        for (Mapping m : mappings) link(m.getFirst(), m.getSecond());
     }
 
     public MultiMappingStore() {
-        srcs = new  HashMap<>();
+        srcs = new HashMap<>();
         dsts = new HashMap<>();
     }
 
     public Set<Mapping> getMappings() {
         Set<Mapping> mappings = new HashSet<>();
         for (ITree src : srcs.keySet())
-            for (ITree dst: srcs.get(src))
+            for (ITree dst : srcs.get(src))
                 mappings.add(new Mapping(src, dst));
         return mappings;
     }

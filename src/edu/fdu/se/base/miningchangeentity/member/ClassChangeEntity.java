@@ -9,22 +9,20 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
 
 /**
  * Created by huangkaifeng on 2018/1/23.
- *
  */
 public class ClassChangeEntity extends MemberPlusChangeEntity {
-
 
 
     /**
      * 预处理 识别的
      */
-    public ClassChangeEntity(BodyDeclarationPair bodyDeclarationPair, String changeType, MyRange myRange){
-        super(bodyDeclarationPair.getLocationClassString(),changeType,myRange);
-        TypeDeclaration cod = (TypeDeclaration)bodyDeclarationPair.getBodyDeclaration();
+    public ClassChangeEntity(BodyDeclarationPair bodyDeclarationPair, String changeType, MyRange myRange) {
+        super(bodyDeclarationPair.getLocationClassString(), changeType, myRange);
+        TypeDeclaration cod = (TypeDeclaration) bodyDeclarationPair.getBodyDeclaration();
         this.stageIIBean.setLocation(bodyDeclarationPair.getLocationClassString());
-        if(cod.isInterface()){
+        if (cod.isInterface()) {
             this.stageIIBean.setChangeEntity(ChangeEntityDesc.StageIIENTITY.ENTITY_INTERFACE);
-        }else{
+        } else {
             this.stageIIBean.setChangeEntity(ChangeEntityDesc.StageIIENTITY.ENTITY_INNER_CLASS);
         }
         this.stageIIBean.setThumbnail(cod.getName().toString());
@@ -33,15 +31,15 @@ public class ClassChangeEntity extends MemberPlusChangeEntity {
 
     /**
      * gumtree 识别的 add/remove/modify
+     *
      * @param bean
      */
-    public ClassChangeEntity(ClusteredActionBean bean){
+    public ClassChangeEntity(ClusteredActionBean bean) {
         super(bean);
     }
 
 
-
-    public String toString2(){
+    public String toString2() {
         StringBuilder sb = new StringBuilder();
         sb.append(this.changeEntityId);
         sb.append(". ");

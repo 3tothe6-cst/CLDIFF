@@ -20,17 +20,13 @@
 
 package com.github.gumtreediff.actions;
 
-import java.util.List;
-import java.util.Set;
-
-import com.github.gumtreediff.actions.model.Delete;
-import com.github.gumtreediff.actions.model.Move;
-import com.github.gumtreediff.actions.model.Update;
-import com.github.gumtreediff.actions.model.Action;
-import com.github.gumtreediff.actions.model.Insert;
+import com.github.gumtreediff.actions.model.*;
 import com.github.gumtreediff.matchers.Mapping;
 import com.github.gumtreediff.matchers.Matcher;
 import com.github.gumtreediff.tree.TreeContext;
+
+import java.util.List;
+import java.util.Set;
 
 public class RootsClassifier extends TreeClassifier {
 
@@ -43,7 +39,7 @@ public class RootsClassifier extends TreeClassifier {
     }
 
     public void classify() {
-        for (Action a: actions) {
+        for (Action a : actions) {
             if (a instanceof Delete) srcDelTrees.add(a.getNode());
             else if (a instanceof Insert)
                 dstAddTrees.add(a.getNode());

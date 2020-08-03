@@ -42,15 +42,16 @@ public class Clients extends Registry<String, Client, Register> {
     protected Entry newEntry(Class<? extends Client> clazz, Register annotation) {
         String name = annotation.name().equals(Register.no_value)
                 ? clazz.getSimpleName() : annotation.name();
-        return new Entry(name.toLowerCase(), clazz, defaultFactory(clazz, String[].class),  annotation.priority()) {
+        return new Entry(name.toLowerCase(), clazz, defaultFactory(clazz, String[].class), annotation.priority()) {
+            final String description;
+
+            {
+                description = annotation.description();
+            }
+
             @Override
             protected boolean handle(String key) {
                 return id.equalsIgnoreCase(key);
-            }
-
-            final String description;
-            {
-                description = annotation.description();
             }
 
             @Override

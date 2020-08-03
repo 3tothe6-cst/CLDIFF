@@ -6,14 +6,14 @@ import edu.fdu.se.base.miningactions.util.MyList;
 
 /**
  * Created by huangkaifeng on 2018/1/25.
- *
  */
 public class ChangePacket {
-    public ChangePacket(){
-
-    }
     private MyList<String> changeSet1;
     private MyList<String> changeSet2;
+
+    public ChangePacket() {
+
+    }
 
     public MyList<String> getChangeSet1() {
         return changeSet1;
@@ -24,15 +24,13 @@ public class ChangePacket {
     }
 
 
-
-    public void initChangeSet1(){
+    public void initChangeSet1() {
         this.changeSet1 = new MyList<>();
     }
 
-    public void initChangeSet2(){
+    public void initChangeSet2() {
         this.changeSet2 = new MyList<>();
     }
-
 
 
 }

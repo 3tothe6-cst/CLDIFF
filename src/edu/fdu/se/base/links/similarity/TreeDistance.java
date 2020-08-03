@@ -8,13 +8,14 @@ import com.github.gumtreediff.tree.Tree;
 
 public class TreeDistance {
 
-    private Tree srcTree;
-    private Tree dstTree;
     Node<StringNodeData> t1;
     Node<StringNodeData> t2;
+    private Tree srcTree;
+    private Tree dstTree;
 
 
-    public TreeDistance(){}
+    public TreeDistance() {
+    }
 
     public TreeDistance(Tree srcTree, Tree dstTree) {
         this.srcTree = srcTree;
@@ -30,7 +31,7 @@ public class TreeDistance {
     }
 
     //计算相似度值
-    public float calculateTreeDistance(){
+    public float calculateTreeDistance() {
         TreeInputParser parser = new TreeInputParser();
         t1 = parser.fromTree(srcTree);
         t2 = parser.fromTree(dstTree);

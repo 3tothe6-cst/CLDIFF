@@ -10,12 +10,11 @@ import edu.fdu.se.base.miningchangeentity.statement.VariableChangeEntity;
 
 /**
  * Created by huangkaifeng on 2018/4/7.
- *
  */
 public class LinkStatement2Statement {
 
 
-    public static void checkStmtAssociation(ChangeEntityData changeEntityData, ChangeEntity ce1, ChangeEntity ce2){
+    public static void checkStmtAssociation(ChangeEntityData changeEntityData, ChangeEntity ce1, ChangeEntity ce2) {
 
         StmtData linkBean1 = (StmtData) ce1.linkBean;
         StmtData linkBean2 = (StmtData) ce2.linkBean;
@@ -26,17 +25,17 @@ public class LinkStatement2Statement {
 //                break;
 //            }
 //        }
-        for(String tmp:linkBean1.variableLocal) {
-            if(linkBean2.variableLocal.contains(tmp)){
-                if("".equals(tmp)){
+        for (String tmp : linkBean1.variableLocal) {
+            if (linkBean2.variableLocal.contains(tmp)) {
+                if ("".equals(tmp)) {
                     continue;
                 }
-                if(ce1 instanceof VariableChangeEntity || ce2 instanceof VariableChangeEntity) {
+                if (ce1 instanceof VariableChangeEntity || ce2 instanceof VariableChangeEntity) {
                     Action curAction = ce1.clusteredActionBean.curAction;
                     Tree node = (Tree) curAction.getNode();
                     String methodName = LinkUtil.findResidingMethodName(node);
-                    String desc = String.format(ChangeEntityDesc.StageIIIAssociationType.DEF_USE,tmp,methodName);
-                    Link link = new Link(changeEntityData.fileName,ce1,ce2, desc,tmp);
+                    String desc = String.format(ChangeEntityDesc.StageIIIAssociationType.DEF_USE, tmp, methodName);
+                    Link link = new Link(changeEntityData.fileName, ce1, ce2, desc, tmp);
                     changeEntityData.mLinks.add(link);
                 }
                 break;
@@ -46,7 +45,7 @@ public class LinkStatement2Statement {
 
     }
 
-    public static void checkStmtShareField(ChangeEntityData changeEntityData,ChangeEntity ce1,ChangeEntity ce2){
+    public static void checkStmtShareField(ChangeEntityData changeEntityData, ChangeEntity ce1, ChangeEntity ce2) {
         StmtData linkBean1 = (StmtData) ce1.linkBean;
         StmtData linkBean2 = (StmtData) ce2.linkBean;
         //pass
@@ -59,7 +58,6 @@ public class LinkStatement2Statement {
 //            }
 //        }
     }
-
 
 
 }

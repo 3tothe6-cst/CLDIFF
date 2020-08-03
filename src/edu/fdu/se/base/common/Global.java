@@ -3,13 +3,10 @@ package edu.fdu.se.base.common;
 import edu.fdu.se.base.miningchangeentity.ChangeEntityData;
 import edu.fdu.se.server.Meta;
 
-import java.util.List;
 import java.util.Map;
 
 /**
  * Created by huangkaifeng on 2018/4/7.
- *
- *
  */
 public class Global {
 
@@ -27,7 +24,7 @@ public class Global {
 //    public static List<String> outputFilePathList;
 
 
-    public static Map<Integer,String> changeEntityFileNameMap;
+    public static Map<Integer, String> changeEntityFileNameMap;
     /**
      * running mode
      * 0 command mode

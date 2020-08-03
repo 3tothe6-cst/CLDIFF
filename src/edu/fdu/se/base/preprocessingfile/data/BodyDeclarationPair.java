@@ -8,20 +8,19 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
 
 /**
  * Created by huangkaifeng on 2018/1/22.
- *
  */
 public class BodyDeclarationPair {
     private BodyDeclaration bd;
 
     private String locationClassString;
+    private int hashCode;
 
-    public BodyDeclarationPair(BodyDeclaration bd1,String str){
+    public BodyDeclarationPair(BodyDeclaration bd1, String str) {
         this.bd = bd1;
         this.locationClassString = str;
-        String hashStr = String.valueOf(bd1.toString().hashCode())+String.valueOf(str.hashCode());
+        String hashStr = String.valueOf(bd1.toString().hashCode()) + String.valueOf(str.hashCode());
         this.hashCode = hashStr.hashCode();
     }
-    private int hashCode;
 
     public BodyDeclaration getBodyDeclaration() {
         return bd;
@@ -32,27 +31,27 @@ public class BodyDeclarationPair {
     }
 
     @Override
-    public boolean equals(Object obj){
-        BodyDeclarationPair bdp = (BodyDeclarationPair)obj;
-        if(bdp.hashCode() ==this.hashCode) return true;
+    public boolean equals(Object obj) {
+        BodyDeclarationPair bdp = (BodyDeclarationPair) obj;
+        if (bdp.hashCode() == this.hashCode) return true;
         return false;
     }
 
     @Override
-    public int hashCode(){
+    public int hashCode() {
         return hashCode;
     }
 
     @Override
-    public String toString(){
-        String result = this.getLocationClassString() +" ";
-        if(this.getBodyDeclaration() instanceof TypeDeclaration){
-            TypeDeclaration td = (TypeDeclaration)this.getBodyDeclaration();
-            result += td.getClass().getSimpleName()+": "+td.getName().toString();
-        }else if(this.getBodyDeclaration() instanceof FieldDeclaration){
-            FieldDeclaration td = (FieldDeclaration)this.getBodyDeclaration();
-            result += td.getClass().getSimpleName()+": "+td.fragments().toString();
-        }else if(this.getBodyDeclaration() instanceof MethodDeclaration) {
+    public String toString() {
+        String result = this.getLocationClassString() + " ";
+        if (this.getBodyDeclaration() instanceof TypeDeclaration) {
+            TypeDeclaration td = (TypeDeclaration) this.getBodyDeclaration();
+            result += td.getClass().getSimpleName() + ": " + td.getName().toString();
+        } else if (this.getBodyDeclaration() instanceof FieldDeclaration) {
+            FieldDeclaration td = (FieldDeclaration) this.getBodyDeclaration();
+            result += td.getClass().getSimpleName() + ": " + td.fragments().toString();
+        } else if (this.getBodyDeclaration() instanceof MethodDeclaration) {
             MethodDeclaration td = (MethodDeclaration) this.getBodyDeclaration();
             result += td.getClass().getSimpleName() + ": " + td.getName().toString();
         }

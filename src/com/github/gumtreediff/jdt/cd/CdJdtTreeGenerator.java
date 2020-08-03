@@ -21,8 +21,8 @@
 package com.github.gumtreediff.jdt.cd;
 
 import com.github.gumtreediff.gen.Register;
-import com.github.gumtreediff.jdt.AbstractJdtVisitor;
 import com.github.gumtreediff.jdt.AbstractJdtTreeGenerator;
+import com.github.gumtreediff.jdt.AbstractJdtVisitor;
 
 @Register(id = "java-jdt-cd")
 public class CdJdtTreeGenerator extends AbstractJdtTreeGenerator {

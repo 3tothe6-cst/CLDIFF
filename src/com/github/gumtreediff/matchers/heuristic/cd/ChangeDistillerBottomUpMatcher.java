@@ -40,9 +40,9 @@ public class ChangeDistillerBottomUpMatcher extends Matcher {
     @Override
     public void match() {
         List<ITree> dstTrees = TreeUtils.postOrder(this.dst);
-        for (ITree currentSrcTree: this.src.postOrder()) {
+        for (ITree currentSrcTree : this.src.postOrder()) {
             int numberOfLeaves = numberOfLeaves(currentSrcTree);
-            for (ITree currentDstTree: dstTrees) {
+            for (ITree currentDstTree : dstTrees) {
                 if (isMappingAllowed(currentSrcTree, currentDstTree)
                         && !(currentSrcTree.isLeaf() || currentDstTree.isLeaf())) {
                     double similarity = chawatheSimilarity(currentSrcTree, currentDstTree);

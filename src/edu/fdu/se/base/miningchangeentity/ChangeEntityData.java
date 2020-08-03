@@ -2,11 +2,11 @@ package edu.fdu.se.base.miningchangeentity;
 
 import com.github.gumtreediff.actions.model.Delete;
 import com.github.gumtreediff.actions.model.Insert;
+import edu.fdu.se.base.links.LayeredChangeEntityContainer;
 import edu.fdu.se.base.links.Link;
 import edu.fdu.se.base.links.MyRange;
 import edu.fdu.se.base.miningactions.bean.MiningActionData;
 import edu.fdu.se.base.miningchangeentity.base.ChangeEntity;
-import edu.fdu.se.base.links.LayeredChangeEntityContainer;
 import edu.fdu.se.base.miningchangeentity.base.ChangeEntityDesc;
 import edu.fdu.se.base.miningchangeentity.member.*;
 import edu.fdu.se.base.preprocessingfile.data.BodyDeclarationPair;
@@ -17,7 +17,6 @@ import java.util.List;
 
 /**
  * Created by huangkaifeng on 2018/1/13.
- *
  */
 public class ChangeEntityData {
 
@@ -29,7 +28,7 @@ public class ChangeEntityData {
     public List<Link> mLinks;
 
     public ChangeEntityData(MiningActionData mad) {
-        if(mad.preprocessedData!=null) {
+        if (mad.preprocessedData != null) {
             this.entityContainer = mad.preprocessedData.entityContainer;
         }
         this.mad = mad;
@@ -63,10 +62,6 @@ public class ChangeEntityData {
         }
         return ce;
     }
-
-
-
-
 
 
 }

@@ -33,11 +33,10 @@ import java.util.List;
 import java.util.Set;
 
 public abstract class AbstractBottomUpMatcher extends Matcher {
-    public static int SIZE_THRESHOLD =
-            Integer.parseInt(System.getProperty("gt.bum.szt", "1000"));
     public static final double SIM_THRESHOLD =
             Double.parseDouble(System.getProperty("gt.bum.smt", "0.5"));
-
+    public static int SIZE_THRESHOLD =
+            Integer.parseInt(System.getProperty("gt.bum.szt", "1000"));
     protected TreeMap srcIds;
     protected TreeMap dstIds;
 
@@ -59,13 +58,13 @@ public abstract class AbstractBottomUpMatcher extends Matcher {
 
     protected List<ITree> getDstCandidates(ITree src) {
         List<ITree> seeds = new ArrayList<>();
-        for (ITree c: src.getDescendants()) {
+        for (ITree c : src.getDescendants()) {
             ITree m = mappings.getDst(c);
             if (m != null) seeds.add(m);
         }
         List<ITree> candidates = new ArrayList<>();
         Set<ITree> visited = new HashSet<>();
-        for (ITree seed: seeds) {
+        for (ITree seed : seeds) {
             while (seed.getParent() != null) {
                 ITree parent = seed.getParent();
                 if (visited.contains(parent))
@@ -91,7 +90,7 @@ public abstract class AbstractBottomUpMatcher extends Matcher {
                 || cDst.getSize() < AbstractBottomUpMatcher.SIZE_THRESHOLD) {
             Matcher m = new ZsMatcher(cSrc, cDst, new MappingStore());
             m.match();
-            for (Mapping candidate: m.getMappings()) {
+            for (Mapping candidate : m.getMappings()) {
                 ITree left = srcIds.getTree(candidate.getFirst().getId());
                 ITree right = dstIds.getTree(candidate.getSecond().getId());
 
@@ -122,7 +121,7 @@ public abstract class AbstractBottomUpMatcher extends Matcher {
      * to recompute them.
      */
     public ITree removeMatched(ITree tree, boolean isSrc) {
-        for (ITree t: tree.getTrees()) {
+        for (ITree t : tree.getTrees()) {
             if ((isSrc && isSrcMatched(t)) || ((!isSrc) && isDstMatched(t))) {
                 if (t.getParent() != null) t.getParent().getChildren().remove(t);
                 t.setParent(null);

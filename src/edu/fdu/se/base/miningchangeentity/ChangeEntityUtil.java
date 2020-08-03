@@ -13,7 +13,6 @@ import java.util.List;
 
 /**
  * Created by huangkaifeng on 2018/3/31.
- *
  */
 public class ChangeEntityUtil {
 
@@ -47,12 +46,12 @@ public class ChangeEntityUtil {
         return 0;
     }
 
-    public static boolean simpleMoveWrapperDecision(MiningActionData fp,ChangeEntity move){
+    public static boolean simpleMoveWrapperDecision(MiningActionData fp, ChangeEntity move) {
         Tree t = (Tree) move.clusteredActionBean.curAction.getNode();
-        Tree dstt = (Tree)fp.getMappedDstOfSrcNode(t);
+        Tree dstt = (Tree) fp.getMappedDstOfSrcNode(t);
         Tree par = (Tree) dstt.getParent();
-        boolean flag =false;
-        switch(par.getAstNode().getNodeType()){
+        boolean flag = false;
+        switch (par.getAstNode().getNodeType()) {
             case ASTNode.BLOCK:
             case ASTNode.IF_STATEMENT:
             case ASTNode.FOR_STATEMENT:
@@ -62,7 +61,8 @@ public class ChangeEntityUtil {
             case ASTNode.DO_STATEMENT:
                 flag = true;
                 break;
-            default:break;
+            default:
+                break;
         }
 
         return flag;
@@ -85,7 +85,7 @@ public class ChangeEntityUtil {
         }
         Integer[] wrapperRange = ((Tree) wrapper.clusteredActionBean.curAction.getNode()).getRange();
         if (wrapperRange[0] <= range[0] && wrapperRange[1] >= range[1]) {
-            if(simpleMoveWrapperDecision(fp,move)){
+            if (simpleMoveWrapperDecision(fp, move)) {
                 return true;
             }
             return false;
@@ -95,30 +95,29 @@ public class ChangeEntityUtil {
     }
 
 
-
-
-
-    public static void main(String args[]){
+    public static void main(String args[]) {
 
         MergeIntervals mi = new MergeIntervals();
         List<Integer[]> arra = new ArrayList<>();
-        Integer[] a = {10,20};
-        Integer[] b = {20,30};
-        Integer[] c = {30,40};
-        Integer[] d = {10,40};
-        Integer[] e = {50,60};
-        Integer[] f = {61,90};
-        arra.add(a);arra.add(b);arra.add(c);arra.add(d);
-        arra.add(e);arra.add(f);
+        Integer[] a = {10, 20};
+        Integer[] b = {20, 30};
+        Integer[] c = {30, 40};
+        Integer[] d = {10, 40};
+        Integer[] e = {50, 60};
+        Integer[] f = {61, 90};
+        arra.add(a);
+        arra.add(b);
+        arra.add(c);
+        arra.add(d);
+        arra.add(e);
+        arra.add(f);
         List<Integer[]> result = mi.merge(arra);
-        for(Integer[] item:result){
-            System.out.println(item[0]+" "+item[1]);
+        for (Integer[] item : result) {
+            System.out.println(item[0] + " " + item[1]);
         }
 
 
     }
-
-
 
 
 }

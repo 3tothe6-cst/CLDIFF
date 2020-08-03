@@ -15,17 +15,17 @@ import edu.fdu.se.server.CommitFile;
 import edu.fdu.se.server.Content;
 import edu.fdu.se.server.Meta;
 
-import java.io.*;
+import java.io.File;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import java.util.List;
 import java.util.Map;
 
 /**
  * Created by huangkaifeng on 2018/8/23.
- *
+ * <p>
  * html api for CLDIFF.
  * Deploy CLDIFF-WEB and run CLDIFFServerOffline and the web visualization should be ready.
- *
  */
 public class CLDIFFServerOffline {
 
@@ -35,13 +35,26 @@ public class CLDIFFServerOffline {
         Global.outputDir = PathUtil.unifyPathSeparator(arg[0]);
         Global.repoPath = PathUtil.unifyPathSeparator(arg[1]); // XXX/.git
         String[] data = Global.repoPath.split("/");
-        Global.projectName = data[data.length-2];
+        Global.projectName = data[data.length - 2];
         HttpServer server = HttpServer.create(new InetSocketAddress(8082), 0);
         //传meta文件，如果没有meta，则调用生成
         server.createContext("/fetchMeta", new FetchMetaCacheHandler());
         server.createContext("/fetchFile", new FetchFileContentHandler());
-        server.createContext("/clearCommitRecord",new ClearCacheHandler());
+        server.createContext("/clearCommitRecord", new ClearCacheHandler());
         server.start();
+    }
+
+    public static String generateCLDIFFResult(String commitHash, File metaFile, String outputDir) {
+        CLDiffLocal clDiffLocal = new CLDiffLocal();
+        clDiffLocal.run(commitHash, Global.repoPath, outputDir);
+        Meta meta = clDiffLocal.meta;
+        //git 读取保存，生成meta
+//        List<String> filePathList = Global.outputFilePathList;
+//        int diffFileSize = filePathList.size() - 1;
+        //写入meta文件
+        FileUtil.createFile("meta.json", new GsonBuilder().setPrettyPrinting().create().toJson(meta), new File(metaFile.getParent()));
+        String response = new Gson().toJson(meta);
+        return response;
     }
 
     /**
@@ -69,36 +82,22 @@ public class CLDIFFServerOffline {
                 }
                 System.out.println(meta);
                 //support chinese
-                byte[] bs=meta.getBytes();
+                byte[] bs = meta.getBytes();
                 exchange.sendResponseHeaders(200, bs.length);
                 os.write(bs);
                 os.close();
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
                 try {
                     exchange.sendResponseHeaders(200, "error".length());
                     os.write("error".getBytes());
                     os.close();
-                }catch (Exception e2){
+                } catch (Exception e2) {
                     e2.printStackTrace();
                 }
             }
         }
     }
-
-    public static String generateCLDIFFResult(String commitHash,File metaFile,String outputDir) {
-        CLDiffLocal clDiffLocal = new CLDiffLocal();
-        clDiffLocal.run(commitHash,Global.repoPath,outputDir);
-        Meta meta =  clDiffLocal.meta;
-        //git 读取保存，生成meta
-//        List<String> filePathList = Global.outputFilePathList;
-//        int diffFileSize = filePathList.size() - 1;
-        //写入meta文件
-        FileUtil.createFile("meta.json", new GsonBuilder().setPrettyPrinting().create().toJson(meta),new File(metaFile.getParent()));
-        String response = new Gson().toJson(meta);
-        return response;
-    }
-
 
     /**
      * 获取文件内容 link diff
@@ -111,7 +110,7 @@ public class CLDIFFServerOffline {
             OutputStream os = exchange.getResponseBody();
             try {
                 InputStream is = exchange.getRequestBody();
-                Map<String,String> mMap = MyNetUtil.parsePostedKeys(is);
+                Map<String, String> mMap = MyNetUtil.parsePostedKeys(is);
                 // mMap keys: author,file_name,parent_commit_hash,project_name,commit_hash
                 String commit_hash = mMap.get("commit_hash");
                 String project_name = mMap.get("project_name");
@@ -141,7 +140,7 @@ public class CLDIFFServerOffline {
                     prev_file_path = file.getPrev_file_path();
                     prevFileContent = FileUtil.read(Global.outputDir + "/" + project_name + "/" + commit_hash + "/" + prev_file_path);
                 }
-                if(file.getDiffPath()!=null){
+                if (file.getDiffPath() != null) {
                     diff = FileUtil.read(file.getDiffPath());
                 }
                 String link = FileUtil.read(meta.getLinkPath());
@@ -151,14 +150,14 @@ public class CLDIFFServerOffline {
 //              System.out.println(String.valueOf(contentResultStr.length()));
                 byte[] bytes = contentResultStr.getBytes();
                 exchange.sendResponseHeaders(200, bytes.length);
-                MyNetUtil.writeResponseInBytes(os,bytes);
-            }catch (Exception e){
+                MyNetUtil.writeResponseInBytes(os, bytes);
+            } catch (Exception e) {
                 e.printStackTrace();
-                byte[] bytes2= "error".getBytes();
+                byte[] bytes2 = "error".getBytes();
                 try {
                     exchange.sendResponseHeaders(200, bytes2.length);
                     MyNetUtil.writeResponseInBytes(os, bytes2);
-                }catch (Exception e2){
+                } catch (Exception e2) {
                     e2.printStackTrace();
                 }
             }
@@ -178,7 +177,7 @@ public class CLDIFFServerOffline {
                 exchange.sendResponseHeaders(200, success.length());
                 outs.write(success.getBytes());
                 outs.close();
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }

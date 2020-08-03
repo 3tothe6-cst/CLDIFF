@@ -21,11 +21,11 @@
 package com.github.gumtreediff.matchers;
 
 import com.github.gumtreediff.gen.Registry;
+import com.github.gumtreediff.matchers.heuristic.XyBottomUpMatcher;
 import com.github.gumtreediff.matchers.heuristic.cd.ChangeDistillerBottomUpMatcher;
 import com.github.gumtreediff.matchers.heuristic.cd.ChangeDistillerLeavesMatcher;
-import com.github.gumtreediff.matchers.heuristic.gt.CompleteBottomUpMatcher;
-import com.github.gumtreediff.matchers.heuristic.XyBottomUpMatcher;
 import com.github.gumtreediff.matchers.heuristic.gt.CliqueSubtreeMatcher;
+import com.github.gumtreediff.matchers.heuristic.gt.CompleteBottomUpMatcher;
 import com.github.gumtreediff.matchers.heuristic.gt.GreedyBottomUpMatcher;
 import com.github.gumtreediff.matchers.heuristic.gt.GreedySubtreeMatcher;
 import com.github.gumtreediff.tree.ITree;

@@ -18,7 +18,7 @@ package com.github.gumtreediff.jdt.cd;
 /**
  * All types for source code entities that are used by ChangeDistiller to build up the AST (abstract syntax tree). Most
  * are taken from {@link org.eclipse.jdt.core.dom.ASTNode}.
- * 
+ *
  * @author zubi
  */
 public enum EntityType {
@@ -135,7 +135,7 @@ public enum EntityType {
 
     /**
      * Returns number of defined entity types.
-     * 
+     *
      * @return number of entity types.
      */
     public static int getNumberOfEntityTypes() {
@@ -143,21 +143,9 @@ public enum EntityType {
     }
 
     /**
-     * Returns whether changes occurred on this source code entity type are extracted by ChangeDistiller or not (e.g.
-     * changes in the <code>finally</code> clause are ignored).
-     * 
-     * @return <code>true</code> if changes on this entity type are considered and extracted, <code>false</code>
-     *         otherwise.
-     */
-    public boolean isValidChange() {
-        return fIsValidChange;
-    }
-
-    /**
      * Returns whether the given entity type is a type of a type declaration or not.
-     * 
-     * @param type
-     *            to analyze
+     *
+     * @param type to analyze
      * @return <code>true</code> if given entity type is a type, <code>false</code> otherwise.
      */
     public static boolean isType(EntityType type) {
@@ -176,9 +164,8 @@ public enum EntityType {
 
     /**
      * Returns whether the given entity type is a statement or not.
-     * 
-     * @param type
-     *            to analyze
+     *
+     * @param type to analyze
      * @return <code>true</code> if given entity type is a statement, <code>false</code> otherwise.
      */
     public static boolean isAtStatementLevel(EntityType type) {
@@ -211,5 +198,16 @@ public enum EntityType {
             default:
                 return false;
         }
+    }
+
+    /**
+     * Returns whether changes occurred on this source code entity type are extracted by ChangeDistiller or not (e.g.
+     * changes in the <code>finally</code> clause are ignored).
+     *
+     * @return <code>true</code> if changes on this entity type are considered and extracted, <code>false</code>
+     * otherwise.
+     */
+    public boolean isValidChange() {
+        return fIsValidChange;
     }
 }

@@ -44,11 +44,11 @@ import javax.xml.stream.XMLStreamWriter;
  */
 public abstract class StreamWriterDelegate implements XMLStreamWriter {
 
+    protected XMLStreamWriter out;
+
     protected StreamWriterDelegate(XMLStreamWriter out) {
         this.out = out;
     }
-
-    protected XMLStreamWriter out;
 
     public Object getProperty(String name) throws IllegalArgumentException {
         return out.getProperty(name);

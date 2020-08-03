@@ -64,14 +64,14 @@ public class ActionGenerator {
         this.origDst = dst;
 
         origSrcTrees = new TIntObjectHashMap<>();
-        for (ITree t: origSrc.getTrees())
+        for (ITree t : origSrc.getTrees())
             origSrcTrees.put(t.getId(), t);
         cpySrcTrees = new TIntObjectHashMap<>();
-        for (ITree t: newSrc.getTrees())
+        for (ITree t : newSrc.getTrees())
             cpySrcTrees.put(t.getId(), t);
 
         origMappings = new MappingStore();
-        for (Mapping m: mappings)
+        for (Mapping m : mappings)
             this.origMappings.link(cpySrcTrees.get(m.getFirst().getId()), m.getSecond());
         this.newMappings = origMappings.copy();
     }
@@ -94,7 +94,7 @@ public class ActionGenerator {
         newMappings.link(srcFakeRoot, dstFakeRoot);
 
         List<ITree> bfsDst = TreeUtils.breadthFirst(origDst);
-        for (ITree x: bfsDst) {
+        for (ITree x : bfsDst) {
             ITree w = null;
             ITree y = x.getParent();
             ITree z = newMappings.getSrc(y);
@@ -157,13 +157,13 @@ public class ActionGenerator {
         dstInOrder.removeAll(x.getChildren());
 
         List<ITree> s1 = new ArrayList<>();
-        for (ITree c: w.getChildren())
+        for (ITree c : w.getChildren())
             if (newMappings.hasSrc(c))
                 if (x.getChildren().contains(newMappings.getDst(c)))
                     s1.add(c);
 
         List<ITree> s2 = new ArrayList<>();
-        for (ITree c: x.getChildren())
+        for (ITree c : x.getChildren())
             if (newMappings.hasDst(c))
                 if (w.getChildren().contains(newMappings.getSrc(c)))
                     s2.add(c);
@@ -176,7 +176,7 @@ public class ActionGenerator {
         }
 
         for (ITree a : s1) {
-            for (ITree b: s2 ) {
+            for (ITree b : s2) {
                 if (origMappings.has(a, b)) {
                     if (!lcs.contains(new Mapping(a, b))) {
                         int k = findPos(b);
@@ -185,8 +185,8 @@ public class ActionGenerator {
                         //System.out.println(mv);
                         int oldk = a.positionInParent();
                         w.getChildren().add(k, a);
-                        if (k  < oldk ) // FIXME this is an ugly way to patch the index
-                            oldk ++;
+                        if (k < oldk) // FIXME this is an ugly way to patch the index
+                            oldk++;
                         a.getParent().getChildren().remove(oldk);
                         a.setParent(w);
                         srcInOrder.add(a);
@@ -241,7 +241,7 @@ public class ActionGenerator {
         for (int i = m - 1; i >= 0; i--) {
             for (int j = n - 1; j >= 0; j--) {
                 if (newMappings.getSrc(y.get(j)).equals(x.get(i))) opt[i][j] = opt[i + 1][j + 1] + 1;
-                else  opt[i][j] = Math.max(opt[i + 1][j], opt[i][j + 1]);
+                else opt[i][j] = Math.max(opt[i + 1][j], opt[i][j + 1]);
             }
         }
 

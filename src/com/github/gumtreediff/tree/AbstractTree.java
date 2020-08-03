@@ -56,6 +56,11 @@ public abstract class AbstractTree implements ITree {
     }
 
     @Override
+    public void setDepth(int depth) {
+        this.depth = depth;
+    }
+
+    @Override
     public List<ITree> getDescendants() {
         List<ITree> trees = TreeUtils.preOrder(this);
         trees.remove(0);
@@ -68,13 +73,28 @@ public abstract class AbstractTree implements ITree {
     }
 
     @Override
+    public void setHash(int digest) {
+        this.hash = digest;
+    }
+
+    @Override
     public int getHeight() {
         return height;
     }
 
     @Override
+    public void setHeight(int height) {
+        this.height = height;
+    }
+
+    @Override
     public int getId() {
         return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Override
@@ -107,6 +127,11 @@ public abstract class AbstractTree implements ITree {
     @Override
     public int getSize() {
         return size;
+    }
+
+    @Override
+    public void setSize(int size) {
+        this.size = size;
     }
 
     @Override
@@ -201,36 +226,11 @@ public abstract class AbstractTree implements ITree {
     }
 
     @Override
-    public void setDepth(int depth) {
-        this.depth = depth;
-    }
-
-    @Override
-    public void setHash(int digest) {
-        this.hash = digest;
-    }
-
-    @Override
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    @Override
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    @Override
-    public void setSize(int size) {
-        this.size = size;
-    }
-
-    @Override
     public String toStaticHashString() {
         StringBuilder b = new StringBuilder();
         b.append(OPEN_SYMBOL);
         b.append(this.toShortString());
-        for (ITree c: this.getChildren())
+        for (ITree c : this.getChildren())
             b.append(c.toStaticHashString());
         b.append(CLOSE_SYMBOL);
         return b.toString();
@@ -295,8 +295,18 @@ public abstract class AbstractTree implements ITree {
         }
 
         @Override
+        public void setChildren(List<ITree> children) {
+            throw unsupportedOperation();
+        }
+
+        @Override
         public String getLabel() {
             return NO_LABEL;
+        }
+
+        @Override
+        public void setLabel(String label) {
+            throw unsupportedOperation();
         }
 
         @Override
@@ -305,8 +315,18 @@ public abstract class AbstractTree implements ITree {
         }
 
         @Override
+        public void setLength(int length) {
+            throw unsupportedOperation();
+        }
+
+        @Override
         public int getPos() {
             return Collections.min(children, (t1, t2) -> t2.getPos() - t1.getPos()).getPos();
+        }
+
+        @Override
+        public void setPos(int pos) {
+            throw unsupportedOperation();
         }
 
         @Override
@@ -320,32 +340,12 @@ public abstract class AbstractTree implements ITree {
         }
 
         @Override
-        public void setChildren(List<ITree> children) {
-            throw unsupportedOperation();
-        }
-
-        @Override
-        public void setLabel(String label) {
-            throw unsupportedOperation();
-        }
-
-        @Override
-        public void setLength(int length) {
+        public void setType(int type) {
             throw unsupportedOperation();
         }
 
         @Override
         public void setParentAndUpdateChildren(ITree parent) {
-            throw unsupportedOperation();
-        }
-
-        @Override
-        public void setPos(int pos) {
-            throw unsupportedOperation();
-        }
-
-        @Override
-        public void setType(int type) {
             throw unsupportedOperation();
         }
 

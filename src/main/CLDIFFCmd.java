@@ -12,7 +12,7 @@ public class CLDIFFCmd {
         Global.runningMode = 0;
         String repo = "/path/to/git/repo/.git";
         String commitId = "commit id";
-        String outputDir = "/path/to/output/dir";
+        String outputDir = "output/";
         CLDiffLocal CLDiffLocal = new CLDiffLocal();
         CLDiffLocal.run(commitId, repo, outputDir);
     }

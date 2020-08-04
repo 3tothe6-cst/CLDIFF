@@ -6,3 +6,5 @@
 *.iml
 resource/test/
 src/test/
+
+/output/

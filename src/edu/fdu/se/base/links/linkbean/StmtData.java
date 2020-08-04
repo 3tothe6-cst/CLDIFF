@@ -233,17 +233,12 @@ public class StmtData extends LinkBean {
 
     public boolean isClassCreationName(ClassInstanceCreation classInstanceCreation, String clazzName) {
         String clazz = classInstanceCreation.getType().toString();
-        if (clazzName.equals(clazz)) {
-            return true;
-        }
-        return false;
+        return clazzName.equals(clazz);
     }
 
     private boolean isMethodInvocationName(MethodInvocation methodInvocation, String methodName) {
         String methodName1 = methodInvocation.getName().toString();
-        if (methodName.equals(methodName1)) {
-            return true;
-        }
+        return methodName.equals(methodName1);
 //        methodInvocationSet.add(methodName);
 //        Expression exp = methodInvocation.getExpression();
 //        if(exp!=null){
@@ -269,7 +264,6 @@ public class StmtData extends LinkBean {
 //        if(arguments!=null) {
 //            traverseASTNodeList(arguments, methodInvocationSet, varNameSet);
 //        }
-        return false;
 
     }
 

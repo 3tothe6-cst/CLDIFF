@@ -5,11 +5,11 @@ package edu.fdu.se.base.common;
  */
 public class FilePairData {
 
-    private byte[] prev;
-    private byte[] curr;
-    private String prevPath;
-    private String currPath;
-    private String fileName;
+    private final byte[] prev;
+    private final byte[] curr;
+    private final String prevPath;
+    private final String currPath;
+    private final String fileName;
     private String parentCommit;
 
     public FilePairData(byte[] prevv, byte[] currr, String prevPathh, String currPathh, String fileNamee) {

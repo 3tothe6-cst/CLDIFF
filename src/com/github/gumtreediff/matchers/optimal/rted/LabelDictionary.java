@@ -27,8 +27,8 @@ import java.util.Map;
 public class LabelDictionary {
     public static final int KEY_DUMMY_LABEL = -1;
     private int count;
-    private Map<String, Integer> strInt;
-    private Map<Integer, String> intStr;
+    private final Map<String, Integer> strInt;
+    private final Map<Integer, String> intStr;
     private boolean newLabelsAllowed = true;
 
     /**

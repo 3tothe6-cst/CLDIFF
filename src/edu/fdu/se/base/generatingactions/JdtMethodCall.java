@@ -10,7 +10,7 @@ public class JdtMethodCall {
     private String returnType;
     private String declaringClass;
     private boolean isJdk;
-    private List<String> parameters;
+    private final List<String> parameters;
 
     public JdtMethodCall(String invoker, String methodName, String returnType, String declaringClass) {
         this.invoker = invoker;

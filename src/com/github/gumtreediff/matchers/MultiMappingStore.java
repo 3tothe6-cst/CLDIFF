@@ -26,9 +26,9 @@ import java.util.*;
 
 public class MultiMappingStore implements Iterable<Mapping> {
 
-    private Map<ITree, Set<ITree>> srcs;
+    private final Map<ITree, Set<ITree>> srcs;
 
-    private Map<ITree, Set<ITree>> dsts;
+    private final Map<ITree, Set<ITree>> dsts;
 
     public MultiMappingStore(Set<Mapping> mappings) {
         this();

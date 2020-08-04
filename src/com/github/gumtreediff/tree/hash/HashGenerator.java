@@ -24,6 +24,6 @@ import com.github.gumtreediff.tree.ITree;
 
 public interface HashGenerator {
 
-    public void hash(ITree t);
+    void hash(ITree t);
 
 }

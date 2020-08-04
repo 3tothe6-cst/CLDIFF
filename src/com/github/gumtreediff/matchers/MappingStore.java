@@ -26,8 +26,8 @@ import java.util.*;
 
 public class MappingStore implements Iterable<Mapping> {
 
-    private Map<ITree, ITree> srcs;
-    private Map<ITree, ITree> dsts;
+    private final Map<ITree, ITree> srcs;
+    private final Map<ITree, ITree> dsts;
 
     public MappingStore(Set<Mapping> mappings) {
         this();

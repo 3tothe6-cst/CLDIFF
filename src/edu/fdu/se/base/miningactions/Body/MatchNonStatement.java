@@ -130,7 +130,7 @@ public class MatchNonStatement {
     }
 
     public static void matchXXXChangeCurEntity(MiningActionData fp, Action a, ChangeEntity changeEntity, Tree traverseFather) {
-        Tree queryFather = (Tree) changeEntity.clusteredActionBean.fafather;
+        Tree queryFather = changeEntity.clusteredActionBean.fafather;
         int nodeType = queryFather.getAstNode().getNodeType();
         switch (nodeType) {
             case ASTNode.TYPE_DECLARATION:

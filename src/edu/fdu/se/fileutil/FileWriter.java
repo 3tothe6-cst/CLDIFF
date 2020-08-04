@@ -19,7 +19,7 @@ public class FileWriter {
     final public static int FILE_WRITE_ONCE = 3;
 
     final public static int FILE_WRITE_MULTIPLE = 4;
-    private static Map<File, FileOutputStream> fileMap = new HashMap<File, FileOutputStream>();
+    private static final Map<File, FileOutputStream> fileMap = new HashMap<File, FileOutputStream>();
 
     public static void writeInAll(String filePath, String content) {
         try {

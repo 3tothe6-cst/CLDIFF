@@ -35,13 +35,13 @@ import java.util.Set;
 public class ActionClusterFinder {
 
     public List<Action> startNodes = new ArrayList<>();
-    private TreeContext src;
+    private final TreeContext src;
     @SuppressWarnings("unused")
-    private TreeContext dst;
+    private final TreeContext dst;
     @SuppressWarnings("unused")
-    private List<Action> actions;
-    private DirectedGraph<Action, DefaultEdge> graph;
-    private List<Set<Action>> clusters;
+    private final List<Action> actions;
+    private final DirectedGraph<Action, DefaultEdge> graph;
+    private final List<Set<Action>> clusters;
 
     public ActionClusterFinder(TreeContext src, TreeContext dst, List<Action> actions) {
         this.src = src;
@@ -86,10 +86,7 @@ public class ActionClusterFinder {
             return false;
         Insert i1 = (Insert) a1;
         Insert i2 = (Insert) a2;
-        if (i1.getParent().equals(i2.getNode()))
-            return true;
-        else
-            return false;
+        return i1.getParent().equals(i2.getNode());
     }
 
     private boolean embeddedAdditions(Action a1, Action a2) {
@@ -97,10 +94,7 @@ public class ActionClusterFinder {
             return false;
         Addition i1 = (Addition) a1;
         Addition i2 = (Addition) a2;
-        if (i1.getParent().equals(i2.getNode()))
-            return true;
-        else
-            return false;
+        return i1.getParent().equals(i2.getNode());
     }
 
     private boolean embeddedDeletes(Action a1, Action a2) {
@@ -110,10 +104,7 @@ public class ActionClusterFinder {
         Delete d2 = (Delete) a2;
         if (d2.getNode().getParent() == null)
             return false;
-        if (d2.getNode().getParent().equals(d1.getNode()))
-            return true;
-        else
-            return false;
+        return d2.getNode().getParent().equals(d1.getNode());
     }
 
     private boolean sameParentMoves(Action a1, Action a2) {
@@ -125,10 +116,7 @@ public class ActionClusterFinder {
             return false;
         if (m2.getNode() == null)
             return false;
-        if (m1.getNode().getParent().equals(m2.getNode().getParent()))
-            return true;
-        else
-            return false;
+        return m1.getNode().getParent().equals(m2.getNode().getParent());
     }
 
     private boolean sameValueUpdates(Action a1, Action a2) {
@@ -136,10 +124,7 @@ public class ActionClusterFinder {
             return false;
         Update u1 = (Update) a1;
         Update u2 = (Update) a2;
-        if (u1.getValue().equals(u2.getValue()))
-            return true;
-        else
-            return false;
+        return u1.getValue().equals(u2.getValue());
     }
 
     public String getClusterLabel(Set<Action> cluster) {

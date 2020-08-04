@@ -40,6 +40,6 @@ public interface InputParser<D> {
      * @param s input tree as string.
      * @return tree structure.
      */
-    public Node<D> fromString(String s);
+    Node<D> fromString(String s);
 
 }

@@ -16,7 +16,7 @@ public class StageIIBean {
     private String opt;
     private String changeEntity;
     private String subEntity;
-    private List<Opt2Tuple> opt2List;
+    private final List<Opt2Tuple> opt2List;
     private String thumbnail;
     //wang 行号
     private String lineRange;

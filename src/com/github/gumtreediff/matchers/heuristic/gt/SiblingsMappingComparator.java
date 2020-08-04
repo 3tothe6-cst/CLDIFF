@@ -27,9 +27,9 @@ import java.util.*;
 
 public final class SiblingsMappingComparator extends AbstractMappingComparator {
 
-    private Map<ITree, List<ITree>> srcDescendants = new HashMap<>();
+    private final Map<ITree, List<ITree>> srcDescendants = new HashMap<>();
 
-    private Map<ITree, Set<ITree>> dstDescendants = new HashMap<>();
+    private final Map<ITree, Set<ITree>> dstDescendants = new HashMap<>();
 
     public SiblingsMappingComparator(List<Mapping> ambiguousMappings, MappingStore mappings, int maxTreeSize) {
         super(ambiguousMappings, mappings, maxTreeSize);
@@ -43,7 +43,7 @@ public final class SiblingsMappingComparator extends AbstractMappingComparator {
     }
 
     protected double siblingsJaccardSimilarity(ITree src, ITree dst) {
-        double num = (double) numberOfCommonDescendants(src, dst);
+        double num = numberOfCommonDescendants(src, dst);
         double den = (double) srcDescendants.get(src).size() + (double) dstDescendants.get(dst).size() - num;
         return num / den;
     }

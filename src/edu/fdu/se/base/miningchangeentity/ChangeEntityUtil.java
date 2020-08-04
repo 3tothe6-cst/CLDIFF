@@ -85,17 +85,14 @@ public class ChangeEntityUtil {
         }
         Integer[] wrapperRange = ((Tree) wrapper.clusteredActionBean.curAction.getNode()).getRange();
         if (wrapperRange[0] <= range[0] && wrapperRange[1] >= range[1]) {
-            if (simpleMoveWrapperDecision(fp, move)) {
-                return true;
-            }
-            return false;
+            return simpleMoveWrapperDecision(fp, move);
         }
         return false;
 
     }
 
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
 
         MergeIntervals mi = new MergeIntervals();
         List<Integer[]> arra = new ArrayList<>();

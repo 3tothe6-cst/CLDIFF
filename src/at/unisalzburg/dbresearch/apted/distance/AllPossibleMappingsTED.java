@@ -68,7 +68,7 @@ public class AllPossibleMappingsTED<C extends CostModel, D> {
     /**
      * Cost model to be used for calculating costs of edit operations.
      */
-    private C costModel;
+    private final C costModel;
 
     /**
      * Constructs the AllPossibleMappingsTED algorithm with a specific cost model.

@@ -81,12 +81,12 @@ public abstract class Matcher {
     }
 
     protected double diceSimilarity(ITree src, ITree dst) {
-        double c = (double) numberOfCommonDescendants(src, dst);
+        double c = numberOfCommonDescendants(src, dst);
         return (2D * c) / ((double) src.getDescendants().size() + (double) dst.getDescendants().size());
     }
 
     protected double jaccardSimilarity(ITree src, ITree dst) {
-        double num = (double) numberOfCommonDescendants(src, dst);
+        double num = numberOfCommonDescendants(src, dst);
         double den = (double) src.getDescendants().size() + (double) dst.getDescendants().size() - num;
         return num / den;
     }

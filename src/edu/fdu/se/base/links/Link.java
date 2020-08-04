@@ -9,17 +9,17 @@ import org.json.JSONObject;
 public class Link {
 
 
-    private String fileA;
+    private final String fileA;
 
     private String fileB;
 
-    private ChangeEntity changeEntity1;
+    private final ChangeEntity changeEntity1;
 
-    private ChangeEntity changeEntity2;
+    private final ChangeEntity changeEntity2;
 
-    private String type;
+    private final String type;
 
-    private String keyWord;
+    private final String keyWord;
 
     public Link(String fileName, ChangeEntity changeEntity1, ChangeEntity changeEntity2, String type, String keyWord) {
         this.changeEntity1 = changeEntity1;

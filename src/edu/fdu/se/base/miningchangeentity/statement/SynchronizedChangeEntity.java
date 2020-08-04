@@ -27,7 +27,6 @@ public class SynchronizedChangeEntity extends StatementPlusChangeEntity {
             if (this.stageIIBean.getSubEntity() != null) {
                 sb.append(this.stageIIBean.getSubEntity());
             }
-            ;
             sb.append(" with/by...");
         } else {
             sb.append("'s ");

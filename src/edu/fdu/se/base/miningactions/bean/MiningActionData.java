@@ -22,7 +22,7 @@ public class MiningActionData {
     public PreprocessedData preprocessedData;
     protected TreeContext mDstTree;
     protected TreeContext mSrcTree;
-    private List<ChangeEntity> mChangeEntityList;
+    private final List<ChangeEntity> mChangeEntityList;
 
     public MiningActionData(List<ChangeEntity> mList) {
         this.mChangeEntityList = mList;

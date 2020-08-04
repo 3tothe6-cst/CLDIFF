@@ -173,9 +173,7 @@ public abstract class AbstractTree implements ITree {
     public boolean hasSameTypeAndLabel(ITree t) {
         if (!hasSameType(t))
             return false;
-        else if (!getLabel().equals(t.getLabel()))
-            return false;
-        return true;
+        else return getLabel().equals(t.getLabel());
     }
 
     @Override

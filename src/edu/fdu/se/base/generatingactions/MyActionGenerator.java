@@ -41,16 +41,16 @@ import java.util.Set;
 public class MyActionGenerator {
 
     public GeneratingActionsData myAgbData;
-    private ITree origSrc;
-    private ITree copySrc;
-    private ITree origDst;
-    private MappingStore origMappings;
-    private MappingStore newMappings;
+    private final ITree origSrc;
+    private final ITree copySrc;
+    private final ITree origDst;
+    private final MappingStore origMappings;
+    private final MappingStore newMappings;
     private Set<ITree> dstInOrder;
     private Set<ITree> srcInOrder;
     private int lastId;
-    private TIntObjectMap<ITree> origSrcTrees;
-    private TIntObjectMap<ITree> copySrcTrees;
+    private final TIntObjectMap<ITree> origSrcTrees;
+    private final TIntObjectMap<ITree> copySrcTrees;
 
     public MyActionGenerator(ITree src, ITree dst, MappingStore mappings) {
         this.origSrc = src;

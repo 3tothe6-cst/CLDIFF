@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class TypeNodesTraversal {
 
-    private DstBodyCheck dstBodyCheck;
+    private final DstBodyCheck dstBodyCheck;
 
     public TypeNodesTraversal() {
         dstBodyCheck = new DstBodyCheck();

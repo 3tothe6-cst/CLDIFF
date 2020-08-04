@@ -46,7 +46,7 @@ public class Node<D> {
      * Array of pointers to this node's children. The order of children is
      * significant due to the definition of ordered trees.
      */
-    private List<Node<D>> children;
+    private final List<Node<D>> children;
 
     /**
      * Constructs a new node with the passed node data and an empty list of
@@ -95,9 +95,9 @@ public class Node<D> {
     public String toString() {
         String res = (new StringBuilder("{")).append(((StringNodeData) getNodeData()).getLabel()).toString();
         for (Node<D> child : getChildren()) {
-            res = (new StringBuilder(String.valueOf(res))).append(child.toString()).toString();
+            res = (new StringBuilder(res)).append(child.toString()).toString();
         }
-        res = (new StringBuilder(String.valueOf(res))).append("}").toString();
+        res = (new StringBuilder(res)).append("}").toString();
         return res;
     }
 

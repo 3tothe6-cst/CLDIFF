@@ -27,7 +27,7 @@ public class ChangeEntityPrinter {
             for (ChangeEntity ce : mList) {
                 System.out.println(ce.toString());
             }
-            System.out.println("");
+            System.out.println();
         }
     }
 
@@ -46,7 +46,7 @@ public class ChangeEntityPrinter {
             for (ChangeEntity ce : mList) {
                 System.out.println(ce.toString2() + " " + ce.getLineRange());
             }
-            System.out.println("");
+            System.out.println();
         }
     }
 

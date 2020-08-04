@@ -79,7 +79,7 @@ public class FormatUtilities {
     }
 
     public static String[] getFields(String line, char separator, char quote) {
-        String parse[] = getFields(line, separator);
+        String[] parse = getFields(line, separator);
         for (int i = 0; i < parse.length; i++)
             parse[i] = stripQuotes(parse[i], quote);
 
@@ -102,7 +102,7 @@ public class FormatUtilities {
         Random r = new Random(d.getTime());
         String str = "";
         for (int i = 0; i < length; i++)
-            str = (new StringBuilder(String.valueOf(str))).append((char) (65 + r.nextInt(26))).toString();
+            str = (new StringBuilder(str)).append((char) (65 + r.nextInt(26))).toString();
 
         return str;
     }
@@ -114,7 +114,7 @@ public class FormatUtilities {
         } catch (IndexOutOfBoundsException e) {
             res = s;
             for (int i = s.length(); i < size; i++)
-                res = (new StringBuilder(String.valueOf(res))).append(fillChar).toString();
+                res = (new StringBuilder(res)).append(fillChar).toString();
 
         }
         return res;
@@ -244,7 +244,7 @@ public class FormatUtilities {
         }
     }
 
-    public static String commaSeparatedList(String list[]) {
+    public static String commaSeparatedList(String[] list) {
         StringBuffer s = new StringBuffer();
         for (int i = 0; i < list.length; i++) {
             s.append(list[i]);
@@ -255,7 +255,7 @@ public class FormatUtilities {
         return s.toString();
     }
 
-    public static String commaSeparatedList(String list[], char quote) {
+    public static String commaSeparatedList(String[] list, char quote) {
         StringBuffer s = new StringBuffer();
         for (int i = 0; i < list.length; i++) {
             s.append((new StringBuilder(String.valueOf(quote))).append(list[i]).append(quote).toString());

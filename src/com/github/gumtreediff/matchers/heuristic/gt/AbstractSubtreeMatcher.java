@@ -118,9 +118,9 @@ public abstract class AbstractSubtreeMatcher extends Matcher {
 
     private static class PriorityTreeList {
 
-        private List<ITree>[] trees;
+        private final List<ITree>[] trees;
 
-        private int maxHeight;
+        private final int maxHeight;
 
         private int currentIdx;
 

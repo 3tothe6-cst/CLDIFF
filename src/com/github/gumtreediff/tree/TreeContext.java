@@ -34,7 +34,7 @@ public class TreeContext {
 
     private final Map<String, Object> metadata = new HashMap<>();
     private final MetadataSerializers serializers = new MetadataSerializers();
-    private Map<Integer, String> typeLabels = new HashMap<>();
+    private final Map<Integer, String> typeLabels = new HashMap<>();
     private ITree root;
 
     //add by rh

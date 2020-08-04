@@ -10,11 +10,11 @@ import java.util.Map;
 
 public class CommitCodeInfo {
 
-    private RevCommit mCommit;
+    private final RevCommit mCommit;
     /**
      * 一个commit对应多个parent commit，一对commit对应多个文件的变动
      */
-    private Map<RevCommit, List<FileChangeEditList>> fileDiffEntryMap;
+    private final Map<RevCommit, List<FileChangeEditList>> fileDiffEntryMap;
 
     public CommitCodeInfo(RevCommit commit) {
         this.mCommit = commit;

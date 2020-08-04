@@ -111,9 +111,9 @@ public class CliqueSubtreeMatcher extends AbstractSubtreeMatcher {
 
     private class MappingComparator implements Comparator<Mapping> {
 
-        private Map<Mapping, double[]> simMap = new HashMap<>();
-        private Map<ITree, List<ITree>> srcDescendants = new HashMap<>();
-        private Map<ITree, Set<ITree>> dstDescendants = new HashMap<>();
+        private final Map<Mapping, double[]> simMap = new HashMap<>();
+        private final Map<ITree, List<ITree>> srcDescendants = new HashMap<>();
+        private final Map<ITree, Set<ITree>> dstDescendants = new HashMap<>();
 
         public MappingComparator(List<Mapping> mappings) {
             for (Mapping mapping : mappings)
@@ -156,7 +156,7 @@ public class CliqueSubtreeMatcher extends AbstractSubtreeMatcher {
         }
 
         protected double jaccardSimilarity(ITree src, ITree dst) {
-            double num = (double) numberOfCommonDescendants(src, dst);
+            double num = numberOfCommonDescendants(src, dst);
             double den = (double) srcDescendants.get(src).size() + (double) dstDescendants.get(dst).size() - num;
             return num / den;
         }

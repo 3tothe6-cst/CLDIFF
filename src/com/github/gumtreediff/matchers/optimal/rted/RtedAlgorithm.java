@@ -93,7 +93,7 @@ public class RtedAlgorithm {
 
     private double da, db, dc;
     private int previousStrategy;
-    private int[] strStat = new int[5]; // statistics for strategies
+    private final int[] strStat = new int[5]; // statistics for strategies
     // LEFT,RIGHT,HEAVY,SUM
     private double costDel, costIns, costMatch; // edit operations costs
 

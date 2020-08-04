@@ -37,9 +37,9 @@ public class DirectoryComparator {
 
     private Path src;
     private Path dst;
-    private List<Pair<File, File>> modifiedFiles;
-    private Set<File> deletedFiles;
-    private Set<File> addedFiles;
+    private final List<Pair<File, File>> modifiedFiles;
+    private final Set<File> deletedFiles;
+    private final Set<File> addedFiles;
     private boolean dirMode = true;
 
     public DirectoryComparator(String src, String dst) {
@@ -147,9 +147,9 @@ public class DirectoryComparator {
 
     public static class AllFilesVisitor extends SimpleFileVisitor<Path> {
 
-        private Set<String> files = new HashSet<>();
+        private final Set<String> files = new HashSet<>();
 
-        private Path root;
+        private final Path root;
 
         public AllFilesVisitor(Path root) {
             this.root = root;

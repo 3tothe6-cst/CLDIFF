@@ -27,9 +27,9 @@ import java.util.Queue;
 public class FilePairPreDiff {
 
 
-    private PreprocessedData preprocessedData;
-    private PreprocessedTempData preprocessedTempData;
-    private Queue<SrcDstPair> queue;
+    private final PreprocessedData preprocessedData;
+    private final PreprocessedTempData preprocessedTempData;
+    private final Queue<SrcDstPair> queue;
 
     public FilePairPreDiff() {
         preprocessedData = new PreprocessedData();
@@ -254,11 +254,8 @@ public class FilePairPreDiff {
             }
         }
         double ii = (i * 1.0) / name1.length();
-        if (ii > 0.7) {
-//            System.out.println("Potential:"+name1+" "+name2);
-            return true;
-        }
-        return false;
+        //            System.out.println("Potential:"+name1+" "+name2);
+        return ii > 0.7;
     }
 
     class SrcDstPair {

@@ -15,18 +15,12 @@ public class AstRelations {
     public static boolean isFatherXXXStatement(Action a, int astNodeType) {
         Tree parentTree = (Tree) a.getNode().getParent();
         int type = parentTree.getAstNode().getNodeType();
-        if (astNodeType == type) {
-            return true;
-        }
-        return false;
+        return astNodeType == type;
     }
 
     public static boolean isFatherXXXStatement(Tree node, int astNodeType) {
         int type = ((Tree) node.getParent()).getAstNode().getNodeType();
-        if (astNodeType == type) {
-            return true;
-        }
-        return false;
+        return astNodeType == type;
     }
 
 

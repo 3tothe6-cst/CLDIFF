@@ -174,7 +174,7 @@ public class CLDiffLocal extends IHandleCommit {
             }
             Files.write(prevFilePath, prevFile);
             Files.write(currFilePath, currFile);
-            String fileName = filePath.substring(index + 1, filePath.length());
+            String fileName = filePath.substring(index + 1);
             Global.fileName = fileName;
             commitFile.setId(cnt);
             commitFile.setPrev_file_path("prev/" + parentCommitId + "/" + filePath);
@@ -205,7 +205,7 @@ public class CLDiffLocal extends IHandleCommit {
                 }
             }
             Files.write(currFilePath, currFile);
-            String fileName = filePath.substring(index + 1, filePath.length());
+            String fileName = filePath.substring(index + 1);
             Global.fileName = fileName;
             commitFile.setId(cnt);
             commitFile.setCurr_file_path("curr/" + parentCommitId + "/" + filePath);
@@ -235,7 +235,7 @@ public class CLDiffLocal extends IHandleCommit {
                 }
             }
             Files.write(prevFilePath, prevFile);
-            String fileName = filePath.substring(index + 1, filePath.length());
+            String fileName = filePath.substring(index + 1);
             Global.fileName = fileName;
             commitFile.setId(cnt);
             commitFile.setPrev_file_path("prev/" + parentCommitId + "/" + filePath);

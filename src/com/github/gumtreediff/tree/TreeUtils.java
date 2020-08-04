@@ -121,7 +121,7 @@ public final class TreeUtils {
 
     public static Iterator<ITree> breadthFirstIterator(final ITree tree) {
         return new Iterator<ITree>() {
-            Deque<Iterator<ITree>> fifo = new ArrayDeque<>();
+            final Deque<Iterator<ITree>> fifo = new ArrayDeque<>();
 
             {
                 addLasts(new AbstractTree.FakeTree(tree));
@@ -190,7 +190,7 @@ public final class TreeUtils {
 
     public static Iterator<ITree> postOrderIterator(final ITree tree) {
         return new Iterator<ITree>() {
-            Deque<Pair<ITree, Iterator<ITree>>> stack = new ArrayDeque<>();
+            final Deque<Pair<ITree, Iterator<ITree>>> stack = new ArrayDeque<>();
 
             {
                 push(tree);
@@ -250,7 +250,7 @@ public final class TreeUtils {
 
     public static Iterator<ITree> preOrderIterator(ITree tree) {
         return new Iterator<ITree>() {
-            Deque<Iterator<ITree>> stack = new ArrayDeque<>();
+            final Deque<Iterator<ITree>> stack = new ArrayDeque<>();
 
             {
                 push(new AbstractTree.FakeTree(tree));

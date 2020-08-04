@@ -25,7 +25,7 @@ import gnu.trove.map.hash.TIntObjectHashMap;
 
 public final class TreeMap {
 
-    private TIntObjectMap<ITree> trees;
+    private final TIntObjectMap<ITree> trees;
 
     public TreeMap(ITree tree) {
         this();

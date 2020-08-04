@@ -16,7 +16,7 @@ public class JavaParserVisitor extends ASTVisitor {
 
     protected TreeContext context = new TreeContext();
     private int treeType;
-    private Deque<ITree> trees = new ArrayDeque<>();
+    private final Deque<ITree> trees = new ArrayDeque<>();
 
     public JavaParserVisitor(int treeType) {
         super();
@@ -39,7 +39,7 @@ public class JavaParserVisitor extends ASTVisitor {
         if (n instanceof StringLiteral) return ((StringLiteral) n).getEscapedValue();
         if (n instanceof NumberLiteral) return ((NumberLiteral) n).getToken();
         if (n instanceof CharacterLiteral) return ((CharacterLiteral) n).getEscapedValue();
-        if (n instanceof BooleanLiteral) return ((BooleanLiteral) n).toString();
+        if (n instanceof BooleanLiteral) return n.toString();
         if (n instanceof InfixExpression) return ((InfixExpression) n).getOperator().toString();
         if (n instanceof PrefixExpression) return ((PrefixExpression) n).getOperator().toString();
         if (n instanceof PostfixExpression) return ((PostfixExpression) n).getOperator().toString();

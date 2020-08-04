@@ -26,11 +26,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class LineReader extends Reader {
-    private Reader reader;
+    private final Reader reader;
 
     private int currentPos = 0;
 
-    private ArrayList<Integer> lines = new ArrayList<>(Arrays.asList(0));
+    private final ArrayList<Integer> lines = new ArrayList<>(Arrays.asList(0));
 
     public LineReader(Reader parent) {
         reader = parent;

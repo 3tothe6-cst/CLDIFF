@@ -29,17 +29,17 @@ public class PreprocessedData {
     public Set<String> currFieldNames;
     public Set<String> prevCurrFieldNames;
     public LayeredChangeEntityContainer entityContainer;
-    private List<String> interfacesAndFathers;
+    private final List<String> interfacesAndFathers;
     /**
      * curr 删除的added的body
      */
-    private List<BodyDeclarationPair> mBodiesAdded;
+    private final List<BodyDeclarationPair> mBodiesAdded;
     /**
      * prev 删除的removed body
      */
-    private List<BodyDeclarationPair> mBodiesDeleted;
+    private final List<BodyDeclarationPair> mBodiesDeleted;
     private List<ChangeEntity> preprocessChangeEntity;
-    private Map<String, List<BodyDeclaration>> classOrInterfaceOrEnum;
+    private final Map<String, List<BodyDeclaration>> classOrInterfaceOrEnum;
 
     public PreprocessedData() {
         mBodiesAdded = new ArrayList<>();

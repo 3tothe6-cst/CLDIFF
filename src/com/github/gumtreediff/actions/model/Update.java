@@ -25,7 +25,7 @@ import com.github.gumtreediff.tree.TreeContext;
 
 public class Update extends Action {
 
-    private String value;
+    private final String value;
 
     public Update(ITree node, String value) {
         super(node);

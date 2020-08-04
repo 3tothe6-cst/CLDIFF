@@ -93,7 +93,7 @@ public class FileRWUtil {
         return (int) count;
     }
 
-    public static InputStream open(ObjectId blobId, Repository db) throws IOException, IncorrectObjectTypeException {
+    public static InputStream open(ObjectId blobId, Repository db) throws IOException {
         if (blobId == null)
             return new ByteArrayInputStream(new byte[0]);
 

@@ -200,7 +200,7 @@ public class JavaParserFactory {
         return parseCompilationUnitGetAllMethodDeclaration(getCompilationUnit(is));
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
 //		List<MethodDeclaration> contents = parseFileGetAllMethodDeclaration("D:/commit_curr",
 //				"InputMethodManagerService");
         List<BodyDeclaration> contens = parseCompilationUnitGetAllMethodDeclaration(getCompilationUnit("D:/commit_curr"));

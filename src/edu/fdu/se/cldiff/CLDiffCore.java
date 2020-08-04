@@ -41,15 +41,12 @@ public class CLDiffCore {
         }
         String[] data = filePathName.split("/");
         String fileName = data[data.length - 1];
-        if (filePathName.endsWith("Test.java") || fileName.startsWith("Test") || filePathName.endsWith("Tests.java")) {
-            return true;
-        }
-        return false;
+        return filePathName.endsWith("Test.java") || fileName.startsWith("Test") || filePathName.endsWith("Tests.java");
     }
 
     public void dooDiffFile(String filePrev, String fileCurr, String output) {
         int index = filePrev.lastIndexOf('/');
-        String fileName = filePrev.substring(index + 1, filePrev.length());
+        String fileName = filePrev.substring(index + 1);
         Global.fileName = fileName;
         FilePairPreDiff preDiff = new FilePairPreDiff();
         preDiff.initFilePath(filePrev, fileCurr);

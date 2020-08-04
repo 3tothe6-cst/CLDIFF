@@ -10,7 +10,7 @@ import java.util.Properties;
 
 public class ProjectProperties {
     private static ProjectProperties instance;
-    private Map<String, String> kvMap;
+    private final Map<String, String> kvMap;
 
     private ProjectProperties() {
         kvMap = new HashMap<>();
@@ -36,7 +36,7 @@ public class ProjectProperties {
         return instance;
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         ProjectProperties ins = ProjectProperties.getInstance();
         System.out.println("a");
     }

@@ -40,12 +40,12 @@ public interface Indentation {
     /**
      * Two spaces; the default indentation.
      */
-    public static final String DEFAULT_INDENT = "  ";
+    String DEFAULT_INDENT = "  ";
     /**
      * "\n"; the normalized representation of end-of-line in <a
      * href="http://www.w3.org/TR/xml11/#sec-line-ends">XML</a>.
      */
-    public static final String NORMAL_END_OF_LINE = "\n";
+    String NORMAL_END_OF_LINE = "\n";
 
     /**
      * The characters used for one level of indentation.
@@ -69,6 +69,6 @@ public interface Indentation {
      * {@link IndentingXMLStreamWriter#getLineSeparator}() is a popular
      * alternative.
      */
-    public void setNewLine(String newLine);
+    void setNewLine(String newLine);
 
 }

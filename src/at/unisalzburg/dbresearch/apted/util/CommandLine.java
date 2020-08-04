@@ -46,7 +46,7 @@ import java.util.List;
  */
 public class CommandLine<C extends CostModel, P extends InputParser> {
 
-    private String helpMessage =
+    private final String helpMessage =
             "\n" +
                     "Compute the edit distance between two trees.\n" +
                     "\n" +
@@ -130,7 +130,7 @@ public class CommandLine<C extends CostModel, P extends InputParser> {
                     "    Mateusz Pawlik, Nikolaus Augsten";
 
     // TODO: Review if all fields are necessary.
-    private String wrongArgumentsMessage = "Wrong arguments. Try \"java -jar RTED.jar --help\" for help.";
+    private final String wrongArgumentsMessage = "Wrong arguments. Try \"java -jar RTED.jar --help\" for help.";
 
     private boolean run, custom, array, strategy, ifSwitch, sota, verbose, demaine, mapping;
     private int sotaStrategy;
@@ -138,8 +138,8 @@ public class CommandLine<C extends CostModel, P extends InputParser> {
     private APTED rted;
     private double ted;
 
-    private C costModel;
-    private P inputParser;
+    private final C costModel;
+    private final P inputParser;
     private Node t1;
     private Node t2;
 

@@ -33,7 +33,7 @@ public abstract class AbstractJdtVisitor extends ASTVisitor {
 
     protected TreeContext context = new TreeContext();
 
-    private Deque<ITree> trees = new ArrayDeque<>();
+    private final Deque<ITree> trees = new ArrayDeque<>();
 
     public AbstractJdtVisitor() {
         super(true);

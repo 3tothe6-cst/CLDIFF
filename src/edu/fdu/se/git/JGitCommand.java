@@ -477,10 +477,7 @@ public class JGitCommand {
             return true;
         } else if (JGitCommand.JAVA_FILE == flag && oldPath.endsWith(".java")) {
             return true;
-        } else if (JGitCommand.CORE_JAVA_FILE == flag && oldPath.startsWith("core/java/") && oldPath.endsWith(".java")) {
-            return true;
-        }
-        return false;
+        } else return JGitCommand.CORE_JAVA_FILE == flag && oldPath.startsWith("core/java/") && oldPath.endsWith(".java");
     }
 
     /**

@@ -36,15 +36,15 @@ import java.util.Set;
 
 public class ActionGenerator {
 
-    private ITree origSrc;
+    private final ITree origSrc;
 
-    private ITree newSrc;
+    private final ITree newSrc;
 
-    private ITree origDst;
+    private final ITree origDst;
 
-    private MappingStore origMappings;
+    private final MappingStore origMappings;
 
-    private MappingStore newMappings;
+    private final MappingStore newMappings;
 
     private Set<ITree> dstInOrder;
 
@@ -54,9 +54,9 @@ public class ActionGenerator {
 
     private List<Action> actions;
 
-    private TIntObjectMap<ITree> origSrcTrees;
+    private final TIntObjectMap<ITree> origSrcTrees;
 
-    private TIntObjectMap<ITree> cpySrcTrees;
+    private final TIntObjectMap<ITree> cpySrcTrees;
 
     public ActionGenerator(ITree src, ITree dst, MappingStore mappings) {
         this.origSrc = src;

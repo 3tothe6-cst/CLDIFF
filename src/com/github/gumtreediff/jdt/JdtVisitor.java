@@ -40,7 +40,7 @@ public class JdtVisitor extends AbstractJdtVisitor {
         if (n instanceof StringLiteral) return ((StringLiteral) n).getEscapedValue();
         if (n instanceof NumberLiteral) return ((NumberLiteral) n).getToken();
         if (n instanceof CharacterLiteral) return ((CharacterLiteral) n).getEscapedValue();
-        if (n instanceof BooleanLiteral) return ((BooleanLiteral) n).toString();
+        if (n instanceof BooleanLiteral) return n.toString();
         if (n instanceof InfixExpression) return ((InfixExpression) n).getOperator().toString();
         if (n instanceof PrefixExpression) return ((PrefixExpression) n).getOperator().toString();
         if (n instanceof PostfixExpression) return ((PostfixExpression) n).getOperator().toString();

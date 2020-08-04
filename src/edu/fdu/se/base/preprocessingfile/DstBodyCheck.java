@@ -172,7 +172,7 @@ public class DstBodyCheck {
             List<BodyDeclarationPair> srcNodeList = compareCache.srcNodeBodyNameMap.get(methodNameKey);
             boolean findSame = false;
             for (BodyDeclarationPair srcBody : srcNodeList) {
-                if (srcBody.hashCode() == (String.valueOf(bd.toString().hashCode()) + String.valueOf(prefixClassName.hashCode())).hashCode()) {
+                if (srcBody.hashCode() == (String.valueOf(bd.toString().hashCode()) + prefixClassName.hashCode()).hashCode()) {
                     compareCache.setBodySrcNodeMap(srcBody, PreprocessedTempData.BODY_SAME_REMOVE);
                     compareCache.addToDstRemoveList(bd);
                     findSame = true;

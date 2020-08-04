@@ -53,8 +53,6 @@ public abstract class Registry<K, C, A> {
 
     protected Entry find(K key) {
         Entry entry = findEntry(key);
-        if (entry == null)
-            return null;
         return entry;
     }
 

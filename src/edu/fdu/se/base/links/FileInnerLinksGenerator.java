@@ -26,7 +26,7 @@ import java.util.Map;
  */
 public class FileInnerLinksGenerator {
 
-    private ChangeEntityData changeEntityData;
+    private final ChangeEntityData changeEntityData;
 
     public FileInnerLinksGenerator(ChangeEntityData mod) {
         this.changeEntityData = mod;

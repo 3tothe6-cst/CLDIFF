@@ -28,8 +28,8 @@ import java.util.Map;
 public class CLDiffAPI {
 
     public CLDiffCore clDiffCore;
-    private Map<String, ChangeEntityData> fileChangeEntityData = new HashMap<>();
-    private List<FilePairData> filePairDatas;
+    private final Map<String, ChangeEntityData> fileChangeEntityData = new HashMap<>();
+    private final List<FilePairData> filePairDatas;
 
     /**
      * output path +"proj_name" + "commit_id"
@@ -58,7 +58,7 @@ public class CLDiffAPI {
             String action = actions.get(i);
             String fileFullName = file.getFile_name();
             int index = fileFullName.lastIndexOf("/");
-            String fileName = fileFullName.substring(index + 1, fileFullName.length());
+            String fileName = fileFullName.substring(index + 1);
             String prevFilePath = file.getPrev_file_path();
             String currFilePath = file.getCurr_file_path();
             String parentCommit = file.getParent_commit();

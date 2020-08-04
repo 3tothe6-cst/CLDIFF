@@ -14,13 +14,13 @@ import java.util.Map;
  */
 public class GeneratingActionsData {
 
-    private List<Action> insertActions;
-    private List<Action> updateActions;
-    private List<Action> moveActions;
-    private List<Action> deleteActions;
-    private List<Action> allActions;
+    private final List<Action> insertActions;
+    private final List<Action> updateActions;
+    private final List<Action> moveActions;
+    private final List<Action> deleteActions;
+    private final List<Action> allActions;
 
-    private Map<Action, Integer> allActionMap;
+    private final Map<Action, Integer> allActionMap;
 
     public GeneratingActionsData() {
         super();

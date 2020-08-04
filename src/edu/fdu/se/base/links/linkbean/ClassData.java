@@ -20,7 +20,7 @@ public class ClassData extends LinkBean {
     public List<String> methods;
     public List<String> fields;
     public List<String> fieldType;
-    private List<String> interfacesAndSuperClazz;
+    private final List<String> interfacesAndSuperClazz;
 
     public ClassData(ClassChangeEntity ce) {
         interfacesAndSuperClazz = new MyList<>();

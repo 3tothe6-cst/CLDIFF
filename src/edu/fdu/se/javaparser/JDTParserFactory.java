@@ -117,7 +117,7 @@ public class JDTParserFactory {
     }
 
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         try {
 //        CompilationUnit cu = getCompilationUnit("D:/Workspace/Android_Diff/SDK_Files_15-26/android-25/android/accounts/AccountManager.java");
             CompilationUnit cu = getCompilationUnit("D:/Workspace/Android_Diff/SDK_Files_15-26/android-25/android/accessibilityservice/AccessibilityService.java");

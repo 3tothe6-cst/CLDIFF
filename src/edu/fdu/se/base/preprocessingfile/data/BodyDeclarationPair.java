@@ -10,15 +10,15 @@ import org.eclipse.jdt.core.dom.TypeDeclaration;
  * Created by huangkaifeng on 2018/1/22.
  */
 public class BodyDeclarationPair {
-    private BodyDeclaration bd;
+    private final BodyDeclaration bd;
 
-    private String locationClassString;
-    private int hashCode;
+    private final String locationClassString;
+    private final int hashCode;
 
     public BodyDeclarationPair(BodyDeclaration bd1, String str) {
         this.bd = bd1;
         this.locationClassString = str;
-        String hashStr = String.valueOf(bd1.toString().hashCode()) + String.valueOf(str.hashCode());
+        String hashStr = String.valueOf(bd1.toString().hashCode()) + str.hashCode();
         this.hashCode = hashStr.hashCode();
     }
 
@@ -33,8 +33,7 @@ public class BodyDeclarationPair {
     @Override
     public boolean equals(Object obj) {
         BodyDeclarationPair bdp = (BodyDeclarationPair) obj;
-        if (bdp.hashCode() == this.hashCode) return true;
-        return false;
+        return bdp.hashCode() == this.hashCode;
     }
 
     @Override

@@ -32,8 +32,8 @@ import java.util.Map;
 
 public class ZsMatcher extends Matcher {
 
-    private ZsTree src;
-    private ZsTree dst;
+    private final ZsTree src;
+    private final ZsTree dst;
 
     private double[][] treeDist;
     private double[][] forestDist;
@@ -178,15 +178,15 @@ public class ZsMatcher extends Matcher {
 
     private final class ZsTree {
 
-        private int start; // internal array position of leafmost leaf descendant of the root node
+        private final int start; // internal array position of leafmost leaf descendant of the root node
 
         private int nodeCount; // number of nodes
 
         private int leafCount;
 
-        private int[] llds; // llds[i] stores the postorder-ID of the
+        private final int[] llds; // llds[i] stores the postorder-ID of the
         // left-most leaf descendant of the i-th node in postorder
-        private ITree[] labels; // labels[i] is the tree of the i-th node in postorder
+        private final ITree[] labels; // labels[i] is the tree of the i-th node in postorder
 
         private int[] kr;
 

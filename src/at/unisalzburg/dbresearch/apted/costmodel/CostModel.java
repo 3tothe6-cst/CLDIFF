@@ -46,7 +46,7 @@ public interface CostModel<D> {
      * @param n the node considered to be deleted.
      * @return the cost of deleting node n.
      */
-    public float del(Node<D> n);
+    float del(Node<D> n);
 
     /**
      * Calculates the cost of inserting a node.
@@ -54,7 +54,7 @@ public interface CostModel<D> {
      * @param n the node considered to be inserted.
      * @return the cost of inserting node n.
      */
-    public float ins(Node<D> n);
+    float ins(Node<D> n);
 
     /**
      * Calculates the cost of renaming (mapping) two nodes.
@@ -63,5 +63,5 @@ public interface CostModel<D> {
      * @param n2 the destination node of rename.
      * @return the cost of renaming (mapping) node n1 to n2.
      */
-    public float ren(Node<D> n1, Node<D> n2);
+    float ren(Node<D> n1, Node<D> n2);
 }
